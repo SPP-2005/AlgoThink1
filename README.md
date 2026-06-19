@@ -45,8 +45,11 @@ http://localhost:8000
 ```
 
 ## 🌍 Deployment
-Because AlgoThink uses a standard FastAPI backend, it is ready to be deployed to platforms like **Render**, **Heroku**, or **Railway**. 
-1. Push this folder to a GitHub repository.
-2. Connect the repository to your hosting provider.
-3. Set the start command to `uvicorn main:app --host 0.0.0.0 --port $PORT`
-4. Make sure to add your `GEMINI_API_KEY` to the environment variables on your hosting dashboard!
+AlgoThink is pre-configured with a `vercel.json` file for seamless deployment to **Vercel** (which natively supports FastAPI serverless functions).
+
+1. Push this repository to GitHub.
+2. Log in to [Vercel](https://vercel.com) and click **Add New > Project**.
+3. Import your AlgoThink GitHub repository.
+4. Open the **Environment Variables** section before deploying.
+5. Add `GEMINI_API_KEY` as the Name, and your actual API key as the Value.
+6. Click **Deploy**. Vercel will automatically host the frontend globally and spin up the Python backend serverlessly!
