@@ -173,18 +173,64 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="onboarding-card">
+            <div className="onboarding-card" style={{ overflowY: 'auto', maxHeight: '460px', paddingRight: '15px' }}>
               <h3>🤔 What is Algorithmic Thinking?</h3>
-              <p>It&apos;s the superpower of breaking down any task so clearly that even B.O.B. can&apos;t mess it up! Core concepts include:</p>
-              <ul className="concepts-list">
-                <li>🧩 <strong>Decomposition:</strong> Breaking big tasks into smaller steps.</li>
-                <li>🔢 <strong>Sequencing:</strong> Putting actions in the exact logical order.</li>
-                <li>🎯 <strong>Precision:</strong> Being incredibly specific.</li>
-                <li>🕵️ <strong>Assumption Checking:</strong> Never assuming B.O.B. knows preconditions.</li>
-                <li>🔁 <strong>Repetition:</strong> Looping actions efficiently.</li>
-                <li>⚖️ <strong>Decision Making:</strong> Using &quot;if/then&quot; to handle different situations.</li>
-                <li>🔄 <strong>Iteration:</strong> Testing, failing, and improving!</li>
-              </ul>
+              <p style={{ marginBottom: '10px' }}>
+                It isn&apos;t just for coding—it&apos;s the superpower of solving problems logically. It means defining steps so clearly that there is absolutely zero room for confusion or errors.
+              </p>
+              
+              <h4 style={{ margin: '15px 0 5px 0', color: 'var(--primary)', fontSize: '15px' }}>Why It Matters</h4>
+              <p style={{ marginBottom: '15px' }}>
+                Computers (like B.O.B.) have <strong>no common sense</strong>. If you skip a step, they crash. Learning to think algorithmically helps you communicate with total clarity, break down overwhelming tasks, and spot missing logic in everyday life.
+              </p>
+
+              <h4 style={{ margin: '15px 0 10px 0', color: 'var(--primary)', fontSize: '15px' }}>Good vs. Bad Instructions</h4>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '8px' }}>
+                  <strong>🥪 Making a Sandwich</strong>
+                  <div style={{ fontSize: '13px', marginTop: '6px' }}>
+                    <span style={{color: 'var(--error)'}}>❌ Bad:</span> &quot;Put peanut butter on the bread.&quot; <br/>
+                    <em style={{color: 'var(--text-muted)'}}>(B.O.B. places the entire sealed glass jar on the loaf)</em>
+                  </div>
+                  <div style={{ fontSize: '13px', marginTop: '6px' }}>
+                    <span style={{color: 'var(--success)'}}>✅ Good:</span> &quot;Open the jar, dip the knife in, extract peanut butter, and spread it on one face of the slice.&quot;
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '8px' }}>
+                  <strong>🎒 Packing a School Bag</strong>
+                  <div style={{ fontSize: '13px', marginTop: '6px' }}>
+                    <span style={{color: 'var(--error)'}}>❌ Bad:</span> &quot;Pack your books.&quot; <br/>
+                    <em style={{color: 'var(--text-muted)'}}>(B.O.B. forcefully shoves them into the closed backpack)</em>
+                  </div>
+                  <div style={{ fontSize: '13px', marginTop: '6px' }}>
+                    <span style={{color: 'var(--success)'}}>✅ Good:</span> &quot;Unzip the main compartment, slide the math book in vertically, and zip it closed.&quot;
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '8px' }}>
+                  <strong>🗺️ Giving Directions</strong>
+                  <div style={{ fontSize: '13px', marginTop: '6px' }}>
+                    <span style={{color: 'var(--error)'}}>❌ Bad:</span> &quot;Go to the kitchen.&quot; <br/>
+                    <em style={{color: 'var(--text-muted)'}}>(B.O.B. walks in a straight line and crashes into a wall)</em>
+                  </div>
+                  <div style={{ fontSize: '13px', marginTop: '6px' }}>
+                    <span style={{color: 'var(--success)'}}>✅ Good:</span> &quot;Turn 90 degrees right, walk 5 steps forward, grab the handle, and pull the door open.&quot;
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '8px' }}>
+                  <strong>📅 Planning a Day</strong>
+                  <div style={{ fontSize: '13px', marginTop: '6px' }}>
+                    <span style={{color: 'var(--error)'}}>❌ Bad:</span> &quot;Do your homework.&quot; <br/>
+                    <em style={{color: 'var(--text-muted)'}}>(B.O.B. stares blankly because he doesn&apos;t know where it is)</em>
+                  </div>
+                  <div style={{ fontSize: '13px', marginTop: '6px' }}>
+                    <span style={{color: 'var(--success)'}}>✅ Good:</span> &quot;Sit at the desk, open the laptop, log into the portal, and complete the math assignment.&quot;
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
