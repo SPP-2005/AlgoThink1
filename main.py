@@ -106,4 +106,5 @@ def evaluate_instructions(req: EvalRequest):
             "exampleMsg": ""
         }
 
-app.mount("/", StaticFiles(directory=".", html=True), name="static")
+if os.path.exists("index.html"):
+    app.mount("/", StaticFiles(directory=".", html=True), name="static")
