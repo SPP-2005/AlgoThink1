@@ -147,18 +147,25 @@ export default function Lab() {
                             </div>
                             
                             <div className="report-section">
-                                <h4>Logical Analysis: {report.conceptTitle}</h4>
+                                <h4>Algorithmic thinking connection to these instructions</h4>
                                 <p>{report.conceptMsg}</p>
                             </div>
 
                             <div className="report-section">
-                                <h4>Optimization Approach</h4>
+                                <h4>How an algorithmic thinker thinks</h4>
                                 <p>{report.approachMsg}</p>
                             </div>
 
+                            {report.exampleMsg && (
+                                <div className="report-section section-warning">
+                                    <h4>Improvement suggestion</h4>
+                                    <p>{report.exampleMsg}</p>
+                                </div>
+                            )}
+
                             {report.successful_concepts && report.successful_concepts.length > 0 && (
                                 <div className="report-section section-success">
-                                    <h4>Validated Logic Structures</h4>
+                                    <h4>Concepts you successfully used</h4>
                                     {report.successful_concepts.map((c, i) => (
                                         <div key={i} style={{marginTop: '8px'}}>
                                             <strong style={{fontSize: '13px', color: 'var(--text-main)'}}>{c.title}</strong>
