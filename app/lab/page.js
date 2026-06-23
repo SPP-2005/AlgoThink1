@@ -60,7 +60,7 @@ export default function Lab() {
     return (
         <main className="container">
             <header>
-                <div className="logo-text">AlgoThink <span>Enterprise Logic Platform</span></div>
+                <div className="logo-text">AlgoThink <span>Module 5: Testing Your Understanding</span></div>
                 <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                     <select className="select-dropdown" value={challenge} onChange={handleChallengeChange}>
                         <option value="everyday">Everyday Tasks</option>

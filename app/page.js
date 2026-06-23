@@ -53,13 +53,13 @@ export default function Dashboard() {
                         <Link href="/course/module-4" className="btn btn-primary" style={{ width: 'auto', background: '#fb923c', padding: '12px 30px' }}>Start Module 4</Link>
                     </div>
 
-                    {/* The Lab */}
+                    {/* The Lab / Module 5 */}
                     <div className="challenge-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(16, 185, 129, 0.1)', borderLeftColor: '#10b981', padding: '30px', marginTop: '20px' }}>
                         <div>
-                            <h3 style={{ color: '#6ee7b7', fontSize: '24px', marginBottom: '8px' }}>Final Exam: The Literal Lab</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Put your skills to the test. Take control of B.O.B. and prove you have mastered the 7 pillars.</p>
+                            <h3 style={{ color: '#34d399', fontSize: '24px', marginBottom: '8px' }}>Module 5: Testing Your Understanding</h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Put your algorithmic thinking to the ultimate test. Give instructions to B.O.B. in the interactive lab and see if your logic actually works.</p>
                         </div>
-                        <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#10b981', color: '#000', padding: '16px 40px', fontSize: '16px' }}>Enter The Lab 🚀</Link>
+                        <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#10b981', color: '#000', padding: '16px 40px', fontSize: '18px' }}>Enter The Lab</Link>
                     </div>
 
                 </div>

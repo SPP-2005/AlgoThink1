@@ -78,13 +78,13 @@ export default function Module4() {
                 </div>
                 
                 <div style={{ background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.1), rgba(16, 185, 129, 0.1))', padding: '30px', borderRadius: '16px', textAlign: 'center', border: '1px solid rgba(251, 146, 60, 0.3)' }}>
-                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>Graduation Time!</h2>
+                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>Testing Your Understanding</h2>
                     <p style={{ color: 'var(--text-muted)', fontSize: '16px', lineHeight: '1.7', marginBottom: '24px', maxWidth: '700px', margin: '0 auto 24px auto' }}>
-                        You have mastered theory, logic, project building, and raw computer science algorithms. It is time to prove your worth against the ultimate test.
+                        You have mastered theory, logic, project building, and raw computer science algorithms. It is time to put your skills to the test in the interactive lab.
                     </p>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
                         <Link href="/course/module-3" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>🔙 Back to Module 3</Link>
-                        <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#f59e0b', color: '#000', padding: '16px 40px', fontSize: '18px', borderRadius: '30px' }}>Take the Final Exam: Enter The Lab 🚀</Link>
+                        <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#f59e0b', color: '#000', padding: '16px 40px', fontSize: '18px', borderRadius: '30px' }}>Test Your Understanding: Enter The Lab 🚀</Link>
                     </div>
                 </div>
             </div>
