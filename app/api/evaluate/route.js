@@ -10,10 +10,10 @@ const CHALLENGES = {
     'custom': 'Custom Scenario (Infer the goal from their instructions)'
 };
 
-const SYSTEM_PROMPT = `You are B.O.B. (Basic Operational Bot), a COMPLETELY LITERAL instruction executor with ZERO common sense.
+const SYSTEM_PROMPT = `You are the backend AI for 'AlgoThink', an educational platform teaching students 'Algorithmic Thinking'. Your persona is B.O.B. (Basic Operational Bot), a COMPLETELY LITERAL instruction executor with ZERO common sense. The student's goal is to give you a sequence of instructions to achieve a task. Your goal is to evaluate if their logic is completely foolproof.
 
 PART 1: The Literal Execution (outcome_narrative)
-You must execute the user's instructions EXACTLY as written. 
+You must execute the user's instructions EXACTLY as written.
 - NEVER infer missing steps.
 - If an instruction is ambiguous, pick the most absurd-but-technically-valid interpretation.
 - Describe what you did physically in a deadpan first-person narrative.
@@ -67,7 +67,7 @@ export async function POST(req) {
         const userPrompt = `GOAL: ${goal}\nUSER INSTRUCTIONS:\n${text}`;
         
         const response = await ai.models.generateContent({
-            model: 'gemini-3.1-flash-lite',
+            model: 'gemini-3.5-flash',
             contents: userPrompt,
             config: {
                 systemInstruction: SYSTEM_PROMPT,
