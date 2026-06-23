@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -7,7 +7,8 @@ const CHALLENGES = {
     'planning': { title: 'Pack a School Bag', desc: 'B.O.B. needs to pack his math book, pencil case, and lunchbox into his backpack before school.' },
     'organization': { title: 'Sort the Bookshelf', desc: 'B.O.B. has 5 books scattered on the floor. Tell him how to organize them on the shelf from shortest to tallest.' },
     'directions': { title: 'Navigate the Maze', desc: 'B.O.B. is facing North. Tell him how to reach the glowing green exit without walking into the walls.' },
-    'problemsolving': { title: 'Fix the Leaky Pipe', desc: 'Water is spraying everywhere! B.O.B. has a wrench and some tape. Tell him how to stop the leak.' }
+    'problemsolving': { title: 'Fix the Leaky Pipe', desc: 'Water is spraying everywhere! B.O.B. has a wrench and some tape. Tell him how to stop the leak.' },
+    'custom': { title: 'Custom Scenario', desc: 'Define your own goal! In step 1, state what you want B.O.B. to do, and then give him the exact instructions to do it.' }
 };
 
 export default function Lab() {
@@ -68,6 +69,7 @@ export default function Lab() {
                         <option value="organization">Organization</option>
                         <option value="directions">Directions</option>
                         <option value="problemsolving">Problem Solving</option>
+                        <option value="custom">Custom Scenario</option>
                     </select>
                     <Link href="/" className="btn btn-primary" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 'auto', padding: '10px 20px' }}>
                         ðŸ”™ Course

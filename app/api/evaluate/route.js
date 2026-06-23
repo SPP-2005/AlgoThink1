@@ -1,4 +1,4 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 
 const CHALLENGES = {
@@ -6,7 +6,8 @@ const CHALLENGES = {
     'planning': 'Pack a School Bag',
     'organization': 'Sort the Bookshelf',
     'directions': 'Navigate the Maze',
-    'problemsolving': 'Fix the Leaky Pipe'
+    'problemsolving': 'Fix the Leaky Pipe',
+    'custom': 'Custom Scenario (Infer the goal from their instructions)'
 };
 
 const SYSTEM_PROMPT = `You are B.O.B. (Basic Operational Bot), a COMPLETELY LITERAL instruction executor with ZERO common sense.
