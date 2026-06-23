@@ -6,7 +6,7 @@ export default function Template({ children }) {
   const isDashboard = pathname === '/dashboard';
 
   return (
-    <div key={pathname} className="page-transition-wrapper">
+    <div key={pathname} className={isDashboard ? "page-fade-only" : "page-transition-wrapper"}>
       <div className={isDashboard ? "" : "page-slide-up"}>
         {children}
       </div>

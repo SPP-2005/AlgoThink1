@@ -454,6 +454,15 @@ h4 {
     box-shadow: 0 20px 40px rgba(0,0,0,0.5) !important;
 }
 
+/* Safe Fade Only for Dashboard (Prevents filter/transform from breaking position:fixed) */
+.page-fade-only {
+  animation: justFadeIn 0.4s ease-out forwards;
+  opacity: 0;
+}
+@keyframes justFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 
 /* Page Transition Animation */
 .page-transition-wrapper {
