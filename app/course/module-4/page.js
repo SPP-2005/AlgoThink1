@@ -87,7 +87,7 @@ export default function Module4() {
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
                         <Link href="/course/module-3" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>← Back to Module 3</Link>
-                        <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#b45309', color: '#ffffff', padding: '16px 40px', fontSize: '18px', borderRadius: '30px' }}>Test Your Understanding: Enter The Lab 🚀</Link>
+                        <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#b45309', color: '#ffffff', padding: '12px 30px' }}>Test Your Understanding: Enter The Lab 🚀</Link>
                     </div>
                 </div>
             </div>
