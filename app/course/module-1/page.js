@@ -10,9 +10,17 @@ export default function Module1() {
             
             <div className="panel">
                 <h1 style={{ fontSize: '36px', color: '#f472b6', marginBottom: '20px', fontWeight: '900' }}>The 7 Pillars of Logic</h1>
-                <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: '1.7', marginBottom: '40px' }}>
+                <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: '1.7', marginBottom: '30px' }}>
                     Welcome to the foundation of computer science. Before you write a single line of code, you must understand how to structure your thoughts. Computers process information using these 7 core pillars. Mastering these means you can solve any problem on earth.
                 </p>
+
+                {/* Definition Block */}
+                <div style={{ background: 'rgba(236, 72, 153, 0.1)', padding: '24px', borderRadius: '12px', borderLeft: '4px solid #ec4899', marginBottom: '40px' }}>
+                    <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '12px' }}>What is Algorithmic Thinking?</h2>
+                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '16px' }}>
+                        <strong>Algorithmic Thinking</strong> is the superpower of breaking down a massive, complex problem into a clear, unambiguous, step-by-step sequence of instructions that a machine (or a person with absolutely zero common sense) can follow to achieve a specific goal without failure. It is not about writing code—it is about structuring human thought.
+                    </p>
+                </div>
 
                 {/* 1. Decomposition */}
                 <div style={{ marginBottom: '40px', paddingBottom: '30px', borderBottom: '1px solid var(--border)' }}>
