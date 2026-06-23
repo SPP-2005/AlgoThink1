@@ -344,3 +344,25 @@ textarea:focus {
 .section-warning h4 { color: var(--warning); }
 .section-success { border-color: var(--success); }
 .section-success h4 { color: var(--success); }
+
+/* Global Typography & Link Overrides */
+a, .btn, .btn-primary {
+    text-decoration: none !important;
+}
+
+h1 {
+    font-size: 32px !important;
+}
+
+h2 {
+    font-size: 24px !important;
+}
+
+h3 {
+    font-size: 20px !important;
+}
+
+h4 {
+    font-size: 18px !important;
+}
+
