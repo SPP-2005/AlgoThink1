@@ -38,8 +38,8 @@ export default function Dashboard() {
                     {/* Module 3 */}
                     <div className="challenge-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(56, 189, 248, 0.1)', borderLeftColor: '#38bdf8', padding: '30px' }}>
                         <div>
-                            <h3 style={{ color: '#7dd3fc', fontSize: '22px', marginBottom: '8px' }}>Module 3: Translation to Programming</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>See how human logic translates directly into real computer code (Variables, Loops, and If/Else Statements).</p>
+                            <h3 style={{ color: '#7dd3fc', fontSize: '22px', marginBottom: '8px' }}>Module 3: Building a Full Project</h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Walk through the end-to-end lifecycle of building a Weather App—from prototyping and versioning to debugging user feedback.</p>
                         </div>
                         <Link href="/course/module-3" className="btn btn-primary" style={{ width: 'auto', background: '#38bdf8', padding: '12px 30px' }}>Start Module 3</Link>
                     </div>
