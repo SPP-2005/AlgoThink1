@@ -1,42 +1,50 @@
 :root {
-    --primary: #2563eb;
-    --primary-hover: #1d4ed8;
-    --background: #09090b;
-    --surface: #18181b;
-    --surface-light: #27272a;
-    --border: #3f3f46;
-    --text-main: #f8fafc;
-    --text-muted: #a1a1aa;
+    --primary: #ec4899;
+    --primary-hover: #db2777;
+    --background: #1e1b4b;
+    --surface: rgba(255, 255, 255, 0.08);
+    --surface-light: rgba(255, 255, 255, 0.12);
+    --border: rgba(255, 255, 255, 0.2);
+    --text-main: #ffffff;
+    --text-muted: #e2e8f0;
     --success: #10b981;
     --error: #ef4444;
     --warning: #f59e0b;
     --info: #3b82f6;
     
     /* BOB Colors preserved */
-    --bob-body: #94a3b8;
-    --bob-screen: #020617;
+    --bob-body: #e2e8f0;
+    --bob-screen: #0f172a;
     --bob-eye: #38bdf8;
     --bob-eye-error: #ef4444;
     --bob-eye-success: #10b981;
 
-    --radius-lg: 8px;
-    --radius-md: 6px;
-    --radius-sm: 4px;
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-    background-color: var(--background);
+    background: linear-gradient(135deg, #0f172a, #312e81, #5b21b6);
+    background-size: 200% 200%;
+    animation: gradientBG 15s ease infinite;
     color: var(--text-main);
     display: flex;
     justify-content: center;
     min-height: 100vh;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* BOB Character Styles (preserved) */
@@ -57,7 +65,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 5px 10px rgba(255,255,255,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 5px 15px rgba(255,255,255,0.8);
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
@@ -77,9 +85,10 @@ body {
     top: -30px;
     width: 16px;
     height: 16px;
-    background: var(--primary);
+    background: #ec4899;
     border-radius: 50%;
     animation: blink 2s infinite;
+    box-shadow: 0 0 10px #ec4899;
 }
 
 .bob-face {
@@ -91,7 +100,7 @@ body {
     justify-content: space-evenly;
     align-items: center;
     position: relative;
-    box-shadow: inset 0 0 15px rgba(56, 189, 248, 0.2);
+    box-shadow: inset 0 0 15px rgba(56, 189, 248, 0.4);
 }
 
 .eye {
@@ -145,12 +154,15 @@ body {
 
 .bob-dialogue-box {
     background: var(--surface-light);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 15px 20px;
     border-radius: var(--radius-md);
     position: relative;
     max-width: 90%;
     text-align: center;
     border: 1px solid var(--border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 .bob-dialogue-box::before {
     content: '';
@@ -160,7 +172,7 @@ body {
     transform: translateX(-50%);
     border-width: 0 10px 10px 10px;
     border-style: solid;
-    border-color: transparent transparent var(--surface-light) transparent;
+    border-color: transparent transparent var(--border) transparent;
 }
 
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
@@ -187,27 +199,39 @@ header {
 }
 
 .logo-text {
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 800;
     letter-spacing: -0.5px;
+    background: linear-gradient(to right, #60a5fa, #c084fc, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 .logo-text span {
     color: var(--text-muted);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
     margin-left: 10px;
+    -webkit-text-fill-color: var(--text-muted);
 }
 
 .select-dropdown {
-    background: var(--surface);
+    background: rgba(0, 0, 0, 0.3);
     color: var(--text-main);
     border: 1px solid var(--border);
-    padding: 8px 16px;
+    padding: 10px 20px;
     border-radius: var(--radius-md);
     font-size: 14px;
+    font-weight: 500;
     outline: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
-.select-dropdown:focus { border-color: var(--primary); }
+.select-dropdown:focus, .select-dropdown:hover { 
+    border-color: #c084fc; 
+    box-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+}
 
 .grid-layout {
     display: grid;
@@ -217,61 +241,84 @@ header {
 
 .panel {
     background: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 24px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 .panel-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 4px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
 }
 .panel-subtitle {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-muted);
 }
 
 .challenge-card {
     background: var(--surface-light);
-    border-left: 3px solid var(--primary);
-    padding: 16px;
+    border-left: 4px solid var(--primary);
+    padding: 16px 20px;
     border-radius: var(--radius-md);
 }
-.challenge-card h3 { font-size: 14px; margin-bottom: 6px; }
-.challenge-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.challenge-card h3 { font-size: 15px; margin-bottom: 8px; font-weight: 600; }
+.challenge-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
 textarea {
     width: 100%;
     flex: 1;
     min-height: 250px;
-    background: #000;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: 16px;
+    padding: 20px;
     color: var(--text-main);
     font-family: monospace;
-    font-size: 14px;
+    font-size: 15px;
     resize: none;
+    transition: all 0.3s ease;
 }
-textarea:focus { outline: none; border-color: var(--primary); }
+textarea:focus { 
+    outline: none; 
+    border-color: #c084fc; 
+    box-shadow: inset 0 0 10px rgba(192, 132, 252, 0.1);
+}
 
 .btn {
-    padding: 12px 24px;
+    padding: 14px 24px;
     border-radius: var(--radius-md);
     border: none;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: all 0.3s ease;
     width: 100%;
+    letter-spacing: 0.5px;
 }
-.btn-primary { background: var(--primary); color: white; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { 
+    background: linear-gradient(135deg, #ec4899, #8b5cf6); 
+    color: white; 
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+}
+.btn-primary:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+}
+.btn-primary:disabled { 
+    opacity: 0.5; 
+    cursor: not-allowed; 
+    transform: translateY(0);
+}
 
 /* Report Styles */
 .report-container {
@@ -284,12 +331,12 @@ textarea:focus { outline: none; border-color: var(--primary); }
 }
 .report-section {
     background: var(--surface-light);
-    padding: 16px;
+    padding: 16px 20px;
     border-radius: var(--radius-md);
-    border-left: 3px solid var(--info);
+    border-left: 4px solid var(--info);
 }
-.report-section h4 { font-size: 13px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-.report-section p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.report-section h4 { font-size: 14px; margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.report-section p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
 .section-error { border-color: var(--error); }
 .section-error h4 { color: var(--error); }
