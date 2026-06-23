@@ -462,8 +462,8 @@ h4 {
 }
 
 @keyframes pageFadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% { opacity: 0; filter: blur(15px); }
+  100% { opacity: 1; filter: blur(0px); }
 }
 
 .page-slide-up {
