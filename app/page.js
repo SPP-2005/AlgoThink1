@@ -69,6 +69,28 @@ export default function Home() {
                 </select>
             </header>
 
+            <div className="panel" style={{ marginBottom: '24px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                    <div>
+                        <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '12px', color: 'var(--primary)' }}>Welcome to The Literal Lab!</h1>
+                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '12px' }}>Your mission: teach B.O.B. how to survive the human world.</p>
+                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                            B.O.B. is a Basic Operational Bot. He is eager to please but takes everything <strong>completely literally</strong>. If you say "make a sandwich," he might put two slices of bread on his own head.
+                        </p>
+                    </div>
+                    <div>
+                        <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '12px' }}>What is Algorithmic Thinking?</h2>
+                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '12px' }}>It's the superpower of breaking down any task so clearly that even B.O.B. can't mess it up! Core concepts include:</p>
+                        <ul style={{ color: 'var(--text-muted)', lineHeight: '1.6', paddingLeft: '20px', fontSize: '14px' }}>
+                            <li><strong>Decomposition:</strong> Breaking big tasks into smaller ones.</li>
+                            <li><strong>Sequencing:</strong> Putting actions in the exact logical order.</li>
+                            <li><strong>Precision:</strong> Being incredibly specific.</li>
+                            <li><strong>Assumption Checking:</strong> Never assuming B.O.B. knows preconditions.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div className="grid-layout">
                 {/* Input Panel */}
                 <section className="panel">
