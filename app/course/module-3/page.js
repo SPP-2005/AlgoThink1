@@ -140,12 +140,9 @@ export default function Module3() {
                     </p>
                 </div>
 
-                <div style={{ background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(16, 185, 129, 0.1))', padding: '30px', borderRadius: '16px', textAlign: 'center', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
-                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>Graduation Time!</h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '16px', lineHeight: '1.7', marginBottom: '24px', maxWidth: '700px', margin: '0 auto 24px auto' }}>
-                        You have completed all theoretical modules. You now understand how a machine thinks, how logic governs reality, and how to structure a massive software project from scratch using the Software Development Life Cycle. It is time to prove it. 
-                    </p>
-                    <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#10b981', color: '#000', padding: '16px 40px', fontSize: '18px', borderRadius: '30px' }}>Take the Final Exam: Enter The Lab 🚀</Link>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                    <Link href="/course/module-2" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>🔙 Module 2</Link>
+                    <Link href="/course/module-4" className="btn btn-primary" style={{ width: 'auto', background: '#38bdf8', padding: '12px 30px' }}>Proceed to Module 4 ➡️</Link>
                 </div>
             </div>
         </main>

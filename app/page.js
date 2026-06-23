@@ -44,6 +44,15 @@ export default function Dashboard() {
                         <Link href="/course/module-3" className="btn btn-primary" style={{ width: 'auto', background: '#38bdf8', padding: '12px 30px' }}>Start Module 3</Link>
                     </div>
 
+                    {/* Module 4 */}
+                    <div className="challenge-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(251, 146, 60, 0.1)', borderLeftColor: '#fb923c', padding: '30px' }}>
+                        <div>
+                            <h3 style={{ color: '#fdba74', fontSize: '22px', marginBottom: '8px' }}>Module 4: Classic CS Algorithms</h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Learn how algorithms like Binary Search and Bubble Sort allow computers to process massive amounts of raw data efficiently.</p>
+                        </div>
+                        <Link href="/course/module-4" className="btn btn-primary" style={{ width: 'auto', background: '#fb923c', padding: '12px 30px' }}>Start Module 4</Link>
+                    </div>
+
                     {/* The Lab */}
                     <div className="challenge-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(16, 185, 129, 0.1)', borderLeftColor: '#10b981', padding: '30px', marginTop: '20px' }}>
                         <div>
