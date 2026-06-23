@@ -147,7 +147,7 @@ export default function Lab() {
                             </div>
                             
                             <div className="report-section">
-                                <h4>Algorithmic thinking connection to these instructions</h4>
+                                <h4>Algorithmic Connection</h4>
                                 <p>{report.conceptMsg}</p>
                             </div>
 
