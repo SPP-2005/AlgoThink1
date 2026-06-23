@@ -77,6 +77,19 @@ export default function Lab() {
                 </div>
             </header>
 
+            <div style={{ background: 'rgba(5, 150, 105, 0.15)', padding: '24px', borderRadius: '12px', borderLeft: '4px solid #059669', marginBottom: '30px' }}>
+                <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '12px' }}>🤖 Meet B.O.B. (Basic Operations Bot)</h2>
+                <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '16px', marginBottom: '16px' }}>
+                    B.O.B. is an extremely literal, zero-intelligence execution environment. He does not have "common sense," he cannot read your mind, and he will not fill in the blanks if you skip a step. 
+                </p>
+                <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '16px', marginBottom: '16px' }}>
+                    <strong>Why does this help you learn algorithmic thinking?</strong> Because computers are exactly like B.O.B.! When a program crashes or a process fails, it is almost always because a human assumed the system would "just know what to do." By forcing yourself to write instructions for B.O.B., you are training your brain to practice strict <strong>Sequencing</strong>, <strong>Precision</strong>, and <strong>Decomposition</strong>.
+                </p>
+                <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '16px', marginBottom: '0' }}>
+                    Choose a scenario from the dropdown above and write a set of chronological instructions. See if your logic survives B.O.B.'s rigorous, literal evaluation!
+                </p>
+            </div>
+
             <div className="grid-layout">
                 {/* Input Panel */}
                 <section className="panel">
