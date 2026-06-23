@@ -39,6 +39,9 @@ export default function Module2() {
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         Doing the laundry is essentially a masterclass in <strong>Decomposition</strong> (sorting) and <strong>Decision Making (Logic)</strong>. If you throw everything into the washer together on high heat, your white shirts turn pink and your wool sweaters shrink to fit a dog. 
                     </p>
+                    <div style={{ marginTop: '20px', marginBottom: '30px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}>
+                        <img src="https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=1200" alt="Sorting Laundry" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '400px', objectFit: 'cover' }} />
+                    </div>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         Your brain runs a massive "If/Then" logic tree every time you pick up a piece of clothing:
                     </p>
@@ -63,6 +66,9 @@ export default function Module2() {
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         Driving or walking to a destination requires extreme <strong>Precision</strong> and real-time <strong>Iteration</strong>. 
                     </p>
+                    <div style={{ marginTop: '20px', marginBottom: '30px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}>
+                        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200" alt="Navigating Traffic" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '400px', objectFit: 'cover' }} />
+                    </div>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         When you use Google Maps, it gives you highly precise algorithmic instructions: "In 500 feet, turn right onto Main Street." It does not say "Turn right eventually." But what happens if Main Street is closed due to construction?
                     </p>
