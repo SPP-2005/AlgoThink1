@@ -83,7 +83,7 @@ export default function Module4() {
                         If you have 10 items, any logic works. If you have 10 billion items, bad logic will take 300 years to compute, while good logic (a good algorithm) will take 0.2 seconds.
                     </p>
                     <div style={{ marginTop: '20px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(217, 119, 6, 0.3)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}>
-                        <img src="/images/mod4.png" alt="Neon Sorting Visualization" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                        <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=1200" alt="Neon Sorting Visualization" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '400px', objectFit: 'cover' }} />
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
                         <Link href="/course/module-3" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>← Back to Module 3</Link>

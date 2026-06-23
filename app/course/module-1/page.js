@@ -21,7 +21,7 @@ export default function Module1() {
                         <strong>Algorithmic Thinking</strong> is the superpower of breaking down a massive, complex problem into a clear, unambiguous, step-by-step sequence of instructions that a machine (or a person with absolutely zero common sense) can follow to achieve a specific goal without failure. It is not about writing code—it is about structuring human thought.
                     </p>
                     <div style={{ marginTop: '20px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(59, 130, 246, 0.3)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}>
-                        <img src="/images/mod1.png" alt="Logic Flowchart" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200" alt="Logic Flowchart" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '400px', objectFit: 'cover' }} />
                     </div>
                 </div>
 

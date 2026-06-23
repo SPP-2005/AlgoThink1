@@ -21,7 +21,7 @@ export default function Module2() {
                         Think making coffee is simple? To a computer, it is a highly complex logistical operation. If you ever make a bad cup of coffee, it is usually because your internal algorithm had a bug. Let's break down the algorithm for brewing coffee:
                     </p>
                     <div style={{ marginTop: '20px', marginBottom: '30px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}>
-                        <img src="/images/mod2.png" alt="Realistic Morning Coffee" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                        <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200" alt="Realistic Morning Coffee" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '400px', objectFit: 'cover' }} />
                     </div>
                     <ul style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '16px', paddingLeft: '24px', marginBottom: '20px' }}>
                         <li style={{ marginBottom: '12px' }}><strong>Assumption Checking (The Setup):</strong> Before you do anything, you must verify your environment. Does the coffee machine have water? Is it plugged in? Do you actually have coffee beans, or did you run out yesterday? Assuming these are true without checking leads to a "fatal error" when you press start.</li>
