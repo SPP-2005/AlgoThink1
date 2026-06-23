@@ -10,9 +10,19 @@ export default function Module3() {
             
             <div className="panel">
                 <h1 style={{ fontSize: '36px', color: '#7dd3fc', marginBottom: '20px', fontWeight: '900' }}>Algorithmic Thinking in Project Building</h1>
-                <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: '1.7', marginBottom: '40px' }}>
+                <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: '1.7', marginBottom: '30px' }}>
                     Building a real-world software project is not just about writing code; it is about managing extreme complexity. In this module, we will walk through the <strong>full 8-Step Software Development Life Cycle (SDLC)</strong> of building a Live Weather Application. We will see exactly how Algorithmic Thinking guides every single phase from a blank screen to a globally deployed product.
                 </p>
+
+                {/* Meta Concept */}
+                <div style={{ background: 'rgba(56, 189, 248, 0.1)', padding: '24px', borderRadius: '12px', borderLeft: '4px solid #38bdf8', marginBottom: '50px' }}>
+                    <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '12px' }}>🧠 The Ultimate Meta-Algorithm</h2>
+                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '16px' }}>
+                        Before we begin, notice something incredible about the 8 steps below: <strong>The process of building a project is, itself, an algorithm.</strong> 
+                        <br/><br/>
+                        By following these exact 8 chronological steps (Ideation ➔ Architecture ➔ MVP ➔ Testing ➔ Deployment), you are practicing the <strong>Sequencing</strong> pillar of Algorithmic Thinking on a macro scale. If you try to jump to Step 4 (Building) before completing Step 1 (Requirements), your massive project algorithm will crash!
+                    </p>
+                </div>
 
                 {/* Step 1 */}
                 <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
