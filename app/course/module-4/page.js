@@ -1,11 +1,11 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 
 export default function Module4() {
     return (
         <main className="container">
             <header>
                 <div className="logo-text">AlgoThink <span>Module 4</span></div>
-                <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>ðŸ”™ Dashboard</Link>
+                <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Dashboard</Link>
             </header>
             
             <div className="panel">
@@ -83,8 +83,8 @@ export default function Module4() {
                         You have mastered theory, logic, project building, and raw computer science algorithms. It is time to put your skills to the test in the interactive lab.
                     </p>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-                        <Link href="/course/module-3" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>ðŸ”™ Back to Module 3</Link>
-                        <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#b45309', color: '#000', padding: '16px 40px', fontSize: '18px', borderRadius: '30px' }}>Test Your Understanding: Enter The Lab ðŸš€</Link>
+                        <Link href="/course/module-3" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>🔙 Back to Module 3</Link>
+                        <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#b45309', color: '#000', padding: '16px 40px', fontSize: '18px', borderRadius: '30px' }}>Test Your Understanding: Enter The Lab 🚀</Link>
                     </div>
                 </div>
             </div>

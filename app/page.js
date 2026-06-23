@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 
 export default function Dashboard() {
     return (
@@ -39,7 +39,7 @@ export default function Dashboard() {
                     <div className="challenge-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', background: 'rgba(20, 184, 166, 0.15)', borderLeftColor: '#14b8a6', padding: '30px' }}>
                         <div>
                             <h3 style={{ color: '#5eead4', fontSize: '22px', marginBottom: '8px' }}>Module 3: Building a Full Project</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Walk through the end-to-end lifecycle of building a Weather Appâ€”from prototyping and versioning to debugging user feedback.</p>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Walk through the end-to-end lifecycle of building a Weather App—from prototyping and versioning to debugging user feedback.</p>
                         </div>
                         <Link href="/course/module-3" className="btn btn-primary" style={{ width: 'auto', background: '#14b8a6', padding: '12px 30px' }}>Start Module 3</Link>
                     </div>

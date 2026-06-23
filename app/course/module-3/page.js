@@ -1,11 +1,11 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 
 export default function Module3() {
     return (
         <main className="container">
             <header>
                 <div className="logo-text">AlgoThink <span>Module 3</span></div>
-                <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>ðŸ”™ Dashboard</Link>
+                <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Dashboard</Link>
             </header>
             
             <div className="panel">
@@ -15,12 +15,12 @@ export default function Module3() {
                 </p>
 
                 {/* Meta Concept */}
-                <div style={{ background: 'rgba(20, 184, 166, 0.15)', padding: '24px', borderRadius: '12px', borderLeft: '4px solid #14b8a6', marginBottom: '50px' }}>
-                    <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '12px' }}>ðŸ§  The Ultimate Meta-Algorithm</h2>
+                <div style={{ background: 'rgba(20, 184, 166, 0.15)', padding: '24px', borderRadius: '12px', borderLeft: '4px solid #14b8a6', marginBottom: '40px' }}>
+                    <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '12px' }}>🧠 The Ultimate Meta-Algorithm</h2>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '16px' }}>
                         Before we begin, notice something incredible about the 8 steps below: <strong>The process of building a project is, itself, an algorithm.</strong> 
                         <br/><br/>
-                        By following these exact 8 chronological steps (Ideation âž” Architecture âž” MVP âž” Testing âž” Deployment), you are practicing the <strong>Sequencing</strong> pillar of Algorithmic Thinking on a macro scale. If you try to jump to Step 4 (Building) before completing Step 1 (Requirements), your massive project algorithm will crash!
+                        By following these exact 8 chronological steps (Ideation ➔ Architecture ➔ MVP ➔ Testing ➔ Deployment), you are practicing the <strong>Sequencing</strong> pillar of Algorithmic Thinking on a macro scale. If you try to jump to Step 4 (Building) before completing Step 1 (Requirements), your massive project algorithm will crash!
                     </p>
                 </div>
 
@@ -141,11 +141,10 @@ export default function Module3() {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-                    <Link href="/course/module-2" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>ðŸ”™ Module 2</Link>
-                    <Link href="/course/module-4" className="btn btn-primary" style={{ width: 'auto', background: '#14b8a6', padding: '12px 30px' }}>Proceed to Module 4 âž¡ï¸</Link>
+                    <Link href="/course/module-2" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>🔙 Module 2</Link>
+                    <Link href="/course/module-4" className="btn btn-primary" style={{ width: 'auto', background: '#14b8a6', padding: '12px 30px' }}>Proceed to Module 4 ➡️</Link>
                 </div>
             </div>
         </main>
     );
 }
-

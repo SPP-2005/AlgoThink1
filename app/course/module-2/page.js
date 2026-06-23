@@ -1,11 +1,11 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 
 export default function Module2() {
     return (
         <main className="container">
             <header>
                 <div className="logo-text">AlgoThink <span>Module 2</span></div>
-                <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>ðŸ”™ Dashboard</Link>
+                <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Dashboard</Link>
             </header>
             
             <div className="panel">
@@ -16,7 +16,7 @@ export default function Module2() {
 
                 {/* Scenario 1 */}
                 <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
-                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>â˜• Scenario 1: The "Perfect" Morning Coffee</h2>
+                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>☕ Scenario 1: The "Perfect" Morning Coffee</h2>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         Think making coffee is simple? To a computer, it is a highly complex logistical operation. If you ever make a bad cup of coffee, it is usually because your internal algorithm had a bug. Let's break down the algorithm for brewing coffee:
                     </p>
@@ -32,7 +32,7 @@ export default function Module2() {
 
                 {/* Scenario 2 */}
                 <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
-                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>ðŸ§º Scenario 2: Doing the Laundry (Decision Making)</h2>
+                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>🧺 Scenario 2: Doing the Laundry (Decision Making)</h2>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         Doing the laundry is essentially a masterclass in <strong>Decomposition</strong> (sorting) and <strong>Decision Making (Logic)</strong>. If you throw everything into the washer together on high heat, your white shirts turn pink and your wool sweaters shrink to fit a dog. 
                     </p>
@@ -55,16 +55,17 @@ export default function Module2() {
                 </div>
 
                 {/* Scenario 3 */}
-                <div style={{ marginBottom: '50px' }}>
-                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>ðŸš¦ Scenario 3: Navigating Traffic (Iteration & Loops)</h2>
+                <div style={{ marginBottom: '50px', paddingBottom: '40px' }}>
+                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>🚥 Scenario 3: Navigating Traffic (Iteration & Loops)</h2>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         Driving or walking to a destination requires extreme <strong>Precision</strong> and real-time <strong>Iteration</strong>. 
                     </p>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         When you use Google Maps, it gives you highly precise algorithmic instructions: "In 500 feet, turn right onto Main Street." It does not say "Turn right eventually." But what happens if Main Street is closed due to construction?
                     </p>
-                    <ul style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '16px', paddingLeft: '24px', marginBottom: '20px' }}>
-                        <li style={{ marginBottom: '12px' }}><strong>Iteration (Debugging on the fly):</strong> Your original algorithm just failed. An algorithmic thinker immediately iteratesâ€”they assess the error, calculate a new route, and update their sequence of steps to bypass the construction.</li>
+                    <ul style={{ color: 'var(--text-muted)', fontSize: '16px', lineHeight: '1.8', paddingLeft: '20px', marginBottom: '16px' }}>
+                        <li style={{ marginBottom: '12px' }}><strong>Repetition:</strong> You loop the same actions: Check mirrors, accelerate, brake, repeat.</li>
+                        <li style={{ marginBottom: '12px' }}><strong>Iteration (Debugging on the fly):</strong> Your original algorithm just failed. An algorithmic thinker immediately iterates—they assess the error, calculate a new route, and update their sequence of steps to bypass the construction.</li>
                         <li style={{ marginBottom: '12px' }}><strong>Repetition (Loops):</strong> When you are walking up the stairs to your apartment, your brain runs a loop: "Step up with right foot, step up with left foot. Repeat until you reach the 4th floor."</li>
                     </ul>
                     <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px' }}>
@@ -73,11 +74,10 @@ export default function Module2() {
                 </div>
                 
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-                    <Link href="/course/module-1" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>ðŸ”™ Module 1</Link>
-                    <Link href="/course/module-3" className="btn btn-primary" style={{ width: 'auto', background: '#6366f1', padding: '12px 30px' }}>Proceed to Module 3 âž¡ï¸</Link>
+                    <Link href="/course/module-1" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>🔙 Module 1</Link>
+                    <Link href="/course/module-3" className="btn btn-primary" style={{ width: 'auto', background: '#6366f1', padding: '12px 30px' }}>Proceed to Module 3 ➡️</Link>
                 </div>
             </div>
         </main>
     );
 }
-
