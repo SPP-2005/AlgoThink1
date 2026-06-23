@@ -27,7 +27,7 @@ Return EXACTLY this JSON:
   "conceptTitle": string (The algorithmic concept involved in their error/success),
   "conceptMsg": string (Explain the concept to the student simply),
   "approachMsg": string (Explain how an algorithmic thinker plans this),
-  "exampleMsg": string (A short example of a perfectly specific instruction),
+  "exampleMsg": string (A short example of a perfectly specific instruction. Leave EMPTY if status is "success"),
   "successful_concepts": [
     {
       "icon": string (An emoji),

@@ -159,7 +159,7 @@ export default function Lab() {
                                 <p>{report.approachMsg}</p>
                             </div>
 
-                            {report.exampleMsg && (
+                            {report.exampleMsg && report.status !== 'success' && (
                                 <div className="report-section section-warning">
                                     <h4>💡 Improvement suggestion</h4>
                                     <p>{report.exampleMsg}</p>
