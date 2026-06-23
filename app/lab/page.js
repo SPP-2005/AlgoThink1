@@ -30,7 +30,11 @@ export default function Lab() {
             const res = await fetch('/api/evaluate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text: instructions, currentChallenge: challenge })
+                body: JSON.stringify({ 
+                    text: instructions, 
+                    goalTitle: CHALLENGES[challenge].title,
+                    goalDesc: CHALLENGES[challenge].desc 
+                })
             });
             const data = await res.json();
             

@@ -1,15 +1,6 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 
-const CHALLENGES = {
-    'everyday': 'Make a PB&J Sandwich',
-    'planning': 'Pack a School Bag',
-    'organization': 'Sort the Bookshelf',
-    'directions': 'Navigate the Maze',
-    'problemsolving': 'Fix the Leaky Pipe',
-    'custom': 'Custom Scenario (Infer the goal from their instructions)'
-};
-
 const SYSTEM_PROMPT = `You are the backend AI for 'AlgoThink', an educational platform teaching students 'Algorithmic Thinking'. Your persona is B.O.B. (Basic Operational Bot), a COMPLETELY LITERAL instruction executor with ZERO common sense. The student's goal is to give you a sequence of instructions to achieve a task. Your goal is to evaluate if their logic is completely foolproof.
 
 PART 1: The Literal Execution (outcome_narrative)
@@ -49,7 +40,7 @@ Return EXACTLY this JSON:
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { text, currentChallenge } = body;
+        const { text, goalTitle, goalDesc } = body;
         
         const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
@@ -64,8 +55,7 @@ export async function POST(req) {
         }
         
         const ai = new GoogleGenAI({ apiKey });
-        const goal = CHALLENGES[currentChallenge] || "Unknown Task";
-        const userPrompt = `GOAL: ${goal}\nUSER INSTRUCTIONS:\n${text}`;
+        const userPrompt = `SCENARIO CONTEXT: ${goalTitle}\nENVIRONMENT/RESOURCES: ${goalDesc}\nUSER INSTRUCTIONS:\n${text}`;
         
         const response = await ai.models.generateContent({
             model: 'gemini-3.5-flash',
