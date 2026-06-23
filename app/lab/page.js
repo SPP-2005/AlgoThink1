@@ -16,7 +16,7 @@ export default function Lab() {
     const [instructions, setInstructions] = useState('');
     const [loading, setLoading] = useState(false);
     const [bobState, setBobState] = useState(''); 
-    const [bobMsg, setBobMsg] = useState('Greetings. I am awaiting operational inputs.');
+    const [bobMsg, setBobMsg] = useState(`Environment scanned: ${CHALLENGES['everyday'].desc} Awaiting your explicit instructions.`);
     const [report, setReport] = useState(null);
 
     const handleRun = async () => {
@@ -58,11 +58,12 @@ export default function Lab() {
     };
 
     const handleChallengeChange = (e) => {
-        setChallenge(e.target.value);
+        const newChallenge = e.target.value;
+        setChallenge(newChallenge);
         setInstructions('');
         setReport(null);
         setBobState('');
-        setBobMsg('Greetings. I am awaiting operational inputs.');
+        setBobMsg(`Environment scanned: ${CHALLENGES[newChallenge].desc} Awaiting your explicit instructions.`);
     };
 
     return (
