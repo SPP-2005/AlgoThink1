@@ -113,6 +113,12 @@ export default function Lab() {
                     <textarea 
                         value={instructions}
                         onChange={e => setInstructions(e.target.value)}
+                        onKeyDown={e => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                handleRun();
+                            }
+                        }}
                         placeholder="1. Initialize sequence..."
                         disabled={loading}
                     />
