@@ -1,20 +1,20 @@
 :root {
-    --primary: #ec4899;
-    --primary-hover: #db2777;
-    --background: #1e1b4b;
-    --surface: rgba(255, 255, 255, 0.08);
-    --surface-light: rgba(255, 255, 255, 0.12);
-    --border: rgba(255, 255, 255, 0.2);
-    --text-main: #ffffff;
-    --text-muted: #e2e8f0;
-    --success: #10b981;
-    --error: #ef4444;
-    --warning: #f59e0b;
-    --info: #3b82f6;
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --background: #0f1117;
+    --surface: rgba(30, 34, 45, 0.85);
+    --surface-light: rgba(45, 50, 65, 0.9);
+    --border: #333b4d;
+    --text-main: #f8fafc;
+    --text-muted: #cbd5e1;
+    --success: #059669;
+    --error: #dc2626;
+    --warning: #d97706;
+    --info: #2563eb;
     
     /* BOB Colors preserved */
     --bob-body: #e2e8f0;
-    --bob-screen: #0f172a;
+    --bob-screen: #0f1117;
     --bob-eye: #38bdf8;
     --bob-eye-error: #ef4444;
     --bob-eye-success: #10b981;
@@ -32,19 +32,12 @@
 }
 
 body {
-    background: linear-gradient(135deg, #0f172a, #312e81, #5b21b6);
-    background-size: 200% 200%;
-    animation: gradientBG 15s ease infinite;
+    background: #0f1117;
+    background-image: radial-gradient(circle at top right, #1e2333, #0f1117);
     color: var(--text-main);
     display: flex;
     justify-content: center;
     min-height: 100vh;
-}
-
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
 }
 
 /* BOB Character Styles (preserved) */
