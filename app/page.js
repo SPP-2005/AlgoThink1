@@ -18,7 +18,7 @@ export default function Dashboard() {
                 <div className="grid-layout" style={{ gridTemplateColumns: '1fr', gap: '20px' }}>
                     
                     {/* Module 1 */}
-                    <div className="challenge-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', background: 'rgba(59, 130, 246, 0.15)', borderLeftColor: '#3b82f6', padding: '30px' }}>
+                    <div className="challenge-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', background: 'rgba(59, 130, 246, 0.15)', borderLeftColor: '#3b82f6', padding: '30px' }}>
                         <div>
                             <h3 style={{ color: '#60a5fa', fontSize: '22px', marginBottom: '8px' }}>Module 1: The 7 Pillars of Logic</h3>
                             <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>A comprehensive deep dive into Decomposition, Sequencing, and the unbreakable laws of machine logic.</p>
@@ -27,7 +27,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Module 2 */}
-                    <div className="challenge-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', background: 'rgba(99, 102, 241, 0.15)', borderLeftColor: '#6366f1', padding: '30px' }}>
+                    <div className="challenge-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', background: 'rgba(99, 102, 241, 0.15)', borderLeftColor: '#6366f1', padding: '30px' }}>
                         <div>
                             <h3 style={{ color: '#818cf8', fontSize: '22px', marginBottom: '8px' }}>Module 2: Algorithms in Everyday Life</h3>
                             <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Discover how you subconsciously use algorithmic thinking to make coffee, do laundry, and survive the real world.</p>
@@ -36,7 +36,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Module 3 */}
-                    <div className="challenge-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', background: 'rgba(20, 184, 166, 0.15)', borderLeftColor: '#14b8a6', padding: '30px' }}>
+                    <div className="challenge-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', background: 'rgba(20, 184, 166, 0.15)', borderLeftColor: '#14b8a6', padding: '30px' }}>
                         <div>
                             <h3 style={{ color: '#5eead4', fontSize: '22px', marginBottom: '8px' }}>Module 3: Building a Full Project</h3>
                             <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Walk through the end-to-end lifecycle of building a Weather Appâ€”from prototyping and versioning to debugging user feedback.</p>
@@ -45,7 +45,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Module 4 */}
-                    <div className="challenge-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', background: 'rgba(217, 119, 6, 0.15)', borderLeftColor: '#d97706', padding: '30px' }}>
+                    <div className="challenge-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', background: 'rgba(217, 119, 6, 0.15)', borderLeftColor: '#d97706', padding: '30px' }}>
                         <div>
                             <h3 style={{ color: '#fcd34d', fontSize: '22px', marginBottom: '8px' }}>Module 4: Classic CS Algorithms</h3>
                             <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Learn how algorithms like Binary Search and Bubble Sort allow computers to process massive amounts of raw data efficiently.</p>
@@ -54,7 +54,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* The Lab / Module 5 */}
-                    <div className="challenge-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', background: 'rgba(16, 185, 129, 0.1)', borderLeftColor: '#10b981', padding: '30px', marginTop: '20px' }}>
+                    <div className="challenge-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', background: 'rgba(16, 185, 129, 0.1)', borderLeftColor: '#10b981', padding: '30px', marginTop: '20px' }}>
                         <div>
                             <h3 style={{ color: '#34d399', fontSize: '24px', marginBottom: '8px' }}>Module 5: Testing Your Understanding</h3>
                             <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Put your algorithmic thinking to the ultimate test. Give instructions to B.O.B. in the interactive lab and see if your logic actually works.</p>
@@ -67,5 +67,6 @@ export default function Dashboard() {
         </main>
     );
 }
+
 
 
