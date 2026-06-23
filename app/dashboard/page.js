@@ -93,7 +93,7 @@ export default function Dashboard() {
                                 <h3 style={{ color: '#34d399', fontSize: '24px', marginBottom: '8px' }}>Module 5: Testing Your Understanding</h3>
                                 <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Put your algorithmic thinking to the ultimate test. Give instructions to B.O.B. in the interactive lab and see if your logic actually works.</p>
                             </div>
-                            <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#059669', color: '#000', padding: '16px 40px', fontSize: '18px' }}>Enter The Lab</Link>
+                            <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#059669', color: '#ffffff', padding: '16px 40px', fontSize: '18px' }}>Enter The Lab</Link>
                         </div>
 
                     </div>
