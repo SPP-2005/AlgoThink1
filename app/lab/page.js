@@ -98,12 +98,12 @@ export default function Lab() {
                 {/* Input Panel */}
                 <section className="panel">
                     <div>
-                        <h2 className="panel-title">Instruction Console</h2>
+                        <h2 className="panel-title">💻 Instruction Console</h2>
                         <p className="panel-subtitle">Provide explicit, sequential commands for the operational bot.</p>
                     </div>
                     
                     <div className="challenge-card">
-                        <h3>Active Scenario: {CHALLENGES[challenge].title}</h3>
+                        <h3>🎯 Active Scenario: {CHALLENGES[challenge].title}</h3>
                         <p>{CHALLENGES[challenge].desc}</p>
                     </div>
 
@@ -122,7 +122,7 @@ export default function Lab() {
                 {/* B.O.B. Panel */}
                 <section className="panel">
                     <div>
-                        <h2 className="panel-title">Bot Telemetry</h2>
+                        <h2 className="panel-title">📡 Bot Telemetry</h2>
                         <p className="panel-subtitle">Live execution feed and logical analysis.</p>
                     </div>
 
@@ -142,30 +142,30 @@ export default function Lab() {
                     {report && (
                         <div className="report-container">
                             <div className={`report-section ${report.status === 'major_error' ? 'section-error' : report.status === 'minor_improvement' ? 'section-warning' : 'section-success'}`}>
-                                <h4>Execution Outcome</h4>
+                                <h4>🎬 Execution Outcome</h4>
                                 <p>{report.outcome_narrative}</p>
                             </div>
                             
                             <div className="report-section">
-                                <h4>Algorithmic Connection</h4>
+                                <h4>🔗 Algorithmic Connection</h4>
                                 <p>{report.conceptMsg}</p>
                             </div>
 
                             <div className="report-section">
-                                <h4>How an algorithmic thinker thinks</h4>
+                                <h4>🧠 How an algorithmic thinker thinks</h4>
                                 <p>{report.approachMsg}</p>
                             </div>
 
                             {report.exampleMsg && (
                                 <div className="report-section section-warning">
-                                    <h4>Improvement suggestion</h4>
+                                    <h4>💡 Improvement suggestion</h4>
                                     <p>{report.exampleMsg}</p>
                                 </div>
                             )}
 
                             {report.successful_concepts && report.successful_concepts.length > 0 && (
                                 <div className="report-section section-success">
-                                    <h4>Concepts you successfully used</h4>
+                                    <h4>✅ Concepts you successfully used</h4>
                                     {report.successful_concepts.map((c, i) => (
                                         <div key={i} style={{marginTop: '8px'}}>
                                             <strong style={{fontSize: '13px', color: 'var(--text-main)'}}>{c.title}</strong>
