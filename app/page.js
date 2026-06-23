@@ -70,23 +70,43 @@ export default function Home() {
             </header>
 
             <div className="panel" style={{ marginBottom: '24px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-                    <div>
-                        <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '12px', color: 'var(--primary)' }}>Welcome to The Literal Lab!</h1>
-                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '12px' }}>Your mission: teach B.O.B. how to survive the human world.</p>
-                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>
-                            B.O.B. is a Basic Operational Bot. He is eager to please but takes everything <strong>completely literally</strong>. If you say "make a sandwich," he might put two slices of bread on his own head.
-                        </p>
-                    </div>
-                    <div>
-                        <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '12px' }}>What is Algorithmic Thinking?</h2>
-                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '12px' }}>It's the superpower of breaking down any task so clearly that even B.O.B. can't mess it up! Core concepts include:</p>
-                        <ul style={{ color: 'var(--text-muted)', lineHeight: '1.6', paddingLeft: '20px', fontSize: '14px' }}>
-                            <li><strong>Decomposition:</strong> Breaking big tasks into smaller ones.</li>
-                            <li><strong>Sequencing:</strong> Putting actions in the exact logical order.</li>
-                            <li><strong>Precision:</strong> Being incredibly specific.</li>
-                            <li><strong>Assumption Checking:</strong> Never assuming B.O.B. knows preconditions.</li>
-                        </ul>
+                <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+                    <h1 style={{ fontSize: '32px', fontWeight: '900', color: '#ffffff', marginBottom: '12px' }}>Welcome to The Literal Lab!</h1>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '18px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+                        Your mission is to teach B.O.B., a Basic Operational Bot, how to survive the human world. B.O.B. is eager to please but takes everything <strong>completely literally</strong>. If you tell him to "make a sandwich," he might just put two slices of bread on his own head!
+                    </p>
+                </div>
+
+                <div style={{ borderTop: '1px solid var(--border)', paddingTop: '30px' }}>
+                    <h2 style={{ fontSize: '24px', fontWeight: '800', background: 'linear-gradient(to right, #60a5fa, #c084fc, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '16px', textAlign: 'center' }}>Module 1: The 4 Pillars of Algorithmic Thinking</h2>
+                    <p style={{ color: 'var(--text-muted)', textAlign: 'center', marginBottom: '30px', maxWidth: '800px', margin: '0 auto 30px auto', lineHeight: '1.6' }}>
+                        Before interacting with B.O.B., you must learn to think like a computer. Computers don't have common sense—they rely on <strong>Algorithms</strong> (step-by-step instructions). Master these four pillars to succeed:
+                    </p>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+                        <div className="challenge-card" style={{ background: 'rgba(236, 72, 153, 0.1)', borderLeftColor: '#ec4899' }}>
+                            <h3 style={{ color: '#f472b6', fontSize: '16px', marginBottom: '10px' }}>🧩 1. Decomposition</h3>
+                            <p style={{ fontSize: '13px', marginBottom: '10px', color: '#e2e8f0', lineHeight: '1.5' }}><strong>Breaking down a massive problem into tiny, manageable chunks.</strong></p>
+                            <p style={{ fontSize: '13px' }}><em>Example:</em> Instead of telling B.O.B to "Build a house", decompose it into "1. Pour concrete, 2. Build walls, 3. Add roof."</p>
+                        </div>
+                        
+                        <div className="challenge-card" style={{ background: 'rgba(139, 92, 246, 0.1)', borderLeftColor: '#8b5cf6' }}>
+                            <h3 style={{ color: '#c084fc', fontSize: '16px', marginBottom: '10px' }}>⏱️ 2. Sequencing</h3>
+                            <p style={{ fontSize: '13px', marginBottom: '10px', color: '#e2e8f0', lineHeight: '1.5' }}><strong>The exact chronological order of your steps. Computers blindly follow your order.</strong></p>
+                            <p style={{ fontSize: '13px' }}><em>Example:</em> Telling B.O.B to put on his shoes before his socks will result in a fatal error!</p>
+                        </div>
+
+                        <div className="challenge-card" style={{ background: 'rgba(56, 189, 248, 0.1)', borderLeftColor: '#38bdf8' }}>
+                            <h3 style={{ color: '#7dd3fc', fontSize: '16px', marginBottom: '10px' }}>🎯 3. Precision</h3>
+                            <p style={{ fontSize: '13px', marginBottom: '10px', color: '#e2e8f0', lineHeight: '1.5' }}><strong>Being hyper-specific. Never assume B.O.B. knows preconditions or "common sense."</strong></p>
+                            <p style={{ fontSize: '13px' }}><em>Example:</em> "Walk forward" might cause B.O.B to walk off a cliff. "Walk forward exactly 5 steps" is safe.</p>
+                        </div>
+
+                        <div className="challenge-card" style={{ background: 'rgba(16, 185, 129, 0.1)', borderLeftColor: '#10b981' }}>
+                            <h3 style={{ color: '#6ee7b7', fontSize: '16px', marginBottom: '10px' }}>🔀 4. Logic & Decisions</h3>
+                            <p style={{ fontSize: '13px', marginBottom: '10px', color: '#e2e8f0', lineHeight: '1.5' }}><strong>Giving the computer rules to follow based on different scenarios.</strong></p>
+                            <p style={{ fontSize: '13px' }}><em>Example:</em> "<strong>If</strong> it is raining, <strong>Then</strong> take an umbrella."</p>
+                        </div>
                     </div>
                 </div>
             </div>
