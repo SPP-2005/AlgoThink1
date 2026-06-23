@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 
 const CHALLENGES = {
@@ -87,3 +87,4 @@ export async function POST(req) {
         });
     }
 }
+

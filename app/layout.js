@@ -1,4 +1,4 @@
-import './globals.css';
+﻿import './globals.css';
 
 export const metadata = {
   title: 'AlgoThink | Enterprise Logic Platform',
@@ -14,3 +14,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+

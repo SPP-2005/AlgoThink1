@@ -1,15 +1,15 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 export default function Module4() {
     return (
         <main className="container">
             <header>
                 <div className="logo-text">AlgoThink <span>Module 4</span></div>
-                <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Dashboard</Link>
+                <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>ðŸ”™ Dashboard</Link>
             </header>
             
             <div className="panel">
-                <h1 style={{ fontSize: '36px', color: '#fb923c', marginBottom: '20px', fontWeight: '900' }}>Classic Computer Science Algorithms</h1>
+                <h1 style={{ fontSize: '36px', color: '#d97706', marginBottom: '20px', fontWeight: '900' }}>Classic Computer Science Algorithms</h1>
                 <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: '1.7', marginBottom: '40px' }}>
                     You now know how to apply logic to everyday life and full-scale projects. But what about raw data? In technical coding interviews and real-world database management, you must know how to search and sort massive amounts of information efficiently. Let's look at the classic algorithms every programmer must know.
                 </p>
@@ -28,7 +28,7 @@ export default function Module4() {
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         A computer with zero algorithmic logic uses <strong>Linear Search</strong>. It starts at page 1, checks if the word is "Quantum", and if not, goes to page 2. It repeats this process one by one.
                     </p>
-                    <div style={{ background: 'rgba(239, 68, 68, 0.1)', padding: '20px', borderRadius: '12px', borderLeft: '4px solid #ef4444', marginBottom: '16px' }}>
+                    <div style={{ background: 'rgba(225, 29, 72, 0.15)', padding: '20px', borderRadius: '12px', borderLeft: '4px solid #e11d48', marginBottom: '16px' }}>
                         <code style={{ color: '#e2e8f0', display: 'block', whiteSpace: 'pre', fontFamily: 'monospace', fontSize: '15px', lineHeight: '1.6' }}>
                             FOR every page in Dictionary:<br/>
                             &nbsp;&nbsp;&nbsp;&nbsp;IF word on page is "Quantum" THEN<br/>
@@ -36,7 +36,7 @@ export default function Module4() {
                         </code>
                     </div>
                     <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px' }}>
-                        <strong style={{ color: '#fb923c' }}>The Verdict:</strong> Terrible! If the word is at the very end of the dictionary, it takes 1,000 steps. In computer science, this is known as <strong>O(N) Time Complexity</strong>.
+                        <strong style={{ color: '#d97706' }}>The Verdict:</strong> Terrible! If the word is at the very end of the dictionary, it takes 1,000 steps. In computer science, this is known as <strong>O(N) Time Complexity</strong>.
                     </div>
                 </div>
 
@@ -62,7 +62,7 @@ export default function Module4() {
                         </code>
                     </div>
                     <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px' }}>
-                        <strong style={{ color: '#fb923c' }}>The Verdict:</strong> Brilliant! Even with 1,000,000 pages, it takes a maximum of only 20 steps to find the word. This is <strong>O(log N) Time Complexity</strong>.
+                        <strong style={{ color: '#d97706' }}>The Verdict:</strong> Brilliant! Even with 1,000,000 pages, it takes a maximum of only 20 steps to find the word. This is <strong>O(log N) Time Complexity</strong>.
                     </div>
                 </div>
 
@@ -77,17 +77,18 @@ export default function Module4() {
                     </p>
                 </div>
                 
-                <div style={{ background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.1), rgba(16, 185, 129, 0.1))', padding: '30px', borderRadius: '16px', textAlign: 'center', border: '1px solid rgba(251, 146, 60, 0.3)' }}>
+                <div style={{ background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.15), rgba(16, 185, 129, 0.1))', padding: '30px', borderRadius: '16px', textAlign: 'center', border: '1px solid rgba(251, 146, 60, 0.3)' }}>
                     <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>Testing Your Understanding</h2>
                     <p style={{ color: 'var(--text-muted)', fontSize: '16px', lineHeight: '1.7', marginBottom: '24px', maxWidth: '700px', margin: '0 auto 24px auto' }}>
                         You have mastered theory, logic, project building, and raw computer science algorithms. It is time to put your skills to the test in the interactive lab.
                     </p>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-                        <Link href="/course/module-3" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>🔙 Back to Module 3</Link>
-                        <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#f59e0b', color: '#000', padding: '16px 40px', fontSize: '18px', borderRadius: '30px' }}>Test Your Understanding: Enter The Lab 🚀</Link>
+                        <Link href="/course/module-3" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>ðŸ”™ Back to Module 3</Link>
+                        <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#b45309', color: '#000', padding: '16px 40px', fontSize: '18px', borderRadius: '30px' }}>Test Your Understanding: Enter The Lab ðŸš€</Link>
                     </div>
                 </div>
             </div>
         </main>
     );
 }
+

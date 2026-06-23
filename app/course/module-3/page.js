@@ -1,26 +1,26 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 export default function Module3() {
     return (
         <main className="container">
             <header>
                 <div className="logo-text">AlgoThink <span>Module 3</span></div>
-                <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Dashboard</Link>
+                <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>ðŸ”™ Dashboard</Link>
             </header>
             
             <div className="panel">
-                <h1 style={{ fontSize: '36px', color: '#7dd3fc', marginBottom: '20px', fontWeight: '900' }}>Algorithmic Thinking in Project Building</h1>
+                <h1 style={{ fontSize: '36px', color: '#5eead4', marginBottom: '20px', fontWeight: '900' }}>Algorithmic Thinking in Project Building</h1>
                 <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: '1.7', marginBottom: '30px' }}>
                     Building a real-world software project is not just about writing code; it is about managing extreme complexity. In this module, we will walk through the <strong>full 8-Step Software Development Life Cycle (SDLC)</strong> of building a Live Weather Application. We will see exactly how Algorithmic Thinking guides every single phase from a blank screen to a globally deployed product.
                 </p>
 
                 {/* Meta Concept */}
-                <div style={{ background: 'rgba(56, 189, 248, 0.1)', padding: '24px', borderRadius: '12px', borderLeft: '4px solid #38bdf8', marginBottom: '50px' }}>
-                    <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '12px' }}>🧠 The Ultimate Meta-Algorithm</h2>
+                <div style={{ background: 'rgba(20, 184, 166, 0.15)', padding: '24px', borderRadius: '12px', borderLeft: '4px solid #14b8a6', marginBottom: '50px' }}>
+                    <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '12px' }}>ðŸ§  The Ultimate Meta-Algorithm</h2>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '16px' }}>
                         Before we begin, notice something incredible about the 8 steps below: <strong>The process of building a project is, itself, an algorithm.</strong> 
                         <br/><br/>
-                        By following these exact 8 chronological steps (Ideation ➔ Architecture ➔ MVP ➔ Testing ➔ Deployment), you are practicing the <strong>Sequencing</strong> pillar of Algorithmic Thinking on a macro scale. If you try to jump to Step 4 (Building) before completing Step 1 (Requirements), your massive project algorithm will crash!
+                        By following these exact 8 chronological steps (Ideation âž” Architecture âž” MVP âž” Testing âž” Deployment), you are practicing the <strong>Sequencing</strong> pillar of Algorithmic Thinking on a macro scale. If you try to jump to Step 4 (Building) before completing Step 1 (Requirements), your massive project algorithm will crash!
                     </p>
                 </div>
 
@@ -30,7 +30,7 @@ export default function Module3() {
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         Before writing a single line of code, an algorithmic thinker stops and gathers requirements. Our goal is: "Build a Weather App." 
                     </p>
-                    <div style={{ background: 'rgba(245, 158, 11, 0.1)', padding: '20px', borderRadius: '12px', borderLeft: '4px solid #f59e0b', marginBottom: '16px' }}>
+                    <div style={{ background: 'rgba(180, 83, 9, 0.15)', padding: '20px', borderRadius: '12px', borderLeft: '4px solid #b45309', marginBottom: '16px' }}>
                         <strong style={{ color: '#fbbf24', display: 'block', marginBottom: '8px' }}>Checking Assumptions:</strong>
                         <ul style={{ color: '#e2e8f0', paddingLeft: '20px', lineHeight: '1.6' }}>
                             <li><em>Assumption:</em> The computer already knows the weather.</li>
@@ -49,15 +49,15 @@ export default function Module3() {
                     </p>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
                         <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px' }}>
-                            <h4 style={{ color: '#38bdf8', marginBottom: '8px', fontSize: '18px' }}>1. Frontend (UI)</h4>
+                            <h4 style={{ color: '#14b8a6', marginBottom: '8px', fontSize: '18px' }}>1. Frontend (UI)</h4>
                             <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>The visual layer. The buttons, text fields, and sunny/rainy icons the user actually sees.</p>
                         </div>
                         <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px' }}>
-                            <h4 style={{ color: '#38bdf8', marginBottom: '8px', fontSize: '18px' }}>2. Backend (Logic)</h4>
+                            <h4 style={{ color: '#14b8a6', marginBottom: '8px', fontSize: '18px' }}>2. Backend (Logic)</h4>
                             <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>The brain. It securely takes the user's city input and talks to the external API.</p>
                         </div>
                         <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px' }}>
-                            <h4 style={{ color: '#38bdf8', marginBottom: '8px', fontSize: '18px' }}>3. Database (Storage)</h4>
+                            <h4 style={{ color: '#14b8a6', marginBottom: '8px', fontSize: '18px' }}>3. Database (Storage)</h4>
                             <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>The memory. Saving the user's "Favorite Cities" so they don't have to retype it tomorrow.</p>
                         </div>
                     </div>
@@ -67,7 +67,7 @@ export default function Module3() {
                 <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
                     <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>Step 3: Wireframing (Precision)</h2>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
-                        Now we draw the app visually. We must use extreme <strong>Precision</strong> here. You cannot tell a computer to "make the button look nice." You must define the exact pixel width, the exact hex color code (#38bdf8), and the exact font size (24px). Precision in the blueprint prevents chaos in the code.
+                        Now we draw the app visually. We must use extreme <strong>Precision</strong> here. You cannot tell a computer to "make the button look nice." You must define the exact pixel width, the exact hex color code (#14b8a6), and the exact font size (24px). Precision in the blueprint prevents chaos in the code.
                     </p>
                 </div>
 
@@ -77,8 +77,8 @@ export default function Module3() {
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
                         We build the Minimum Viable Product (MVP). <strong>Sequencing</strong> is critical here. If we fetch the weather data BEFORE we ask the user for their city, the app will crash instantly!
                     </p>
-                    <div style={{ background: 'rgba(139, 92, 246, 0.1)', padding: '20px', borderRadius: '12px', borderLeft: '4px solid #8b5cf6', marginBottom: '16px' }}>
-                        <strong style={{ color: '#c084fc', display: 'block', marginBottom: '8px', fontSize: '18px' }}>The Core Execution Sequence:</strong>
+                    <div style={{ background: 'rgba(99, 102, 241, 0.15)', padding: '20px', borderRadius: '12px', borderLeft: '4px solid #6366f1', marginBottom: '16px' }}>
+                        <strong style={{ color: '#818cf8', display: 'block', marginBottom: '8px', fontSize: '18px' }}>The Core Execution Sequence:</strong>
                         <code style={{ color: '#e2e8f0', display: 'block', whiteSpace: 'pre', fontFamily: 'monospace', fontSize: '15px', lineHeight: '1.6' }}>
                             1. Initialize App & Load UI<br/>
                             2. Prompt user for City Name<br/>
@@ -141,10 +141,11 @@ export default function Module3() {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-                    <Link href="/course/module-2" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>🔙 Module 2</Link>
-                    <Link href="/course/module-4" className="btn btn-primary" style={{ width: 'auto', background: '#38bdf8', padding: '12px 30px' }}>Proceed to Module 4 ➡️</Link>
+                    <Link href="/course/module-2" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>ðŸ”™ Module 2</Link>
+                    <Link href="/course/module-4" className="btn btn-primary" style={{ width: 'auto', background: '#14b8a6', padding: '12px 30px' }}>Proceed to Module 4 âž¡ï¸</Link>
                 </div>
             </div>
         </main>
     );
 }
+

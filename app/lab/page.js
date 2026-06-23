@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -70,7 +70,7 @@ export default function Lab() {
                         <option value="problemsolving">Problem Solving</option>
                     </select>
                     <Link href="/" className="btn btn-primary" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 'auto', padding: '10px 20px' }}>
-                        🔙 Course
+                        ðŸ”™ Course
                     </Link>
                 </div>
             </header>
@@ -155,3 +155,4 @@ export default function Lab() {
         </main>
     );
 }
+
