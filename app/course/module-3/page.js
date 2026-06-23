@@ -22,6 +22,9 @@ export default function Module3() {
                         <br/><br/>
                         By following these exact 8 chronological steps (Ideation ➔ Architecture ➔ MVP ➔ Testing ➔ Deployment), you are practicing the <strong>Sequencing</strong> pillar of Algorithmic Thinking on a macro scale. If you try to jump to Step 4 (Building) before completing Step 1 (Requirements), your massive project algorithm will crash!
                     </p>
+                    <div style={{ marginTop: '20px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(20, 184, 166, 0.3)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}>
+                        <img src="/images/mod3.png" alt="Holographic App Blueprint" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                    </div>
                 </div>
 
                 {/* Step 1 */}
