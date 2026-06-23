@@ -38,9 +38,12 @@ export default function Lab() {
             });
             const data = await res.json();
             
-            if (data.status === 'success' || data.status === 'minor_improvement') {
+            if (data.status === 'success') {
                 setBobState('success');
-                setBobMsg('Execution sequence completed.');
+                setBobMsg('Execution sequence completed perfectly.');
+            } else if (data.status === 'minor_improvement') {
+                setBobState('thinking');
+                setBobMsg('Execution halted. Minor logical gaps detected.');
             } else {
                 setBobState('error');
                 setBobMsg('Execution failed. Critical logical flaws detected.');

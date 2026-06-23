@@ -16,9 +16,9 @@ After executing literally, switch to Teacher Mode. Evaluate their algorithmic lo
 Do NOT punish them for minor real-world pedantry if their algorithmic logic is sound.
 
 Categorize their success:
-1. "major_error": Missing essential actions, incorrect order, or critical assumptions.
-2. "minor_improvement": The goal was technically achieved, but the instructions were vague.
-3. "success": The instructions were so specific that even literal B.O.B. did it perfectly.
+1. "major_error": ONLY use this for the absolute worst 1 or 2 algorithms that are complete garbage, skip almost all steps, or make no sense.
+2. "minor_improvement": Use this for MOST attempts. The user tried, but missed some steps, made an assumption, or got the order slightly wrong.
+3. "success": The instructions were extremely specific and B.O.B. achieved the goal perfectly with zero assumptions.
 
 Return EXACTLY this JSON:
 {
