@@ -36,8 +36,7 @@ export default function Module2() {
             learnings: [
                 { icon: '🔍', title: 'Assumption Checking', desc: 'Verify everything before you start.' },
                 { icon: '⏳', title: 'Sequencing', desc: 'Do steps in the right order.' },
-                { icon: '🎯', title: 'Precision', desc: 'Exact amounts and actions matter.' },
-                { icon: '✅', title: 'Better Results', desc: 'A perfect algorithm makes a perfect coffee!' }
+                { icon: '🎯', title: 'Precision', desc: 'Exact amounts and actions matter.' }
             ],
             mistakes: [
                 { icon: '⚠️', title: 'Missing Condition Checks', desc: 'Starting the machine without verifying water or beans exist. (NullReferenceException)' },
@@ -62,8 +61,7 @@ export default function Module2() {
             learnings: [
                 { icon: '🧩', title: 'Decomposition', desc: 'Break the pile into smaller loads.' },
                 { icon: '🔀', title: 'Decision Making', desc: 'Apply If/Then logic to sorting.' },
-                { icon: '⚙️', title: 'Execution', desc: 'Run the correct machine sequence.' },
-                { icon: '✨', title: 'Clean Clothes', desc: 'No ruined shirts!' }
+                { icon: '⚙️', title: 'Execution', desc: 'Run the correct machine sequence.' }
             ],
             mistakes: [
                 { icon: '💥', title: 'Bad Branching Logic', desc: 'Mixing a red shirt with whites because the sorting logic was flawed.' },
@@ -88,8 +86,7 @@ export default function Module2() {
             learnings: [
                 { icon: '📍', title: 'Precision', desc: 'Exact coordinates are required.' },
                 { icon: '🔁', title: 'Loops', desc: 'Continuously check surroundings.' },
-                { icon: '🔄', title: 'Iteration', desc: 'Adapt to changes dynamically.' },
-                { icon: '🏁', title: 'Success', desc: 'Arrive on time and safely.' }
+                { icon: '🔄', title: 'Iteration', desc: 'Adapt to changes dynamically.' }
             ],
             mistakes: [
                 { icon: '♾️', title: 'Infinite Loops', desc: 'Circling the block forever because the algorithm lacks an exit condition.' },
@@ -214,7 +211,7 @@ export default function Module2() {
 
                 {/* Tabs */}
                 <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '20px', marginBottom: '30px' }}>
-                    {['3D Simulation', 'Step-by-Step Breakdown', 'Pillars in Action', 'Common Mistakes'].map(tab => (
+                    {['3D Simulation', 'Pillars in Action', 'Common Mistakes'].map(tab => (
                         <button 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
@@ -340,43 +337,21 @@ export default function Module2() {
                     </>
                 )}
 
-                {/* Tab Content - Step-by-Step Breakdown */}
-                {activeTab === 'Step-by-Step Breakdown' && (
-                    <div style={{ padding: '20px 0' }}>
-                        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                            {activeData.steps.map((step, idx) => (
-                                <div key={step.id} style={{ display: 'flex', gap: '30px', marginBottom: '40px', position: 'relative' }}>
-                                    {idx < activeData.steps.length - 1 && (
-                                        <div style={{ position: 'absolute', top: '50px', left: '23px', width: '2px', height: 'calc(100% + 10px)', background: 'linear-gradient(to bottom, #6366f1, transparent)' }}></div>
-                                    )}
-                                    <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold', color: 'white', zIndex: 1, boxShadow: '0 0 0 8px #0f172a' }}>
-                                        {step.id}
-                                    </div>
-                                    <div style={{ flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '24px' }}>
-                                        <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#e2e8f0' }}>{step.title}</h3>
-                                        <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: '1.6', margin: 0 }}>{step.desc}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
                 {/* Tab Content - Pillars in Action */}
                 {activeTab === 'Pillars in Action' && (
                     <div style={{ padding: '20px 0' }}>
                         <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '40px', textAlign: 'center', maxWidth: '600px', margin: '0 auto 40px auto' }}>
-                            Here is how the 7 Superpowers of Algorithmic Thinking directly map to solving this everyday problem.
+                            Here is how the Pillars of Algorithmic Thinking directly map to solving this everyday problem.
                         </p>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
                             {activeData.learnings.map((learning, idx) => (
-                                <div key={idx} style={{ background: 'linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '20px', padding: '30px', display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
-                                    <div style={{ fontSize: '48px', background: 'rgba(99, 102, 241, 0.1)', width: '80px', height: '80px', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <div key={idx} style={{ background: 'linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '12px' }}>
+                                    <div style={{ fontSize: '28px', background: 'rgba(99, 102, 241, 0.1)', width: '56px', height: '56px', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                         {learning.icon}
                                     </div>
                                     <div>
-                                        <h3 style={{ fontSize: '20px', fontWeight: 'bold', color: '#818cf8', marginBottom: '8px' }}>{learning.title}</h3>
-                                        <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: '1.6', margin: 0 }}>{learning.desc}</p>
+                                        <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#818cf8', marginBottom: '6px' }}>{learning.title}</h3>
+                                        <p style={{ color: 'var(--text-muted)', fontSize: '14px', lineHeight: '1.5', margin: 0 }}>{learning.desc}</p>
                                     </div>
                                 </div>
                             ))}
