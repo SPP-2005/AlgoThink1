@@ -7,9 +7,19 @@ export default function Module1() {
     const [activityMessage, setActivityMessage] = useState("");
     const [simStep, setSimStep] = useState(-1);
     const [simStatus, setSimStatus] = useState('idle'); // idle, running, success, error
-    const [kidPosition, setKidPosition] = useState(50);
+    const [kidPosition, setKidPosition] = useState(15);
+
+    // Hammer Simulation State
+    const [hammerSeq, setHammerSeq] = useState([]);
+    const [nailDepth, setNailDepth] = useState(0); 
+    const [hammerStatus, setHammerStatus] = useState('idle');
+    const [hammerMessage, setHammerMessage] = useState("");
+    const [hammerSimStep, setHammerSimStep] = useState(-1);
+    const [hammerVisible, setHammerVisible] = useState(false);
+    const [isHitting, setIsHitting] = useState(false);
 
     const availableItems = ['Brush teeth', 'Wear shoes', 'Wake up', 'Eat breakfast', 'Leave home', 'Wear socks', 'Pack bag'];
+    const availableHammerItems = ['Pick up hammer', 'Hit nail', 'Loop: [Hit nail] until flush'];
 
     const handleAdd = (item) => {
         if (!activityState.includes(item) && simStatus !== 'running') {
@@ -23,6 +33,93 @@ export default function Module1() {
         setSimStep(-1);
         setSimStatus('idle');
         setKidPosition(15);
+    };
+
+    const handleHammerAdd = (item) => {
+        if (hammerStatus !== 'running') {
+            setHammerSeq([...hammerSeq, item]);
+        }
+    };
+
+    const handleHammerReset = () => {
+        setHammerSeq([]);
+        setHammerMessage("");
+        setHammerSimStep(-1);
+        setHammerStatus('idle');
+        setNailDepth(0);
+        setHammerVisible(false);
+        setIsHitting(false);
+    };
+
+    const runHammerSim = async () => {
+        if (hammerSeq.length === 0) return;
+        setHammerStatus('running');
+        setNailDepth(0);
+        setHammerVisible(false);
+        setHammerMessage("Running simulation...");
+        
+        let depth = 0;
+        let hasHammer = false;
+        
+        for (let i = 0; i < hammerSeq.length; i++) {
+            setHammerSimStep(i);
+            const action = hammerSeq[i];
+            await new Promise(r => setTimeout(r, 600));
+            
+            if (action === 'Pick up hammer') {
+                hasHammer = true;
+                setHammerVisible(true);
+            } else if (action === 'Hit nail') {
+                if (!hasHammer) {
+                    setHammerStatus('error');
+                    setHammerMessage(`❌ Crash at Step ${i+1}: You tried to hit the nail with your bare hand! Ouch! (Iteration required)`);
+                    return;
+                }
+                
+                setIsHitting(true);
+                await new Promise(r => setTimeout(r, 200));
+                depth += 20;
+                setNailDepth(depth);
+                await new Promise(r => setTimeout(r, 200));
+                setIsHitting(false);
+
+                if (depth > 100) {
+                    setHammerStatus('error');
+                    setHammerMessage(`❌ Crash at Step ${i+1}: You hit it too many times and damaged the wood! (Iteration required)`);
+                    return;
+                }
+            } else if (action === 'Loop: [Hit nail] until flush') {
+                if (!hasHammer) {
+                    setHammerStatus('error');
+                    setHammerMessage(`❌ Crash at Step ${i+1}: You can't loop a hammer hit without a hammer!`);
+                    return;
+                }
+                while (depth < 100) {
+                    setIsHitting(true);
+                    await new Promise(r => setTimeout(r, 200));
+                    depth += 20;
+                    setNailDepth(depth);
+                    await new Promise(r => setTimeout(r, 200));
+                    setIsHitting(false);
+                }
+            }
+        }
+        
+        if (depth === 100) {
+            if (hammerSeq.filter(x => x === 'Hit nail').length > 1) {
+                setHammerStatus('warning');
+                setHammerMessage("⚠️ Task Completed, but you repeated the 'Hit nail' step manually! Don't repeat yourself—use a Loop next time.");
+            } else if (hammerSeq.includes('Loop: [Hit nail] until flush')) {
+                setHammerStatus('success');
+                setHammerMessage("✅ Perfect! You used a Loop to avoid repeating steps, and Iterated to find the perfect algorithm!");
+            } else {
+                 setHammerStatus('success');
+                 setHammerMessage("✅ Done! But try using a loop next time.");
+            }
+        } else {
+            setHammerStatus('error');
+            setHammerMessage("❌ Simulation ended, but the nail isn't flush! Iteration is key—what went wrong? Try again!");
+        }
     };
 
     const runSimulation = async () => {
@@ -441,24 +538,74 @@ export default function Module1() {
                 </div>
 
                 {/* 5, 6, 7 Combined for brevity */}
+                {/* Advanced Pillars: Interactive Hammer Simulation */}
                 <div style={{ marginBottom: '50px', paddingBottom: '40px' }}>
                     <h2 style={{ fontSize: '26px', color: '#ffffff', marginBottom: '16px' }}>🔄 Advanced Pillars: Repetition, Logic, and Iteration</h2>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                            <h4 style={{ fontSize: '18px', color: '#a78bfa', marginBottom: '8px' }}>5. Repetition (Loops)</h4>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Never write the same instruction twice. Tell the system to "Repeat Step 2 until the bowl is empty."</p>
+                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '20px', fontSize: '16px' }}>
+                        <strong>5. Repetition (Loops):</strong> Never write the same instruction twice. Tell the system to repeat it automatically!<br/>
+                        <strong>7. Iteration (Debugging):</strong> Your first try will almost always fail. Iteration is the process of testing, finding the flaw, fixing it, and trying again.
+                    </p>
+
+                    {/* Hammer Game */}
+                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                        <h3 style={{ fontSize: '20px', color: '#a78bfa', marginBottom: '16px' }}>🔨 Simulation: The Hammer Loop</h3>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '20px' }}>
+                            <strong>Goal:</strong> Drive the nail completely flush into the wood. Try it without loops first, then try it with a loop!
+                        </p>
+
+                        <div style={{ height: '200px', background: 'linear-gradient(to bottom, #1e293b, #0f172a)', borderRadius: '12px', border: '2px solid var(--border)', position: 'relative', overflow: 'hidden', marginBottom: '20px', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', paddingBottom: '20px' }}>
+                            <style>{`
+                                @keyframes hammerStrike {
+                                    0% { transform: rotate(0deg); }
+                                    50% { transform: rotate(-45deg); }
+                                    100% { transform: rotate(0deg); }
+                                }
+                            `}</style>
+                            <svg width="200" height="150" viewBox="0 0 200 150">
+                                {/* Wood */}
+                                <rect x="30" y="80" width="140" height="70" fill="#b45309" stroke="#78350f" strokeWidth="4" />
+                                
+                                {/* Nail */}
+                                <g style={{ transform: `translateY(${nailDepth * 0.4}px)`, transition: 'transform 0.2s' }}>
+                                    <rect x="95" y="10" width="10" height="70" fill="#94a3b8" />
+                                    <rect x="85" y="5" width="30" height="8" fill="#64748b" rx="2" />
+                                </g>
+
+                                {/* Hammer */}
+                                <g style={{ transformOrigin: '140px 10px', animation: isHitting ? 'hammerStrike 0.3s ease-in-out' : 'none', opacity: hammerVisible ? 1 : 0, transition: 'opacity 0.3s' }}>
+                                    {/* Handle */}
+                                    <rect x="135" y="10" width="12" height="60" fill="#fcd34d" rx="4" />
+                                    {/* Head */}
+                                    <rect x="100" y="0" width="50" height="25" fill="#475569" rx="4" />
+                                </g>
+                            </svg>
                         </div>
-                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                            <h4 style={{ fontSize: '18px', color: '#a78bfa', marginBottom: '8px' }}>6. Decision Making (Logic)</h4>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Use If/Then rules to adapt to changes. "If it is raining, take an umbrella. Else, wear sunglasses."</p>
+
+                        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '20px' }}>
+                            {availableHammerItems.map((item, idx) => (
+                                <button key={idx} onClick={() => handleHammerAdd(item)} disabled={hammerStatus === 'running'} style={{ background: 'var(--surface-light)', border: '1px solid var(--border)', color: 'white', padding: '10px 16px', borderRadius: '8px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer', transition: 'all 0.2s' }}>
+                                    + {item}
+                                </button>
+                            ))}
                         </div>
-                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                            <h4 style={{ fontSize: '18px', color: '#a78bfa', marginBottom: '8px' }}>7. Iteration (Debugging)</h4>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Your first try will almost always fail. Iteration is the process of testing, finding the flaw, fixing it, and trying again.</p>
+
+                        <div style={{ background: 'rgba(0,0,0,0.2)', padding: '20px', borderRadius: '12px', minHeight: '80px', border: '1px dashed var(--border)', display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                            {hammerSeq.length === 0 && <span style={{ color: 'var(--text-muted)' }}>Build your hammer sequence...</span>}
+                            {hammerSeq.map((item, idx) => (
+                                <div key={idx} style={{ background: hammerSimStep === idx ? '#f59e0b' : '#8b5cf6', color: 'white', padding: '8px 16px', borderRadius: '8px', fontSize: '14px', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)', transition: 'background 0.3s' }}>
+                                    {idx + 1}. {item}
+                                </div>
+                            ))}
+                        </div>
+
+                        <div style={{ marginTop: '20px', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                            <button onClick={runHammerSim} disabled={hammerStatus === 'running'} className="btn btn-primary" style={{ padding: '8px 24px', background: hammerStatus === 'running' ? '#64748b' : '#8b5cf6', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>▶ Run Sequence</button>
+                            <button onClick={handleHammerReset} disabled={hammerStatus === 'running'} className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '8px 24px', borderRadius: '8px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>🔄 Reset</button>
+                            {hammerMessage && <span style={{ marginLeft: '10px', color: hammerStatus === 'error' ? '#f87171' : hammerStatus === 'success' ? '#34d399' : '#fbbf24', fontWeight: 'bold' }}>{hammerMessage}</span>}
                         </div>
                     </div>
                 </div>
-
+                
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
                     <Link href="/course/module-2" className="btn btn-primary" style={{ width: 'auto', background: '#3b82f6', padding: '12px 30px' }}>Proceed to Module 2 ➡️</Link>
                 </div>
