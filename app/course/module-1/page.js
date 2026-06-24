@@ -540,9 +540,73 @@ export default function Module1() {
                 {/* 5. Repetition */}
                 <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
                     <h2 style={{ fontSize: '26px', color: '#ffffff', marginBottom: '16px' }}>🔄 5. Repetition: The Power of Loops</h2>
-                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
-                        Never write the exact same instruction twice. If you're washing 100 plates, you don't write "Wash Plate" 100 times. You tell the system: <strong>"Repeat until sink is empty: Wash Plate"</strong>.
-                    </p>
+                    
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '30px' }}>
+                        <div style={{ flex: '1', minWidth: '280px' }}>
+                            <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
+                                Never write the exact same instruction twice. If you're washing 100 plates, you don't write "Wash Plate" 100 times. You tell the system: <strong>"Repeat until sink is empty: Wash Plate"</strong>.
+                            </p>
+                        </div>
+
+                        {/* Hammer Game */}
+                        <div style={{ flex: '1.5', minWidth: '350px', background: 'rgba(255,255,255,0.05)', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                            <h3 style={{ fontSize: '18px', color: '#a78bfa', marginBottom: '12px' }}>🔨 Example of Loops</h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '16px' }}>
+                                <strong>Goal:</strong> Drive the nail completely flush into the wood. Try it without loops first, then try it with a loop!
+                            </p>
+
+                            <div style={{ height: '160px', background: 'linear-gradient(to bottom, #1e293b, #0f172a)', borderRadius: '12px', border: '2px solid var(--border)', position: 'relative', overflow: 'hidden', marginBottom: '20px', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', paddingBottom: '20px' }}>
+                                <style>{`
+                                    @keyframes hammerStrike {
+                                        0% { transform: rotate(0deg); }
+                                        50% { transform: rotate(-45deg); }
+                                        100% { transform: rotate(0deg); }
+                                    }
+                                `}</style>
+                                <svg width="200" height="150" viewBox="0 0 200 150">
+                                    {/* Wood */}
+                                    <rect x="30" y="80" width="140" height="70" fill="#b45309" stroke="#78350f" strokeWidth="4" />
+                                    
+                                    {/* Nail */}
+                                    <g style={{ transform: `translateY(${nailDepth * 0.4}px)`, transition: 'transform 0.2s' }}>
+                                        <rect x="95" y="10" width="10" height="70" fill="#94a3b8" />
+                                        <rect x="85" y="5" width="30" height="8" fill="#64748b" rx="2" />
+                                    </g>
+
+                                    {/* Hammer */}
+                                    <g style={{ transformOrigin: '140px 10px', animation: isHitting ? 'hammerStrike 0.3s ease-in-out' : 'none', opacity: hammerVisible ? 1 : 0, transition: 'opacity 0.3s' }}>
+                                        {/* Handle */}
+                                        <rect x="135" y="10" width="12" height="60" fill="#fcd34d" rx="4" />
+                                        {/* Head */}
+                                        <rect x="100" y="0" width="50" height="25" fill="#475569" rx="4" />
+                                    </g>
+                                </svg>
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                                {availableHammerItems.map((item, idx) => (
+                                    <button key={idx} onClick={() => handleHammerAdd(item)} disabled={hammerStatus === 'running'} style={{ background: 'var(--surface-light)', border: '1px solid var(--border)', color: 'white', padding: '8px 12px', borderRadius: '8px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer', transition: 'all 0.2s', fontSize: '13px' }}>
+                                        + {item}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '16px', borderRadius: '12px', minHeight: '60px', border: '1px dashed var(--border)', display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                                {hammerSeq.length === 0 && <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>Build your hammer sequence...</span>}
+                                {hammerSeq.map((item, idx) => (
+                                    <div key={idx} style={{ background: hammerSimStep === idx ? '#f59e0b' : '#8b5cf6', color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '12px', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)', transition: 'background 0.3s' }}>
+                                        {idx + 1}. {item}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div style={{ marginTop: '16px', display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                                <button onClick={runHammerSim} disabled={hammerStatus === 'running'} className="btn btn-primary" style={{ padding: '6px 16px', fontSize: '14px', background: hammerStatus === 'running' ? '#64748b' : '#8b5cf6', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>▶ Run Sequence</button>
+                                <button onClick={handleHammerReset} disabled={hammerStatus === 'running'} className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '6px 16px', fontSize: '14px', borderRadius: '8px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>🔄 Reset</button>
+                            </div>
+                            {hammerMessage && <div style={{ marginTop: '10px', fontSize: '13px', color: hammerStatus === 'error' ? '#f87171' : hammerStatus === 'success' ? '#34d399' : '#fbbf24', fontWeight: 'bold' }}>{hammerMessage}</div>}
+                        </div>
+                    </div>
                 </div>
 
                 {/* 6. Decision Making */}
@@ -566,65 +630,6 @@ export default function Module1() {
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '20px', fontSize: '16px' }}>
                         Your first try will almost always fail. Iteration is the scientific process of testing your logic, finding the exact point of failure (debugging), fixing it, and trying again.
                     </p>
-
-                    {/* Hammer Game */}
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                        <h3 style={{ fontSize: '20px', color: '#a78bfa', marginBottom: '16px' }}>🔨 Simulation: The Hammer Loop</h3>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '20px' }}>
-                            <strong>Goal:</strong> Drive the nail completely flush into the wood. Try it without loops first, then try it with a loop!
-                        </p>
-
-                        <div style={{ height: '200px', background: 'linear-gradient(to bottom, #1e293b, #0f172a)', borderRadius: '12px', border: '2px solid var(--border)', position: 'relative', overflow: 'hidden', marginBottom: '20px', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', paddingBottom: '20px' }}>
-                            <style>{`
-                                @keyframes hammerStrike {
-                                    0% { transform: rotate(0deg); }
-                                    50% { transform: rotate(-45deg); }
-                                    100% { transform: rotate(0deg); }
-                                }
-                            `}</style>
-                            <svg width="200" height="150" viewBox="0 0 200 150">
-                                {/* Wood */}
-                                <rect x="30" y="80" width="140" height="70" fill="#b45309" stroke="#78350f" strokeWidth="4" />
-                                
-                                {/* Nail */}
-                                <g style={{ transform: `translateY(${nailDepth * 0.4}px)`, transition: 'transform 0.2s' }}>
-                                    <rect x="95" y="10" width="10" height="70" fill="#94a3b8" />
-                                    <rect x="85" y="5" width="30" height="8" fill="#64748b" rx="2" />
-                                </g>
-
-                                {/* Hammer */}
-                                <g style={{ transformOrigin: '140px 10px', animation: isHitting ? 'hammerStrike 0.3s ease-in-out' : 'none', opacity: hammerVisible ? 1 : 0, transition: 'opacity 0.3s' }}>
-                                    {/* Handle */}
-                                    <rect x="135" y="10" width="12" height="60" fill="#fcd34d" rx="4" />
-                                    {/* Head */}
-                                    <rect x="100" y="0" width="50" height="25" fill="#475569" rx="4" />
-                                </g>
-                            </svg>
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '20px' }}>
-                            {availableHammerItems.map((item, idx) => (
-                                <button key={idx} onClick={() => handleHammerAdd(item)} disabled={hammerStatus === 'running'} style={{ background: 'var(--surface-light)', border: '1px solid var(--border)', color: 'white', padding: '10px 16px', borderRadius: '8px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer', transition: 'all 0.2s' }}>
-                                    + {item}
-                                </button>
-                            ))}
-                        </div>
-
-                        <div style={{ background: 'rgba(0,0,0,0.2)', padding: '20px', borderRadius: '12px', minHeight: '80px', border: '1px dashed var(--border)', display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
-                            {hammerSeq.length === 0 && <span style={{ color: 'var(--text-muted)' }}>Build your hammer sequence...</span>}
-                            {hammerSeq.map((item, idx) => (
-                                <div key={idx} style={{ background: hammerSimStep === idx ? '#f59e0b' : '#8b5cf6', color: 'white', padding: '8px 16px', borderRadius: '8px', fontSize: '14px', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)', transition: 'background 0.3s' }}>
-                                    {idx + 1}. {item}
-                                </div>
-                            ))}
-                        </div>
-
-                        <div style={{ marginTop: '20px', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-                            <button onClick={runHammerSim} disabled={hammerStatus === 'running'} className="btn btn-primary" style={{ padding: '8px 24px', background: hammerStatus === 'running' ? '#64748b' : '#8b5cf6', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>▶ Run Sequence</button>
-                            <button onClick={handleHammerReset} disabled={hammerStatus === 'running'} className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '8px 24px', borderRadius: '8px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>🔄 Reset</button>
-                            {hammerMessage && <span style={{ marginLeft: '10px', color: hammerStatus === 'error' ? '#f87171' : hammerStatus === 'success' ? '#34d399' : '#fbbf24', fontWeight: 'bold' }}>{hammerMessage}</span>}
-                        </div>
-                    </div>
                 </div>
                 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
