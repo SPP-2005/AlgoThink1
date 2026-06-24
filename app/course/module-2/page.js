@@ -33,23 +33,19 @@ export default function Module2() {
                 { id: 5, title: 'Brew', desc: 'Extract the espresso or coffee.', image: '/5.png' },
                 { id: 6, title: 'Pour and Enjoy', desc: 'Your perfect coffee is ready!', image: '/6.png' }
             ],
-            learnings: [
-                { icon: '🔍', title: 'Assumption Checking', desc: 'Verify everything before you start.' },
-                { icon: '⏳', title: 'Sequencing', desc: 'Do steps in the right order.' },
-                { icon: '🎯', title: 'Precision', desc: 'Exact amounts and actions matter.' }
-            ],
             mistakes: [
                 { icon: '⚠️', title: 'Missing Condition Checks', desc: 'Starting the machine without verifying water or beans exist. (NullReferenceException)' },
                 { icon: '🔁', title: 'Incorrect Sequence', desc: 'Grinding beans after you pour the water. Order of execution matters!' },
                 { icon: '🤷', title: 'Ambiguous Parameters', desc: 'Adding "some" coffee instead of a precise measurement, resulting in unpredictable output.' }
-            ]
+            ],
+            codeSnippet: `function makeCoffee() {\n  if (waterLevel === 0) {\n    throw new Error("Missing Water!");\n  }\n  if (beans === 0) {\n    throw new Error("Missing Beans!");\n  }\n  \n  grindBeans(precisionSettings);\n  tampGrounds();\n  \n  const cup = brew();\n  return cup;\n}`
         },
         {
             id: 2,
             title: 'Doing the Laundry',
             desc: 'Use decomposition and decision making to clean your clothes the smart way.',
             image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=1200',
-            tags: [{ label: 'Decomposition', color: '#c084fc' }, { label: 'Decision Making', color: '#f472b6' }],
+            tags: [{ label: 'Decomposition', color: '#c084fc' }, { label: 'Pattern Recognition', color: '#f472b6' }, { label: 'Sequencing', color: '#60a5fa' }],
             steps: [
                 { id: 1, title: 'Gather Laundry', desc: 'Collect all clothes from hampers.', image: 'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?q=80&w=1200' },
                 { id: 2, title: 'Sort by Color', desc: 'Separate whites, darks, and colors.', image: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=1200' },
@@ -58,16 +54,12 @@ export default function Module2() {
                 { id: 5, title: 'Select Cycle', desc: 'Choose temperature and spin speed.', image: 'https://images.unsplash.com/photo-1582735689255-7fc75bb42f1b?q=80&w=1200' },
                 { id: 6, title: 'Dry and Fold', desc: 'Transfer to dryer or hang, then fold.', image: 'https://images.unsplash.com/photo-1581084364407-73d8ab5b4971?q=80&w=1200' }
             ],
-            learnings: [
-                { icon: '🧩', title: 'Decomposition', desc: 'Break the pile into smaller loads.' },
-                { icon: '🔀', title: 'Decision Making', desc: 'Apply If/Then logic to sorting.' },
-                { icon: '⚙️', title: 'Execution', desc: 'Run the correct machine sequence.' }
-            ],
             mistakes: [
                 { icon: '💥', title: 'Bad Branching Logic', desc: 'Mixing a red shirt with whites because the sorting logic was flawed.' },
                 { icon: '🗑️', title: 'Unhandled Edge Cases', desc: 'Leaving tissues in a pocket. The algorithm didn\'t account for outliers.' },
                 { icon: '📦', title: 'Memory Overflow', desc: 'Overloading the machine beyond its capacity constraints, causing a crash (or bad wash).' }
-            ]
+            ],
+            codeSnippet: `function doLaundry(pile) {\n  let whites = [], colors = [], darks = [];\n  \n  // Decomposition & Pattern Recognition\n  for (let item of pile) {\n    if (item.color === 'white') whites.push(item);\n    else if (item.isDark) darks.push(item);\n    else colors.push(item);\n  }\n  \n  // Execution Sequence\n  wash(whites, 'hot');\n  wash(colors, 'cold');\n  wash(darks, 'cold');\n}`
         },
         {
             id: 3,
@@ -83,16 +75,12 @@ export default function Module2() {
                 { id: 5, title: 'Reroute if Needed', desc: 'Iterate the path based on new data.', image: 'https://images.unsplash.com/photo-1558227092-b43ecf4853eb?q=80&w=1200' },
                 { id: 6, title: 'Arrive safely', desc: 'Destination reached.', image: 'https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?q=80&w=1200' }
             ],
-            learnings: [
-                { icon: '📍', title: 'Precision', desc: 'Exact coordinates are required.' },
-                { icon: '🔁', title: 'Loops', desc: 'Continuously check surroundings.' },
-                { icon: '🔄', title: 'Iteration', desc: 'Adapt to changes dynamically.' }
-            ],
             mistakes: [
                 { icon: '♾️', title: 'Infinite Loops', desc: 'Circling the block forever because the algorithm lacks an exit condition.' },
                 { icon: '🧟', title: 'Stale State Data', desc: 'Following a GPS route into a closed road because the traffic data wasn\'t updated.' },
                 { icon: '🛑', title: 'Unhandled Exceptions', desc: 'Getting a flat tire without a spare. The algorithm crashed and had no error-recovery plan.' }
-            ]
+            ],
+            codeSnippet: `function driveToDestination() {\n  let route = calculateOptimalRoute();\n  \n  // Iteration & Loops\n  while (!hasArrived()) {\n    let traffic = checkTraffic();\n    \n    if (traffic.isHeavy) {\n      route = recalculateRoute(); // Adapt\n    }\n    \n    driveForward();\n  }\n}`
         }
     ];
 
@@ -211,7 +199,7 @@ export default function Module2() {
 
                 {/* Tabs */}
                 <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '20px', marginBottom: '30px' }}>
-                    {['3D Simulation', 'Pillars in Action', 'Common Mistakes'].map(tab => (
+                    {['3D Simulation', 'Code Translation', 'Common Mistakes'].map(tab => (
                         <button 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
@@ -314,40 +302,27 @@ export default function Module2() {
                             <div style={{ fontSize: '15px', color: 'var(--text-muted)', fontWeight: 'bold' }}>{currentStep} / 6</div>
                         </div>
 
-                        {/* Learnings Banner */}
-                        <div style={{ marginTop: '40px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '20px', padding: '30px' }}>
-                            <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '24px' }}>What You'll Learn in This Scenario</h3>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                {activeData.learnings.map((learning, idx) => (
-                                    <React.Fragment key={idx}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
-                                            <div style={{ fontSize: '40px' }}>{learning.icon}</div>
-                                            <div>
-                                                <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#818cf8' }}>{learning.title}</div>
-                                                <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.5', marginTop: '4px' }}>{learning.desc}</div>
-                                            </div>
-                                        </div>
-                                        {idx < activeData.learnings.length - 1 && (
-                                            <div style={{ color: 'var(--text-muted)', fontSize: '24px', padding: '0 16px' }}>›</div>
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                            </div>
-                        </div>
                     </>
                 )}
 
-                {/* Tab Content - Pillars in Action */}
-                {activeTab === 'Pillars in Action' && (
+                {/* Tab Content - Code Translation */}
+                {activeTab === 'Code Translation' && (
                     <div style={{ padding: '20px 0' }}>
-
-                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '16px' }}>
-                            {activeData.learnings.map((learning, idx) => (
-                                <div key={idx} style={{ background: 'linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(99, 102, 241, 0.05))', border: '1px solid rgba(99, 102, 241, 0.2)', borderRadius: '30px', padding: '10px 24px', display: 'flex', alignItems: 'center', gap: '10px', width: 'fit-content' }}>
-                                    <span style={{ fontSize: '20px' }}>{learning.icon}</span>
-                                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#e0e7ff', margin: 0 }}>{learning.title}</span>
-                                </div>
-                            ))}
+                        <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '30px', textAlign: 'center', maxWidth: '600px', margin: '0 auto 30px auto' }}>
+                            If you were to write a computer program to do this exact everyday task, here is what the pseudocode would look like. Notice how the logic directly mirrors your thought process!
+                        </p>
+                        <div style={{ background: '#0f172a', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', maxWidth: '800px', margin: '0 auto' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '16px 20px', background: 'rgba(0,0,0,0.3)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444' }}></div>
+                                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#eab308' }}></div>
+                                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#22c55e' }}></div>
+                                <div style={{ marginLeft: '12px', fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'monospace' }}>algorithm.js</div>
+                            </div>
+                            <div style={{ padding: '30px', overflowX: 'auto' }}>
+                                <pre style={{ margin: 0, fontFamily: '"Fira Code", monospace', fontSize: '15px', lineHeight: '1.6', color: '#e2e8f0' }}>
+                                    <code dangerouslySetInnerHTML={{ __html: activeData.codeSnippet.replace(/function|let|const|if|else|throw|new|while|return|for|of/g, match => `<span style="color: #c678dd">${match}</span>`).replace(/===|!|=>/g, match => `<span style="color: #56b6c2">${match}</span>`).replace(/".*?"|'.*?'/g, match => `<span style="color: #98c379">${match}</span>`).replace(/\/\/.*/g, match => `<span style="color: #5c6370; font-style: italic">${match}</span>`) }}></code>
+                                </pre>
+                            </div>
                         </div>
                     </div>
                 )}
