@@ -197,7 +197,7 @@ export default function Module1() {
                         <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '40px', background: '#334155', borderTop: '2px solid #475569' }}></div>
                         
                         {/* Kid Avatar */}
-                        <div style={{ position: 'absolute', bottom: '20px', left: \`\${kidPosition}px\`, transition: 'left 1s ease-in-out', zIndex: 10 }}>
+                        <div style={{ position: 'absolute', bottom: '20px', left: `${kidPosition}px`, transition: 'left 1s ease-in-out', zIndex: 10 }}>
                             {renderKid()}
                         </div>
 
