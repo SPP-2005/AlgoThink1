@@ -343,16 +343,11 @@ export default function Module2() {
                         <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '40px', textAlign: 'center', maxWidth: '600px', margin: '0 auto 40px auto' }}>
                             Here is how the Pillars of Algorithmic Thinking directly map to solving this everyday problem.
                         </p>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '16px' }}>
                             {activeData.learnings.map((learning, idx) => (
-                                <div key={idx} style={{ background: 'linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '12px' }}>
-                                    <div style={{ fontSize: '28px', background: 'rgba(99, 102, 241, 0.1)', width: '56px', height: '56px', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        {learning.icon}
-                                    </div>
-                                    <div>
-                                        <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#818cf8', marginBottom: '6px' }}>{learning.title}</h3>
-                                        <p style={{ color: 'var(--text-muted)', fontSize: '14px', lineHeight: '1.5', margin: 0 }}>{learning.desc}</p>
-                                    </div>
+                                <div key={idx} style={{ background: 'linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(99, 102, 241, 0.05))', border: '1px solid rgba(99, 102, 241, 0.2)', borderRadius: '30px', padding: '10px 24px', display: 'flex', alignItems: 'center', gap: '10px', width: 'fit-content' }}>
+                                    <span style={{ fontSize: '20px' }}>{learning.icon}</span>
+                                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#e0e7ff', margin: 0 }}>{learning.title}</span>
                                 </div>
                             ))}
                         </div>
