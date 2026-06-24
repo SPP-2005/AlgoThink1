@@ -233,7 +233,7 @@ export default function Module1() {
                         </p>
                     </div>
                     <div style={{ flex: '0 0 300px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(59, 130, 246, 0.3)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)', height: '160px' }}>
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600" alt="Order from Chaos" style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
+                        <img src="https://images.unsplash.com/photo-1596496050827-8299e0220de1?q=80&w=600" alt="Rubik's Cube - The Ultimate Algorithm" style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
                     </div>
                 </div>
 
