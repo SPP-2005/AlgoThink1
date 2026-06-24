@@ -96,9 +96,9 @@ export default function Module2() {
 
     return (
         <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif' }}>
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '60px' }}>
-                <div style={{ fontSize: '24px', fontWeight: 'bold' }}>Algo<span style={{ color: '#818cf8' }}>Think</span> <span style={{ fontSize: '14px', color: 'var(--text-muted)', marginLeft: '10px' }}>Module 2</span></div>
-                <Link href="/dashboard" className="btn btn-primary" style={{ background: '#6366f1', color: 'white', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontSize: '14px' }}>Dashboard</Link>
+            <header>
+                <div className="logo-text">AlgoThink <span>Module 2</span></div>
+                <Link href="/dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>← Dashboard</Link>
             </header>
 
             {/* Hero Section */}
