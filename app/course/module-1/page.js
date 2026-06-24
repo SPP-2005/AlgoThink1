@@ -9,7 +9,7 @@ export default function Module1() {
     const [simStatus, setSimStatus] = useState('idle'); // idle, running, success, error
     const [kidPosition, setKidPosition] = useState(50);
 
-    const availableItems = ['Wear shoes', 'Wear socks', 'Leave home', 'Pack bag'];
+    const availableItems = ['Brush teeth', 'Wear shoes', 'Wake up', 'Eat breakfast', 'Leave home', 'Wear socks', 'Pack bag'];
     
     const handleAdd = (item) => {
         if (!activityState.includes(item) && simStatus !== 'running') {
@@ -35,7 +35,7 @@ export default function Module1() {
         setActivityMessage("Running simulation...");
         setKidPosition(15);
 
-        let currentInventory = { socks: false, shoes: false, bag: false };
+        let state = { awake: false, eaten: false, brushed: false, socks: false, shoes: false, bag: false };
 
         for (let i = 0; i < activityState.length; i++) {
             setSimStep(i);
@@ -44,34 +44,57 @@ export default function Module1() {
             // Wait 1 second between steps for visual effect
             await new Promise(r => setTimeout(r, 1000));
 
-            if (action === 'Wear socks') {
-                if (currentInventory.shoes) {
+            if (action !== 'Wake up' && !state.awake) {
+                setSimStatus('error');
+                setActivityMessage(`❌ Error at Step ${i+1}: You tried to ${action.toLowerCase()} while asleep! Algorithm crashed.`);
+                return;
+            }
+
+            if (action === 'Wake up') {
+                state.awake = true;
+            }
+            else if (action === 'Eat breakfast') {
+                state.eaten = true;
+            }
+            else if (action === 'Brush teeth') {
+                if (!state.eaten) {
+                    setActivityMessage("⚠️ Warning: Brushing teeth before eating? Your breakfast will taste like mint!");
+                }
+                state.brushed = true;
+            }
+            else if (action === 'Wear socks') {
+                if (state.shoes) {
                     setSimStatus('error');
-                    setActivityMessage("❌ Error at Step " + (i+1) + ": You can't put socks on OVER your shoes! Algorithm crashed.");
+                    setActivityMessage(`❌ Error at Step ${i+1}: You can't put socks on OVER your shoes!`);
                     return;
                 }
-                currentInventory.socks = true;
+                state.socks = true;
             } 
             else if (action === 'Wear shoes') {
-                if (!currentInventory.socks) {
+                if (!state.socks) {
                     setSimStatus('error');
-                    setActivityMessage("❌ Error at Step " + (i+1) + ": You forgot socks! Blisters detected. Algorithm crashed.");
+                    setActivityMessage(`❌ Error at Step ${i+1}: You forgot socks! Blisters detected.`);
                     return;
                 }
-                currentInventory.shoes = true;
+                state.shoes = true;
             }
             else if (action === 'Pack bag') {
-                currentInventory.bag = true;
+                state.bag = true;
             }
             else if (action === 'Leave home') {
-                if (!currentInventory.shoes) {
+                if (!state.shoes) {
                     setSimStatus('error');
-                    setActivityMessage("❌ Error at Step " + (i+1) + ": You tried to walk outside barefoot! Algorithm crashed.");
+                    setActivityMessage(`❌ Error at Step ${i+1}: You tried to walk outside barefoot!`);
                     return;
                 }
-                if (!currentInventory.bag) {
+                if (!state.bag) {
                     setSimStatus('error');
-                    setActivityMessage("❌ Error at Step " + (i+1) + ": You left without your school bag! Algorithm crashed.");
+                    setActivityMessage(`❌ Error at Step ${i+1}: You left without your school bag!`);
+                    return;
+                }
+                if (!state.eaten || !state.brushed) {
+                    setSimStatus('error');
+                    setActivityMessage(`❌ Error at Step ${i+1}: You left without eating or brushing teeth! Poor hygiene detected.`);
                     return;
                 }
                 
@@ -82,8 +105,8 @@ export default function Module1() {
         }
 
         // Final validation
-        if (currentInventory.shoes && currentInventory.socks && currentInventory.bag && activityState.includes('Leave home')) {
-            const perfectSequence = ['Wear socks', 'Wear shoes', 'Pack bag', 'Leave home'];
+        if (state.shoes && state.socks && state.bag && state.eaten && state.brushed && activityState.includes('Leave home')) {
+            const perfectSequence = ['Wake up', 'Eat breakfast', 'Brush teeth', 'Pack bag', 'Wear socks', 'Wear shoes', 'Leave home'];
             const isPerfect = activityState.every((val, index) => val === perfectSequence[index]);
 
             if (isPerfect) {
@@ -91,11 +114,13 @@ export default function Module1() {
                 setActivityMessage("✅ Perfect Execution! The optimal sequence was flawless.");
             } else {
                 setSimStatus('warning');
-                setActivityMessage("⚠️ Task Completed, but Sub-optimal! You made it to school, but normally you pack your bag right before leaving. Order matters for efficiency!");
+                setActivityMessage("⚠️ Task Completed, but Sub-optimal! You got to school, but your sequence of actions wasn't the most logical order.");
             }
         } else {
-            setSimStatus('error');
-            setActivityMessage("❌ Simulation ended, but you didn't reach school fully prepared! Debug your sequence.");
+            if (simStatus !== 'error') {
+                setSimStatus('error');
+                setActivityMessage("❌ Simulation ended, but you missed a crucial step! Debug your sequence.");
+            }
         }
     };
 
@@ -103,11 +128,13 @@ export default function Module1() {
         let socks = false;
         let shoes = false;
         let bag = false;
+        let awake = false;
 
         for(let i=0; i <= simStep; i++) {
             if(activityState[i] === 'Wear socks') socks = true;
             if(activityState[i] === 'Wear shoes') shoes = true;
             if(activityState[i] === 'Pack bag') bag = true;
+            if(activityState[i] === 'Wake up') awake = true;
         }
 
         const isWalking = simStatus === 'running' && kidPosition > 15 && kidPosition < 80;
@@ -127,8 +154,18 @@ export default function Module1() {
                     {/* Head */}
                     <circle cx="25" cy="20" r="14" fill="#fcd34d" />
                     {/* Face */}
-                    <circle cx="29" cy="18" r="2" fill="#1e293b" />
-                    <path d="M 28 24 Q 30 26 32 24" fill="none" stroke="#1e293b" strokeWidth="1.5" strokeLinecap="round" />
+                    {awake ? (
+                        <>
+                            <circle cx="29" cy="18" r="2" fill="#1e293b" />
+                            <path d="M 28 24 Q 30 26 32 24" fill="none" stroke="#1e293b" strokeWidth="1.5" strokeLinecap="round" />
+                        </>
+                    ) : (
+                        <>
+                            <path d="M 27 18 Q 29 16 31 18" fill="none" stroke="#1e293b" strokeWidth="1.5" />
+                            <text x="35" y="10" fontSize="10" fill="#1e293b" style={{fontFamily: 'sans-serif', fontWeight: 'bold'}}>z</text>
+                            <text x="42" y="5" fontSize="8" fill="#1e293b" style={{fontFamily: 'sans-serif', fontWeight: 'bold'}}>z</text>
+                        </>
+                    )}
                     
                     {/* Body */}
                     <rect x="15" y="35" width="20" height="30" rx="6" fill="#3b82f6" />
