@@ -1,91 +1,344 @@
+"use client";
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Module2() {
+    const [activeScenario, setActiveScenario] = useState(1);
+    const [activeTab, setActiveTab] = useState('3D Simulation');
+    const [currentStep, setCurrentStep] = useState(1);
+    const [autoPlay, setAutoPlay] = useState(false);
+
+    useEffect(() => {
+        let interval;
+        if (autoPlay) {
+            interval = setInterval(() => {
+                setCurrentStep(prev => (prev < 6 ? prev + 1 : 1));
+            }, 2500);
+        }
+        return () => clearInterval(interval);
+    }, [autoPlay]);
+
+    const scenarios = [
+        {
+            id: 1,
+            title: 'The "Perfect" Morning Coffee',
+            desc: 'Brew the perfect cup by following the right steps, in the right order.',
+            image: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200',
+            tags: [{ label: 'Assumption', color: '#fbbf24' }, { label: 'Sequencing', color: '#60a5fa' }, { label: 'Precision', color: '#34d399' }],
+            steps: [
+                { id: 1, title: 'Check Water', desc: 'Is the machine filled with fresh water?' },
+                { id: 2, title: 'Add Coffee Beans', desc: 'Measure the right amount of beans.' },
+                { id: 3, title: 'Grind Beans', desc: 'Grind to the right coarseness.' },
+                { id: 4, title: 'Tamp the Grounds', desc: 'Press evenly for the perfect shot.' },
+                { id: 5, title: 'Brew', desc: 'Extract the espresso or coffee.' },
+                { id: 6, title: 'Pour and Enjoy', desc: 'Your perfect coffee is ready!' }
+            ],
+            learnings: [
+                { icon: '🔍', title: 'Assumption Checking', desc: 'Verify everything before you start.' },
+                { icon: '⏳', title: 'Sequencing', desc: 'Do steps in the right order.' },
+                { icon: '🎯', title: 'Precision', desc: 'Exact amounts and actions matter.' },
+                { icon: '✅', title: 'Better Results', desc: 'A perfect algorithm makes a perfect coffee!' }
+            ]
+        },
+        {
+            id: 2,
+            title: 'Doing the Laundry',
+            desc: 'Use decomposition and decision making to clean your clothes the smart way.',
+            image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=1200',
+            tags: [{ label: 'Decomposition', color: '#c084fc' }, { label: 'Decision Making', color: '#f472b6' }],
+            steps: [
+                { id: 1, title: 'Gather Laundry', desc: 'Collect all clothes from hampers.' },
+                { id: 2, title: 'Sort by Color', desc: 'Separate whites, darks, and colors.' },
+                { id: 3, title: 'Check Labels', desc: 'Identify delicate or dry-clean only items.' },
+                { id: 4, title: 'Load Machine', desc: 'Do not overload; leave room for agitation.' },
+                { id: 5, title: 'Select Cycle', desc: 'Choose temperature and spin speed.' },
+                { id: 6, title: 'Dry and Fold', desc: 'Transfer to dryer or hang, then fold.' }
+            ],
+            learnings: [
+                { icon: '🧩', title: 'Decomposition', desc: 'Break the pile into smaller loads.' },
+                { icon: '🔀', title: 'Decision Making', desc: 'Apply If/Then logic to sorting.' },
+                { icon: '⚙️', title: 'Execution', desc: 'Run the correct machine sequence.' },
+                { icon: '✨', title: 'Clean Clothes', desc: 'No ruined shirts!' }
+            ]
+        },
+        {
+            id: 3,
+            title: 'Navigating Traffic',
+            desc: 'Navigate through traffic using iteration and real-time decisions.',
+            image: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200',
+            tags: [{ label: 'Precision', color: '#34d399' }, { label: 'Iteration', color: '#fb923c' }, { label: 'Loops', color: '#60a5fa' }],
+            steps: [
+                { id: 1, title: 'Set Destination', desc: 'Input the exact address.' },
+                { id: 2, title: 'Calculate Route', desc: 'Find the optimal path.' },
+                { id: 3, title: 'Start Driving', desc: 'Follow step-by-step directions.' },
+                { id: 4, title: 'Monitor Traffic', desc: 'Check for delays or accidents.' },
+                { id: 5, title: 'Reroute if Needed', desc: 'Iterate the path based on new data.' },
+                { id: 6, title: 'Arrive safely', desc: 'Destination reached.' }
+            ],
+            learnings: [
+                { icon: '📍', title: 'Precision', desc: 'Exact coordinates are required.' },
+                { icon: '🔁', title: 'Loops', desc: 'Continuously check surroundings.' },
+                { icon: '🔄', title: 'Iteration', desc: 'Adapt to changes dynamically.' },
+                { icon: '🏁', title: 'Success', desc: 'Arrive on time and safely.' }
+            ]
+        }
+    ];
+
+    const activeData = scenarios.find(s => s.id === activeScenario) || scenarios[0];
+
+    const handleNextStep = () => {
+        setCurrentStep(prev => (prev < 6 ? prev + 1 : 1));
+    };
+
+    const handlePrevStep = () => {
+        setCurrentStep(prev => (prev > 1 ? prev - 1 : 6));
+    };
+
     return (
-        <main className="container">
-            <header>
-                <div className="logo-text">AlgoThink <span>Module 2</span></div>
-                <Link href="/dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>← Dashboard</Link>
+        <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif' }}>
+            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '60px' }}>
+                <div style={{ fontSize: '24px', fontWeight: 'bold' }}>Algo<span style={{ color: '#818cf8' }}>Think</span> <span style={{ fontSize: '14px', color: 'var(--text-muted)', marginLeft: '10px' }}>Module 2</span></div>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                    <Link href="/course/module-1" className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontSize: '14px' }}>← Module 1</Link>
+                    <Link href="/dashboard" className="btn btn-primary" style={{ background: '#6366f1', color: 'white', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontSize: '14px' }}>Dashboard</Link>
+                </div>
             </header>
+
+            {/* Hero Section */}
+            <div style={{ display: 'flex', gap: '60px', marginBottom: '60px', alignItems: 'center' }}>
+                <div style={{ flex: 1 }}>
+                    <h1 style={{ fontSize: '56px', fontWeight: '900', marginBottom: '24px', lineHeight: '1.1' }}>
+                        Algorithms in<br/>
+                        <span style={{ color: '#818cf8' }}>Everyday Life</span>
+                    </h1>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '16px', lineHeight: '1.6', marginBottom: '24px' }}>
+                        You might think you have never written an algorithm before, but your brain executes thousands of complex algorithms every single day without you even realizing it.
+                    </p>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '16px', lineHeight: '1.6' }}>
+                        Explore real-life scenarios and see how the 7 Superpowers of Algorithmic Thinking help solve everyday problems.
+                    </p>
+                </div>
+                <div style={{ flex: 1, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '30px', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '300px' }}>
+                    <div style={{ background: '#f8fafc', borderRadius: '16px', padding: '16px', color: '#0f172a', fontWeight: 'bold', position: 'absolute', top: '30px', left: '30px', maxWidth: '180px', fontSize: '14px', zIndex: 10, boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}>
+                        Algorithms are everywhere! Let's discover them together.
+                        <div style={{ position: 'absolute', bottom: '-8px', right: '20px', width: '0', height: '0', borderLeft: '10px solid transparent', borderRight: '10px solid transparent', borderTop: '10px solid #f8fafc' }}></div>
+                    </div>
+                    {/* Abstract SVG Robot Representation */}
+                    <svg width="220" height="220" viewBox="0 0 100 100" style={{ filter: 'drop-shadow(0px 20px 30px rgba(0,0,0,0.5))' }}>
+                        <rect x="25" y="25" width="50" height="45" rx="20" fill="#1e293b" stroke="#334155" strokeWidth="2" />
+                        <rect x="30" y="30" width="40" height="25" rx="10" fill="#0f172a" />
+                        <path d="M 38 40 Q 42 35 46 40" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round" />
+                        <path d="M 54 40 Q 58 35 62 40" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round" />
+                        <path d="M 40 48 Q 50 52 60 48" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round" />
+                        <rect x="45" y="70" width="10" height="15" fill="#334155" />
+                        <rect x="25" y="85" width="50" height="15" rx="7" fill="#1e293b" />
+                    </svg>
+                    <div style={{ position: 'absolute', bottom: '24px', display: 'flex', gap: '12px' }}>
+                        <div style={{ background: 'rgba(0,0,0,0.6)', padding: '8px 16px', borderRadius: '20px', fontSize: '13px', color: '#a78bfa', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid rgba(167, 139, 250, 0.3)' }}><span>🔮</span> 3 Scenarios</div>
+                        <div style={{ background: 'rgba(0,0,0,0.6)', padding: '8px 16px', borderRadius: '20px', fontSize: '13px', color: '#34d399', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid rgba(52, 211, 153, 0.3)' }}><span>⚙️</span> 7 Pillars in Action</div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Scenarios Grid */}
+            <div style={{ marginBottom: '60px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+                    <span style={{ fontSize: '28px' }}>🚀</span>
+                    <div>
+                        <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>Explore Real-Life Scenarios</h2>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '15px', margin: '4px 0 0 0' }}>Click on any scenario to dive in and see the algorithm at work.</p>
+                    </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+                    {scenarios.map(s => (
+                        <div 
+                            key={s.id} 
+                            onClick={() => { setActiveScenario(s.id); setCurrentStep(1); }}
+                            style={{ 
+                                background: 'rgba(255,255,255,0.02)', 
+                                border: `2px solid ${activeScenario === s.id ? '#818cf8' : 'rgba(255,255,255,0.1)'}`, 
+                                borderRadius: '20px', 
+                                overflow: 'hidden', 
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                transform: activeScenario === s.id ? 'translateY(-6px)' : 'none',
+                                boxShadow: activeScenario === s.id ? '0 15px 40px rgba(129, 140, 248, 0.15)' : 'none'
+                            }}
+                        >
+                            <div style={{ position: 'relative', height: '180px' }}>
+                                <img src={s.image} alt={s.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                <div style={{ position: 'absolute', top: '16px', left: '16px', width: '32px', height: '32px', background: activeScenario === s.id ? '#818cf8' : '#334155', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white', boxShadow: '0 4px 10px rgba(0,0,0,0.5)' }}>
+                                    {s.id}
+                                </div>
+                            </div>
+                            <div style={{ padding: '24px' }}>
+                                <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>{s.title}</h3>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '20px', lineHeight: '1.6', minHeight: '44px' }}>{s.desc}</p>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                    {s.tags.map((tag, idx) => (
+                                        <span key={idx} style={{ fontSize: '12px', padding: '6px 10px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: tag.color, border: `1px solid ${tag.color}30` }}>{tag.label}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Active Scenario Detailed View */}
+            <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '40px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <div style={{ width: '48px', height: '48px', background: '#334155', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>
+                            {activeScenario === 1 ? '☕' : activeScenario === 2 ? '🧺' : '🚥'}
+                        </div>
+                        <div>
+                            <h2 style={{ fontSize: '22px', fontWeight: 'bold', margin: 0 }}>Scenario {activeScenario}: {activeData.title}</h2>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px', margin: '4px 0 0 0' }}>Watch, interact, and understand the algorithm behind this scenario.</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Tabs */}
+                <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '20px', marginBottom: '30px' }}>
+                    {['3D Simulation', 'Step-by-Step Breakdown', 'Pillars in Action', 'Common Mistakes'].map(tab => (
+                        <button 
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            style={{ 
+                                padding: '10px 30px', 
+                                background: activeTab === tab ? '#6366f1' : 'transparent',
+                                color: activeTab === tab ? 'white' : 'var(--text-muted)',
+                                border: 'none',
+                                borderRadius: '10px',
+                                fontSize: '15px',
+                                fontWeight: activeTab === tab ? 'bold' : 'normal',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Tab Content - 3D Simulation */}
+                {activeTab === '3D Simulation' && (
+                    <>
+                        <div style={{ display: 'flex', gap: '40px', marginBottom: '30px' }}>
+                            {/* Left: Image Viewer */}
+                            <div style={{ flex: '1.4', position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', minHeight: '450px' }}>
+                                <img src={activeData.image} alt="Simulation" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                
+                                <div style={{ position: 'absolute', top: '20px', left: '20px', background: '#6366f1', padding: '8px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+                                    Step {currentStep} / 6
+                                </div>
+
+                                <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px', background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(10px)', borderRadius: '16px', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                    <button onClick={handlePrevStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'transparent', border: '1px solid var(--text-muted)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '20px', transition: 'all 0.2s' }}>←</button>
+                                    <div style={{ flex: 1, margin: '0 24px' }}>
+                                        <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '6px' }}>{activeData.steps[currentStep-1].title}</h3>
+                                        <p style={{ color: 'var(--text-muted)', fontSize: '15px', margin: 0, lineHeight: '1.5' }}>{activeData.steps[currentStep-1].desc}</p>
+                                    </div>
+                                    <button onClick={handleNextStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#6366f1', border: 'none', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '20px', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)' }}>→</button>
+                                </div>
+                            </div>
+
+                            {/* Right: Steps List */}
+                            <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                {activeData.steps.map((step) => {
+                                    const isCompleted = step.id < currentStep;
+                                    const isActive = step.id === currentStep;
+                                    const isLocked = step.id > currentStep;
+
+                                    return (
+                                        <div 
+                                            key={step.id} 
+                                            onClick={() => setCurrentStep(step.id)}
+                                            style={{ 
+                                                display: 'flex', 
+                                                alignItems: 'center', 
+                                                gap: '20px', 
+                                                padding: '20px', 
+                                                borderRadius: '16px', 
+                                                background: isActive ? 'rgba(99, 102, 241, 0.15)' : 'transparent',
+                                                border: isActive ? '1px solid #6366f1' : '1px solid transparent',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s',
+                                                opacity: isLocked ? 0.5 : 1
+                                            }}
+                                        >
+                                            <div style={{ 
+                                                width: '32px', height: '32px', borderRadius: '50%', 
+                                                background: isCompleted ? '#22c55e' : isActive ? '#6366f1' : '#334155',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 'bold'
+                                            }}>
+                                                {isCompleted ? '✓' : step.id}
+                                            </div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: '16px', fontWeight: isActive ? 'bold' : 'normal', color: isActive ? '#e0e7ff' : isCompleted ? '#f8fafc' : 'var(--text-muted)' }}>{step.title}</div>
+                                                <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>{step.desc}</div>
+                                            </div>
+                                            {isLocked && <span style={{ fontSize: '18px', opacity: 0.5 }}>🔒</span>}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Controls */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '24px', background: 'rgba(255,255,255,0.02)', padding: '20px 30px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                            <button onClick={() => setAutoPlay(!autoPlay)} style={{ width: '44px', height: '44px', borderRadius: '50%', background: '#334155', border: 'none', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '16px' }}>
+                                {autoPlay ? '⏸' : '▶'}
+                            </button>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <span style={{ fontSize: '15px', color: 'var(--text-muted)' }}>Auto Play</span>
+                                <div onClick={() => setAutoPlay(!autoPlay)} style={{ width: '48px', height: '24px', background: autoPlay ? '#818cf8' : '#334155', borderRadius: '12px', position: 'relative', cursor: 'pointer', transition: 'background 0.3s' }}>
+                                    <div style={{ width: '20px', height: '20px', background: 'white', borderRadius: '50%', position: 'absolute', top: '2px', left: autoPlay ? '26px' : '2px', transition: 'left 0.3s' }}></div>
+                                </div>
+                            </div>
+                            <div style={{ flex: 1, height: '8px', background: '#334155', borderRadius: '4px', position: 'relative' }}>
+                                <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', background: '#818cf8', borderRadius: '4px', width: `${(currentStep / 6) * 100}%`, transition: 'width 0.3s' }}></div>
+                            </div>
+                            <div style={{ fontSize: '15px', color: 'var(--text-muted)', fontWeight: 'bold' }}>{currentStep} / 6</div>
+                        </div>
+
+                        {/* Learnings Banner */}
+                        <div style={{ marginTop: '40px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '20px', padding: '30px' }}>
+                            <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '24px' }}>What You'll Learn in This Scenario</h3>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                {activeData.learnings.map((learning, idx) => (
+                                    <React.Fragment key={idx}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
+                                            <div style={{ fontSize: '40px' }}>{learning.icon}</div>
+                                            <div>
+                                                <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#818cf8' }}>{learning.title}</div>
+                                                <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.5', marginTop: '4px' }}>{learning.desc}</div>
+                                            </div>
+                                        </div>
+                                        {idx < activeData.learnings.length - 1 && (
+                                            <div style={{ color: 'var(--text-muted)', fontSize: '24px', padding: '0 16px' }}>›</div>
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        </div>
+                    </>
+                )}
+
+                {activeTab !== '3D Simulation' && (
+                    <div style={{ padding: '60px', textAlign: 'center', color: 'var(--text-muted)' }}>
+                        <div style={{ fontSize: '48px', marginBottom: '24px' }}>🚧</div>
+                        <h3 style={{ fontSize: '20px', color: 'white' }}>{activeTab} Content Coming Soon</h3>
+                        <p style={{ marginTop: '8px' }}>This tab is under construction.</p>
+                    </div>
+                )}
+            </div>
             
-            <div className="panel">
-                <h1 style={{ fontSize: '36px', color: '#818cf8', marginBottom: '20px', fontWeight: '900' }}>Algorithms in Everyday Life</h1>
-                <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: '1.7', marginBottom: '40px' }}>
-                    You might think you have never written an algorithm before, but your brain executes thousands of complex algorithms every single day without you even realizing it. By learning to recognize these patterns, you can optimize your daily routines, save time, and avoid frustrating mistakes. Let's look at how the 7 Superpowers apply to surviving the real world.
-                </p>
-
-                {/* Scenario 1 */}
-                <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
-                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>☕ Scenario 1: The "Perfect" Morning Coffee</h2>
-                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
-                        Think making coffee is simple? To a computer, it is a highly complex logistical operation. If you ever make a bad cup of coffee, it is usually because your internal algorithm had a bug. Let's break down the algorithm for brewing coffee:
-                    </p>
-                    <div style={{ marginTop: '20px', marginBottom: '30px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}>
-                        <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200" alt="Realistic Morning Coffee" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '400px', objectFit: 'cover' }} />
-                    </div>
-                    <ul style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '16px', paddingLeft: '24px', marginBottom: '20px' }}>
-                        <li style={{ marginBottom: '12px' }}><strong>Assumption Checking (The Setup):</strong> Before you do anything, you must verify your environment. Does the coffee machine have water? Is it plugged in? Do you actually have coffee beans, or did you run out yesterday? Assuming these are true without checking leads to a "fatal error" when you press start.</li>
-                        <li style={{ marginBottom: '12px' }}><strong>Sequencing (The Order):</strong> Chronology is vital. If you grind the beans AFTER you pour the boiling water into the empty filter, you just ruined your coffee. You must place the filter, then add the grounds, then pour the water.</li>
-                        <li style={{ marginBottom: '12px' }}><strong>Precision (The Recipe):</strong> Saying "add some coffee" is too vague. An algorithmic thinker says "add exactly 18 grams of coffee to 300 milliliters of water." This guarantees a perfect cup every single time.</li>
-                    </ul>
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px' }}>
-                        <strong style={{ color: '#818cf8' }}>Real-World Benefit:</strong> By applying algorithmic precision and sequencing to your morning routine, you eliminate the groggy mistakes that ruin your morning.
-                    </div>
-                </div>
-
-                {/* Scenario 2 */}
-                <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
-                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>🧺 Scenario 2: Doing the Laundry (Decision Making)</h2>
-                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
-                        Doing the laundry is essentially a masterclass in <strong>Decomposition</strong> (sorting) and <strong>Decision Making (Logic)</strong>. If you throw everything into the washer together on high heat, your white shirts turn pink and your wool sweaters shrink to fit a dog. 
-                    </p>
-                    <div style={{ marginTop: '20px', marginBottom: '30px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}>
-                        <img src="https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=1200" alt="Sorting Laundry" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '400px', objectFit: 'cover' }} />
-                    </div>
-                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
-                        Your brain runs a massive "If/Then" logic tree every time you pick up a piece of clothing:
-                    </p>
-                    <div style={{ background: 'rgba(99, 102, 241, 0.15)', padding: '20px', borderRadius: '12px', borderLeft: '4px solid #6366f1', marginBottom: '20px' }}>
-                        <code style={{ color: '#e2e8f0', display: 'block', whiteSpace: 'pre', fontFamily: 'monospace', fontSize: '15px', lineHeight: '1.6' }}>
-                            IF shirt_color is "White" THEN<br/>
-                            &nbsp;&nbsp;Put in the Bleach Pile<br/>
-                            ELSE IF shirt_material is "Delicate Wool" THEN<br/>
-                            &nbsp;&nbsp;Wash on Cold & Gentle Cycle<br/>
-                            ELSE<br/>
-                            &nbsp;&nbsp;Wash on Normal Warm Cycle<br/>
-                        </code>
-                    </div>
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px' }}>
-                        <strong style={{ color: '#818cf8' }}>Real-World Benefit:</strong> Algorithmic logic prevents catastrophic failures. By defining clear rules (If/Then) for your laundry, you protect your valuable clothes from destruction.
-                    </div>
-                </div>
-
-                {/* Scenario 3 */}
-                <div style={{ marginBottom: '50px', paddingBottom: '40px' }}>
-                    <h2 style={{ fontSize: '28px', color: '#ffffff', marginBottom: '16px' }}>🚥 Scenario 3: Navigating Traffic (Iteration & Loops)</h2>
-                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
-                        Driving or walking to a destination requires extreme <strong>Precision</strong> and real-time <strong>Iteration</strong>. 
-                    </p>
-                    <div style={{ marginTop: '20px', marginBottom: '30px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}>
-                        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200" alt="Navigating Traffic" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '400px', objectFit: 'cover' }} />
-                    </div>
-                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
-                        When you use Google Maps, it gives you highly precise algorithmic instructions: "In 500 feet, turn right onto Main Street." It does not say "Turn right eventually." But what happens if Main Street is closed due to construction?
-                    </p>
-                    <ul style={{ color: 'var(--text-muted)', fontSize: '16px', lineHeight: '1.8', paddingLeft: '20px', marginBottom: '16px' }}>
-                        <li style={{ marginBottom: '12px' }}><strong>Repetition:</strong> You loop the same actions: Check mirrors, accelerate, brake, repeat.</li>
-                        <li style={{ marginBottom: '12px' }}><strong>Iteration (Debugging on the fly):</strong> Your original algorithm just failed. An algorithmic thinker immediately iterates—they assess the error, calculate a new route, and update their sequence of steps to bypass the construction.</li>
-                        <li style={{ marginBottom: '12px' }}><strong>Repetition (Loops):</strong> When you are walking up the stairs to your apartment, your brain runs a loop: "Step up with right foot, step up with left foot. Repeat until you reach the 4th floor."</li>
-                    </ul>
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px' }}>
-                        <strong style={{ color: '#818cf8' }}>Real-World Benefit:</strong> Understanding iteration means you don't panic when things go wrong. You simply view the obstacle as a "bug" in the system, adjust your algorithm, and keep moving forward efficiently.
-                    </div>
-                </div>
-                
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-                    <Link href="/course/module-1" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>← Module 1</Link>
-                    <Link href="/course/module-3" className="btn btn-primary" style={{ width: 'auto', background: '#6366f1', padding: '12px 30px' }}>Proceed to Module 3 ➡️</Link>
-                </div>
+            <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Link href="/course/module-1" className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '12px 24px', borderRadius: '12px', textDecoration: 'none', fontSize: '15px' }}>← Back to Overview</Link>
+                <Link href="/course/module-3" className="btn btn-primary" style={{ background: '#6366f1', padding: '12px 30px', fontSize: '15px', borderRadius: '12px', textDecoration: 'none', color: 'white', fontWeight: 'bold' }}>Next Scenario →</Link>
             </div>
         </main>
     );
