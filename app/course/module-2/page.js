@@ -26,12 +26,12 @@ export default function Module2() {
             image: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200',
             tags: [{ label: 'Assumption', color: '#fbbf24' }, { label: 'Sequencing', color: '#60a5fa' }, { label: 'Precision', color: '#34d399' }],
             steps: [
-                { id: 1, title: 'Check Water', desc: 'Is the machine filled with fresh water?', image: 'https://images.unsplash.com/photo-1623946059905-245ed694582e?q=80&w=1200' },
-                { id: 2, title: 'Add Coffee Beans', desc: 'Measure the right amount of beans.', image: 'https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=1200' },
-                { id: 3, title: 'Grind Beans', desc: 'Grind to the right coarseness.', image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1200' },
-                { id: 4, title: 'Tamp the Grounds', desc: 'Press evenly for the perfect shot.', image: 'https://images.unsplash.com/photo-1610632380989-680fe40816c6?q=80&w=1200' },
-                { id: 5, title: 'Brew', desc: 'Extract the espresso or coffee.', image: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200' },
-                { id: 6, title: 'Pour and Enjoy', desc: 'Your perfect coffee is ready!', image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200' }
+                { id: 1, title: 'Check Water', desc: 'Is the machine filled with fresh water?', image: '/1.png' },
+                { id: 2, title: 'Add Coffee Beans', desc: 'Measure the right amount of beans.', image: '/2.png' },
+                { id: 3, title: 'Grind Beans', desc: 'Grind to the right coarseness.', image: '/3.png' },
+                { id: 4, title: 'Tamp the Grounds', desc: 'Press evenly for the perfect shot.', image: '/4.png' },
+                { id: 5, title: 'Brew', desc: 'Extract the espresso or coffee.', image: '/5.png' },
+                { id: 6, title: 'Pour and Enjoy', desc: 'Your perfect coffee is ready!', image: '/6.png' }
             ],
             learnings: [
                 { icon: '🔍', title: 'Assumption Checking', desc: 'Verify everything before you start.' },
@@ -227,7 +227,7 @@ export default function Module2() {
                             {/* Left: Image Viewer */}
                             <div style={{ flex: '1.4', position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', minHeight: '450px', background: '#0f172a' }}>
                                 {/* Render the image that corresponds to the active step */}
-                                <img key={activeData.steps[currentStep-1].image} src={activeData.steps[currentStep-1].image} alt={activeData.steps[currentStep-1].title} style={{ width: '100%', height: '100%', objectFit: 'cover', animation: 'fadeIn 0.5s ease' }} />
+                                <img key={activeData.steps[currentStep-1].image} src={activeData.steps[currentStep-1].image} alt={activeData.steps[currentStep-1].title} style={{ width: '100%', height: '100%', objectFit: 'contain', animation: 'fadeIn 0.5s ease', padding: '20px' }} />
                                 
                                 <div style={{ position: 'absolute', top: '20px', left: '20px', background: '#6366f1', padding: '8px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
                                     Step {currentStep} / 6
