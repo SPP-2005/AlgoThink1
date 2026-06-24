@@ -570,7 +570,7 @@ export default function Module1() {
                                     </g>
 
                                     {/* Hammer */}
-                                    <g style={{ transformOrigin: '140px 10px', animation: isHitting ? 'hammerStrike 0.3s ease-in-out' : 'none', opacity: hammerVisible ? 1 : 0, transition: 'opacity 0.3s' }}>
+                                    <g style={{ transformOrigin: '140px 10px', animation: isHitting ? 'hammerStrike 0.3s ease-in-out' : 'none', opacity: 1 }}>
                                         {/* Handle */}
                                         <rect x="135" y="10" width="12" height="60" fill="#fcd34d" rx="4" />
                                         {/* Head */}
@@ -600,7 +600,7 @@ export default function Module1() {
                                 <button onClick={runHammerSim} disabled={hammerStatus === 'running'} className="btn btn-primary" style={{ padding: '8px 24px', fontSize: '14px', background: hammerStatus === 'running' ? '#64748b' : '#8b5cf6', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>▶ Run Sequence</button>
                                 <button onClick={handleHammerReset} disabled={hammerStatus === 'running'} className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '8px 24px', fontSize: '14px', borderRadius: '8px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>🔄 Reset</button>
                             </div>
-                            {hammerMessage && <div style={{ marginTop: '10px', fontSize: '12px', color: hammerStatus === 'error' ? '#f87171' : hammerStatus === 'success' ? '#34d399' : '#fbbf24', fontWeight: 'bold' }}>{hammerMessage}</div>}
+                            {hammerMessage && <div style={{ marginTop: '16px', fontSize: '16px', padding: '12px 16px', borderRadius: '8px', background: 'rgba(0,0,0,0.2)', borderLeft: `4px solid ${hammerStatus === 'error' ? '#f87171' : hammerStatus === 'success' ? '#34d399' : '#fbbf24'}`, color: hammerStatus === 'error' ? '#fca5a5' : hammerStatus === 'success' ? '#6ee7b7' : '#fcd34d', fontWeight: 'bold', width: '100%' }}>{hammerMessage}</div>}
                         </div>
                 </div>
 
