@@ -129,12 +129,16 @@ export default function Module1() {
         let shoes = false;
         let bag = false;
         let awake = false;
+        let brushed = false;
+        let eaten = false;
 
         for(let i=0; i <= simStep; i++) {
             if(activityState[i] === 'Wear socks') socks = true;
             if(activityState[i] === 'Wear shoes') shoes = true;
             if(activityState[i] === 'Pack bag') bag = true;
             if(activityState[i] === 'Wake up') awake = true;
+            if(activityState[i] === 'Brush teeth') brushed = true;
+            if(activityState[i] === 'Eat breakfast') eaten = true;
         }
 
         const isWalking = simStatus === 'running' && kidPosition > 15 && kidPosition < 80;
@@ -166,9 +170,22 @@ export default function Module1() {
                             <text x="42" y="5" fontSize="8" fill="#1e293b" style={{fontFamily: 'sans-serif', fontWeight: 'bold'}}>z</text>
                         </>
                     )}
+
+                    {/* Minty Sparkle (Brushed Teeth) */}
+                    {brushed && (
+                        <path d="M 32 24 Q 35 24 35 21 Q 35 24 38 24 Q 35 24 35 27 Q 35 24 32 24" fill="#67e8f9" />
+                    )}
                     
                     {/* Body */}
                     <rect x="15" y="35" width="20" height="30" rx="6" fill="#3b82f6" />
+
+                    {/* Breakfast (Apple in hand) */}
+                    {eaten && (
+                        <g>
+                            <circle cx="36" cy="45" r="4" fill="#ef4444" />
+                            <path d="M 36 41 Q 38 39 39 41" fill="none" stroke="#22c55e" strokeWidth="1.5" />
+                        </g>
+                    )}
                     
                     {/* Legs */}
                     <rect x="18" y="60" width="6" height="25" fill="#fcd34d" />
