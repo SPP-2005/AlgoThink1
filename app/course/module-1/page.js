@@ -365,18 +365,6 @@ export default function Module1() {
                             <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '8px' }}><strong>Steps:</strong> Make guest list → Send invites → Buy cake</p>
                             <p style={{ color: '#34d399', fontSize: '14px' }}><strong>Result:</strong> Awesome party</p>
                         </div>
-                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                            <h3 style={{ fontSize: '18px', color: '#60a5fa', marginBottom: '10px' }}>📚 Organizing a Bookshelf</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '8px' }}><strong>Goal:</strong> Tidy room</p>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '8px' }}><strong>Steps:</strong> Sort by height → Place tallest first</p>
-                            <p style={{ color: '#34d399', fontSize: '14px' }}><strong>Result:</strong> Neat bookshelf</p>
-                        </div>
-                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                            <h3 style={{ fontSize: '18px', color: '#60a5fa', marginBottom: '10px' }}>🧹 Cleaning a Room</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '8px' }}><strong>Goal:</strong> Spotless bedroom</p>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '8px' }}><strong>Steps:</strong> Pick up clothes → Make bed → Vacuum</p>
-                            <p style={{ color: '#34d399', fontSize: '14px' }}><strong>Result:</strong> Clean space</p>
-                        </div>
                     </div>
                 </div>
 
