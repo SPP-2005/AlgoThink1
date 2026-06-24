@@ -53,14 +53,14 @@ export default function Module1() {
             if (action === 'Wake up') {
                 state.awake = true;
             }
-            else if (action === 'Eat breakfast') {
-                state.eaten = true;
-            }
             else if (action === 'Brush teeth') {
-                if (!state.eaten) {
-                    setActivityMessage("⚠️ Warning: Brushing teeth before eating? Your breakfast will taste like mint!");
-                }
                 state.brushed = true;
+            }
+            else if (action === 'Eat breakfast') {
+                if (!state.brushed) {
+                    setActivityMessage("⚠️ Warning: Eating before brushing? Enjoy your morning breath breakfast!");
+                }
+                state.eaten = true;
             }
             else if (action === 'Wear socks') {
                 if (state.shoes) {
@@ -106,7 +106,7 @@ export default function Module1() {
 
         // Final validation
         if (state.shoes && state.socks && state.bag && state.eaten && state.brushed && activityState.includes('Leave home')) {
-            const perfectSequence = ['Wake up', 'Eat breakfast', 'Brush teeth', 'Pack bag', 'Wear socks', 'Wear shoes', 'Leave home'];
+            const perfectSequence = ['Wake up', 'Brush teeth', 'Eat breakfast', 'Pack bag', 'Wear socks', 'Wear shoes', 'Leave home'];
             const isPerfect = activityState.every((val, index) => val === perfectSequence[index]);
 
             if (isPerfect) {
