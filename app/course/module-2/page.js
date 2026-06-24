@@ -38,7 +38,7 @@ export default function Module2() {
                 { icon: '🔁', title: 'Incorrect Sequence', desc: 'Grinding beans after you pour the water. Order of execution matters!' },
                 { icon: '🤷', title: 'Ambiguous Parameters', desc: 'Adding "some" coffee instead of a precise measurement, resulting in unpredictable output.' }
             ],
-            speedrun: { icon: '⚡', concept: 'Parallel Processing', title: 'Grind while you heat!', desc: 'You do not have to wait for the water to finish heating up before you start grinding the beans. Doing two things at the exact same time is called Parallel Processing, and it makes your algorithm way faster!' }
+            funFact: { icon: '⚡', concept: 'Parallel Processing', title: 'Grind while you heat!', desc: 'You do not have to wait for the water to finish heating up before you start grinding the beans. Doing two things at the exact same time is called Parallel Processing, and it makes your algorithm way faster!' }
         },
         {
             id: 2,
@@ -59,7 +59,7 @@ export default function Module2() {
                 { icon: '🗑️', title: 'Unhandled Edge Cases', desc: 'Leaving tissues in a pocket. The algorithm didn\'t account for outliers.' },
                 { icon: '📦', title: 'Memory Overflow', desc: 'Overloading the machine beyond its capacity constraints, causing a crash (or bad wash).' }
             ],
-            speedrun: { icon: '🌊', concept: 'Pipelining', title: 'Wash while you dry!', desc: 'Imagine waiting for Load 1 to wash AND dry before starting Load 2. That is too slow! A true speedrunner puts Load 1 in the dryer and immediately puts Load 2 in the washer. This continuous flow is called Pipelining.' }
+            funFact: { icon: '🌊', concept: 'Pipelining', title: 'Wash while you dry!', desc: 'Imagine waiting for Load 1 to wash AND dry before starting Load 2. That is too slow! A true speedrunner puts Load 1 in the dryer and immediately puts Load 2 in the washer. This continuous flow is called Pipelining.' }
         },
         {
             id: 3,
@@ -80,7 +80,7 @@ export default function Module2() {
                 { icon: '🧟', title: 'Stale State Data', desc: 'Following a GPS route into a closed road because the traffic data wasn\'t updated.' },
                 { icon: '🛑', title: 'Unhandled Exceptions', desc: 'Getting a flat tire without a spare. The algorithm crashed and had no error-recovery plan.' }
             ],
-            speedrun: { icon: '🧠', concept: 'Caching', title: 'Remember the main roads!', desc: 'Instead of recalculating your route at every single stop sign, your brain "caches" (remembers) the main highway route. You only recalculate if you hit an unexpected traffic jam!' }
+            funFact: { icon: '🧠', concept: 'Caching', title: 'Remember the main roads!', desc: 'Instead of recalculating your route at every single stop sign, your brain "caches" (remembers) the main highway route. You only recalculate if you hit an unexpected traffic jam!' }
         }
     ];
 
@@ -199,7 +199,7 @@ export default function Module2() {
 
                 {/* Tabs */}
                 <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '20px', marginBottom: '30px' }}>
-                    {['3D Simulation', 'Speedrun Mode ⚡', 'Common Mistakes'].map(tab => (
+                    {['3D Simulation', 'Fun Fact 💡', 'Common Mistakes'].map(tab => (
                         <button 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
@@ -305,19 +305,19 @@ export default function Module2() {
                     </>
                 )}
 
-                {/* Tab Content - Speedrun Mode */}
-                {activeTab === 'Speedrun Mode ⚡' && (
+                {/* Tab Content - Fun Fact */}
+                {activeTab === 'Fun Fact 💡' && (
                     <div style={{ padding: '20px 0', display: 'flex', justifyContent: 'center' }}>
                         <div style={{ background: 'linear-gradient(145deg, rgba(234, 179, 8, 0.1), rgba(234, 179, 8, 0.02))', border: '1px solid rgba(234, 179, 8, 0.3)', borderRadius: '24px', padding: '40px', maxWidth: '700px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-                            <div style={{ position: 'absolute', top: '-20px', right: '-20px', fontSize: '120px', opacity: 0.1 }}>{activeData.speedrun.icon}</div>
+                            <div style={{ position: 'absolute', top: '-20px', right: '-20px', fontSize: '120px', opacity: 0.1 }}>{activeData.funFact.icon}</div>
                             
                             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(234, 179, 8, 0.2)', color: '#fde047', padding: '8px 16px', borderRadius: '30px', fontSize: '14px', fontWeight: 'bold', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                                <span>{activeData.speedrun.icon}</span> Advanced Concept: {activeData.speedrun.concept}
+                                <span>{activeData.funFact.icon}</span> Fun Fact: {activeData.funFact.concept}
                             </div>
                             
-                            <h3 style={{ fontSize: '32px', fontWeight: 'bold', color: '#fef08a', marginBottom: '16px' }}>{activeData.speedrun.title}</h3>
+                            <h3 style={{ fontSize: '32px', fontWeight: 'bold', color: '#fef08a', marginBottom: '16px' }}>{activeData.funFact.title}</h3>
                             <p style={{ color: '#fef9c3', fontSize: '18px', lineHeight: '1.7', margin: 0, opacity: 0.9 }}>
-                                {activeData.speedrun.desc}
+                                {activeData.funFact.desc}
                             </p>
                         </div>
                     </div>
