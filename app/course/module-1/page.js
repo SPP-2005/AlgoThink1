@@ -537,13 +537,34 @@ export default function Module1() {
                     </div>
                 </div>
 
-                {/* 5, 6, 7 Combined for brevity */}
-                {/* Advanced Pillars: Interactive Hammer Simulation */}
+                {/* 5. Repetition */}
+                <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
+                    <h2 style={{ fontSize: '26px', color: '#ffffff', marginBottom: '16px' }}>🔄 5. Repetition: The Power of Loops</h2>
+                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
+                        Never write the exact same instruction twice. If you're washing 100 plates, you don't write "Wash Plate" 100 times. You tell the system: <strong>"Repeat until sink is empty: Wash Plate"</strong>.
+                    </p>
+                </div>
+
+                {/* 6. Decision Making */}
+                <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
+                    <h2 style={{ fontSize: '26px', color: '#ffffff', marginBottom: '16px' }}>⚖️ 6. Decision Making: Conditional Logic</h2>
+                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
+                        Algorithms need to adapt to their environment. By using <strong>If / Then / Else</strong> rules, you can create dynamic paths that handle anything life throws at them.
+                    </p>
+                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', display: 'inline-block', border: '1px solid var(--border)', fontFamily: 'monospace', fontSize: '15px' }}>
+                        <div style={{ color: '#fbbf24', fontWeight: 'bold', marginBottom: '8px' }}>IF (It is raining) {"{"}</div>
+                        <div style={{ color: '#6ee7b7', paddingLeft: '20px', marginBottom: '8px' }}>Action: "Take an Umbrella"</div>
+                        <div style={{ color: '#fbbf24', fontWeight: 'bold', marginBottom: '8px' }}>{"}"} ELSE {"{"}</div>
+                        <div style={{ color: '#6ee7b7', paddingLeft: '20px', marginBottom: '8px' }}>Action: "Wear Sunglasses"</div>
+                        <div style={{ color: '#fbbf24', fontWeight: 'bold' }}>{"}"}</div>
+                    </div>
+                </div>
+
+                {/* 7. Iteration */}
                 <div style={{ marginBottom: '50px', paddingBottom: '40px' }}>
-                    <h2 style={{ fontSize: '26px', color: '#ffffff', marginBottom: '16px' }}>🔄 Advanced Pillars: Repetition, Logic, and Iteration</h2>
+                    <h2 style={{ fontSize: '26px', color: '#ffffff', marginBottom: '16px' }}>🛠️ 7. Iteration: Test, Fail, Refine</h2>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '20px', fontSize: '16px' }}>
-                        <strong>5. Repetition (Loops):</strong> Never write the same instruction twice. Tell the system to repeat it automatically!<br/>
-                        <strong>7. Iteration (Debugging):</strong> Your first try will almost always fail. Iteration is the process of testing, finding the flaw, fixing it, and trying again.
+                        Your first try will almost always fail. Iteration is the scientific process of testing your logic, finding the exact point of failure (debugging), fixing it, and trying again.
                     </p>
 
                     {/* Hammer Game */}
