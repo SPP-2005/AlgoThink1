@@ -5,11 +5,14 @@ import { useState } from 'react';
 export default function Module1() {
     const [activityState, setActivityState] = useState([]);
     const [activityMessage, setActivityMessage] = useState("");
+    const [simStep, setSimStep] = useState(-1);
+    const [simStatus, setSimStatus] = useState('idle'); // idle, running, success, error
+    const [kidPosition, setKidPosition] = useState(50);
 
-    const availableItems = ['Wear shoes', 'Wear socks', 'Leave home', 'Pack school bag'];
+    const availableItems = ['Wear shoes', 'Wear socks', 'Leave home', 'Pack bag'];
     
     const handleAdd = (item) => {
-        if (!activityState.includes(item)) {
+        if (!activityState.includes(item) && simStatus !== 'running') {
             setActivityState([...activityState, item]);
         }
     };
@@ -17,18 +20,100 @@ export default function Module1() {
     const handleReset = () => {
         setActivityState([]);
         setActivityMessage("");
+        setSimStep(-1);
+        setSimStatus('idle');
+        setKidPosition(50);
     };
 
-    const handleSubmit = () => {
-        if (activityState.length === 4) {
-            if (activityState[0] === 'Wear socks' && activityState[1] === 'Wear shoes' && activityState[2] === 'Pack school bag' && activityState[3] === 'Leave home') {
-                setActivityMessage("✅ Correct! You just used Sequencing.");
-            } else {
-                setActivityMessage("❌ Not quite! Think about the logical order (e.g., socks before shoes).");
-            }
-        } else {
-            setActivityMessage("Please arrange all 4 steps first.");
+    const runSimulation = async () => {
+        if (activityState.length === 0) {
+            setActivityMessage("Please add some steps to your sequence first!");
+            return;
         }
+
+        setSimStatus('running');
+        setActivityMessage("Running simulation...");
+        setKidPosition(50);
+
+        let currentInventory = { socks: false, shoes: false, bag: false };
+
+        for (let i = 0; i < activityState.length; i++) {
+            setSimStep(i);
+            const action = activityState[i];
+            
+            // Wait 1 second between steps for visual effect
+            await new Promise(r => setTimeout(r, 1000));
+
+            if (action === 'Wear socks') {
+                if (currentInventory.shoes) {
+                    setSimStatus('error');
+                    setActivityMessage("❌ Error at Step " + (i+1) + ": You can't put socks on OVER your shoes! Algorithm crashed.");
+                    return;
+                }
+                currentInventory.socks = true;
+            } 
+            else if (action === 'Wear shoes') {
+                if (!currentInventory.socks) {
+                    setSimStatus('error');
+                    setActivityMessage("❌ Error at Step " + (i+1) + ": You forgot socks! Blisters detected. Algorithm crashed.");
+                    return;
+                }
+                currentInventory.shoes = true;
+            }
+            else if (action === 'Pack bag') {
+                currentInventory.bag = true;
+            }
+            else if (action === 'Leave home') {
+                if (!currentInventory.shoes) {
+                    setSimStatus('error');
+                    setActivityMessage("❌ Error at Step " + (i+1) + ": You tried to walk outside barefoot! Algorithm crashed.");
+                    return;
+                }
+                if (!currentInventory.bag) {
+                    setSimStatus('error');
+                    setActivityMessage("❌ Error at Step " + (i+1) + ": You left without your school bag! Algorithm crashed.");
+                    return;
+                }
+                
+                // Move kid to door
+                setKidPosition(250);
+                await new Promise(r => setTimeout(r, 1000));
+            }
+        }
+
+        // Final validation
+        if (currentInventory.shoes && currentInventory.socks && currentInventory.bag && activityState.includes('Leave home')) {
+            setSimStatus('success');
+            setActivityMessage("✅ Perfect Execution! The sequence was flawless. You used Algorithmic Sequencing.");
+        } else {
+            setSimStatus('error');
+            setActivityMessage("❌ Simulation ended, but you didn't leave home fully prepared! Debug your sequence.");
+        }
+    };
+
+    const renderKid = () => {
+        // Determine what the kid looks like based on the simulation progress
+        let socks = false;
+        let shoes = false;
+        let bag = false;
+
+        for(let i=0; i <= simStep; i++) {
+            if(activityState[i] === 'Wear socks') socks = true;
+            if(activityState[i] === 'Wear shoes') shoes = true;
+            if(activityState[i] === 'Pack bag') bag = true;
+        }
+
+        let avatar = "🧍";
+        if (shoes && bag) avatar = "🚶‍♂️🎒";
+        else if (bag) avatar = "🧍🎒";
+        else if (shoes) avatar = "🚶‍♂️";
+
+        return (
+            <div style={{ position: 'relative', fontSize: '60px' }}>
+                {avatar}
+                {socks && !shoes && <span style={{position: 'absolute', bottom: '-5px', left: '15px', fontSize: '20px'}}>🧦</span>}
+            </div>
+        );
     };
 
     return (
@@ -101,32 +186,51 @@ export default function Module1() {
                     </div>
                 </div>
 
-                {/* Interactive Activity */}
+                {/* Interactive Activity Game */}
                 <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
-                    <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '16px' }}>⚡ Quick Activity: Prepare for School</h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '20px' }}>Click the actions in the correct chronological order.</p>
+                    <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '16px' }}>🎮 2D Simulation: Prepare for School</h2>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '20px' }}>Program the sequence to get the kid to school. Click 'Run Simulation' to execute your algorithm visually!</p>
                     
+                    {/* Visual 2D Canvas */}
+                    <div style={{ height: '180px', background: 'linear-gradient(to bottom, #0f172a, #1e293b)', borderRadius: '12px', border: '2px solid var(--border)', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)' }}>
+                        {/* Floor */}
+                        <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '40px', background: '#334155', borderTop: '2px solid #475569' }}></div>
+                        
+                        {/* Kid Avatar */}
+                        <div style={{ position: 'absolute', bottom: '20px', left: \`\${kidPosition}px\`, transition: 'left 1s ease-in-out', zIndex: 10 }}>
+                            {renderKid()}
+                        </div>
+
+                        {/* Door */}
+                        <div style={{ position: 'absolute', right: '40px', bottom: '38px', fontSize: '80px', zIndex: 5 }}>
+                            🚪
+                        </div>
+                    </div>
+
                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '20px' }}>
-                        {availableItems.filter(item => !activityState.includes(item)).map((item, idx) => (
-                            <button key={idx} onClick={() => handleAdd(item)} className="btn" style={{ background: 'var(--surface-light)', border: '1px solid var(--border)', color: 'white', padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s' }}>
-                                + {item}
-                            </button>
-                        ))}
+                        {availableItems.map((item, idx) => {
+                            const isAdded = activityState.includes(item);
+                            return (
+                                <button key={idx} onClick={() => handleAdd(item)} disabled={isAdded || simStatus === 'running'} style={{ background: isAdded ? '#334155' : 'var(--surface-light)', border: '1px solid var(--border)', color: isAdded ? '#64748b' : 'white', padding: '10px 16px', borderRadius: '8px', cursor: isAdded || simStatus === 'running' ? 'not-allowed' : 'pointer', transition: 'all 0.2s', opacity: isAdded ? 0.5 : 1 }}>
+                                    + {item}
+                                </button>
+                            )
+                        })}
                     </div>
 
                     <div style={{ background: 'rgba(0,0,0,0.2)', padding: '20px', borderRadius: '12px', minHeight: '80px', border: '1px dashed var(--border)', display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
-                        {activityState.length === 0 && <span style={{ color: 'var(--text-muted)' }}>Your sequence will appear here...</span>}
+                        {activityState.length === 0 && <span style={{ color: 'var(--text-muted)' }}>Your algorithm sequence will appear here...</span>}
                         {activityState.map((item, idx) => (
-                            <div key={idx} style={{ background: '#3b82f6', color: 'white', padding: '8px 16px', borderRadius: '8px', fontSize: '14px', boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)' }}>
+                            <div key={idx} style={{ background: simStep === idx ? '#f59e0b' : '#3b82f6', color: 'white', padding: '8px 16px', borderRadius: '8px', fontSize: '14px', boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)', transition: 'background 0.3s' }}>
                                 {idx + 1}. {item}
                             </div>
                         ))}
                     </div>
 
                     <div style={{ marginTop: '20px', display: 'flex', gap: '12px', alignItems: 'center' }}>
-                        <button onClick={handleSubmit} className="btn btn-primary" style={{ padding: '8px 24px', background: '#3b82f6' }}>Check Sequence</button>
-                        <button onClick={handleReset} className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '8px 24px', borderRadius: '8px', cursor: 'pointer' }}>Reset</button>
-                        {activityMessage && <span style={{ marginLeft: '10px', color: activityMessage.includes('Correct') ? '#34d399' : '#f87171', fontWeight: 'bold' }}>{activityMessage}</span>}
+                        <button onClick={runSimulation} disabled={simStatus === 'running'} className="btn btn-primary" style={{ padding: '8px 24px', background: simStatus === 'running' ? '#64748b' : '#3b82f6', cursor: simStatus === 'running' ? 'not-allowed' : 'pointer' }}>▶ Run Simulation</button>
+                        <button onClick={handleReset} disabled={simStatus === 'running'} className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '8px 24px', borderRadius: '8px', cursor: simStatus === 'running' ? 'not-allowed' : 'pointer' }}>🔄 Reset</button>
+                        {activityMessage && <span style={{ marginLeft: '10px', color: simStatus === 'error' ? '#f87171' : simStatus === 'success' ? '#34d399' : '#fbbf24', fontWeight: 'bold' }}>{activityMessage}</span>}
                     </div>
                 </div>
 
