@@ -38,6 +38,11 @@ export default function Module2() {
                 { icon: '⏳', title: 'Sequencing', desc: 'Do steps in the right order.' },
                 { icon: '🎯', title: 'Precision', desc: 'Exact amounts and actions matter.' },
                 { icon: '✅', title: 'Better Results', desc: 'A perfect algorithm makes a perfect coffee!' }
+            ],
+            mistakes: [
+                { icon: '⚠️', title: 'Missing Condition Checks', desc: 'Starting the machine without verifying water or beans exist. (NullReferenceException)' },
+                { icon: '🔁', title: 'Incorrect Sequence', desc: 'Grinding beans after you pour the water. Order of execution matters!' },
+                { icon: '🤷', title: 'Ambiguous Parameters', desc: 'Adding "some" coffee instead of a precise measurement, resulting in unpredictable output.' }
             ]
         },
         {
@@ -59,6 +64,11 @@ export default function Module2() {
                 { icon: '🔀', title: 'Decision Making', desc: 'Apply If/Then logic to sorting.' },
                 { icon: '⚙️', title: 'Execution', desc: 'Run the correct machine sequence.' },
                 { icon: '✨', title: 'Clean Clothes', desc: 'No ruined shirts!' }
+            ],
+            mistakes: [
+                { icon: '💥', title: 'Bad Branching Logic', desc: 'Mixing a red shirt with whites because the sorting logic was flawed.' },
+                { icon: '🗑️', title: 'Unhandled Edge Cases', desc: 'Leaving tissues in a pocket. The algorithm didn\'t account for outliers.' },
+                { icon: '📦', title: 'Memory Overflow', desc: 'Overloading the machine beyond its capacity constraints, causing a crash (or bad wash).' }
             ]
         },
         {
@@ -80,6 +90,11 @@ export default function Module2() {
                 { icon: '🔁', title: 'Loops', desc: 'Continuously check surroundings.' },
                 { icon: '🔄', title: 'Iteration', desc: 'Adapt to changes dynamically.' },
                 { icon: '🏁', title: 'Success', desc: 'Arrive on time and safely.' }
+            ],
+            mistakes: [
+                { icon: '♾️', title: 'Infinite Loops', desc: 'Circling the block forever because the algorithm lacks an exit condition.' },
+                { icon: '🧟', title: 'Stale State Data', desc: 'Following a GPS route into a closed road because the traffic data wasn\'t updated.' },
+                { icon: '🛑', title: 'Unhandled Exceptions', desc: 'Getting a flat tire without a spare. The algorithm crashed and had no error-recovery plan.' }
             ]
         }
     ];
@@ -325,11 +340,66 @@ export default function Module2() {
                     </>
                 )}
 
-                {activeTab !== '3D Simulation' && (
-                    <div style={{ padding: '60px', textAlign: 'center', color: 'var(--text-muted)' }}>
-                        <div style={{ fontSize: '48px', marginBottom: '24px' }}>🚧</div>
-                        <h3 style={{ fontSize: '20px', color: 'white' }}>{activeTab} Content Coming Soon</h3>
-                        <p style={{ marginTop: '8px' }}>This tab is under construction.</p>
+                {/* Tab Content - Step-by-Step Breakdown */}
+                {activeTab === 'Step-by-Step Breakdown' && (
+                    <div style={{ padding: '20px 0' }}>
+                        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                            {activeData.steps.map((step, idx) => (
+                                <div key={step.id} style={{ display: 'flex', gap: '30px', marginBottom: '40px', position: 'relative' }}>
+                                    {idx < activeData.steps.length - 1 && (
+                                        <div style={{ position: 'absolute', top: '50px', left: '23px', width: '2px', height: 'calc(100% + 10px)', background: 'linear-gradient(to bottom, #6366f1, transparent)' }}></div>
+                                    )}
+                                    <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold', color: 'white', zIndex: 1, boxShadow: '0 0 0 8px #0f172a' }}>
+                                        {step.id}
+                                    </div>
+                                    <div style={{ flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '24px' }}>
+                                        <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#e2e8f0' }}>{step.title}</h3>
+                                        <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: '1.6', margin: 0 }}>{step.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Tab Content - Pillars in Action */}
+                {activeTab === 'Pillars in Action' && (
+                    <div style={{ padding: '20px 0' }}>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '40px', textAlign: 'center', maxWidth: '600px', margin: '0 auto 40px auto' }}>
+                            Here is how the 7 Superpowers of Algorithmic Thinking directly map to solving this everyday problem.
+                        </p>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+                            {activeData.learnings.map((learning, idx) => (
+                                <div key={idx} style={{ background: 'linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '20px', padding: '30px', display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
+                                    <div style={{ fontSize: '48px', background: 'rgba(99, 102, 241, 0.1)', width: '80px', height: '80px', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                        {learning.icon}
+                                    </div>
+                                    <div>
+                                        <h3 style={{ fontSize: '20px', fontWeight: 'bold', color: '#818cf8', marginBottom: '8px' }}>{learning.title}</h3>
+                                        <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: '1.6', margin: 0 }}>{learning.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Tab Content - Common Mistakes */}
+                {activeTab === 'Common Mistakes' && (
+                    <div style={{ padding: '20px 0' }}>
+                        <div style={{ background: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.2)', borderRadius: '20px', padding: '30px', marginBottom: '40px' }}>
+                            <h3 style={{ color: '#f87171', fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>What happens when the algorithm fails?</h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px', margin: 0 }}>Every frustrating mistake you make in real life is usually just a bug in your mental algorithm. Recognizing these bugs helps you optimize your daily life.</p>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+                            {activeData.mistakes.map((mistake, idx) => (
+                                <div key={idx} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '24px', transition: 'transform 0.2s', cursor: 'default' }} className="hover-lift">
+                                    <div style={{ fontSize: '32px', marginBottom: '16px' }}>{mistake.icon}</div>
+                                    <h4 style={{ fontSize: '18px', fontWeight: 'bold', color: '#e2e8f0', marginBottom: '12px' }}>{mistake.title}</h4>
+                                    <p style={{ color: 'var(--text-muted)', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>{mistake.desc}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>
