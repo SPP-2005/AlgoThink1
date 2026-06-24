@@ -10,7 +10,7 @@ export default function Module1() {
     const [kidPosition, setKidPosition] = useState(50);
 
     const availableItems = ['Brush teeth', 'Wear shoes', 'Wake up', 'Eat breakfast', 'Leave home', 'Wear socks', 'Pack bag'];
-    
+
     const handleAdd = (item) => {
         if (!activityState.includes(item) && simStatus !== 'running') {
             setActivityState([...activityState, item]);
@@ -40,13 +40,13 @@ export default function Module1() {
         for (let i = 0; i < activityState.length; i++) {
             setSimStep(i);
             const action = activityState[i];
-            
+
             // Wait 1 second between steps for visual effect
             await new Promise(r => setTimeout(r, 1000));
 
             if (action !== 'Wake up' && !state.awake) {
                 setSimStatus('error');
-                setActivityMessage(`❌ Error at Step ${i+1}: You tried to ${action.toLowerCase()} while asleep! Algorithm crashed.`);
+                setActivityMessage(`❌ Error at Step ${i + 1}: You tried to ${action.toLowerCase()} while asleep! Algorithm crashed.`);
                 return;
             }
 
@@ -65,15 +65,15 @@ export default function Module1() {
             else if (action === 'Wear socks') {
                 if (state.shoes) {
                     setSimStatus('error');
-                    setActivityMessage(`❌ Error at Step ${i+1}: You can't put socks on OVER your shoes!`);
+                    setActivityMessage(`❌ Error at Step ${i + 1}: You can't put socks on OVER your shoes!`);
                     return;
                 }
                 state.socks = true;
-            } 
+            }
             else if (action === 'Wear shoes') {
                 if (!state.socks) {
                     setSimStatus('error');
-                    setActivityMessage(`❌ Error at Step ${i+1}: You forgot socks! Blisters detected.`);
+                    setActivityMessage(`❌ Error at Step ${i + 1}: You forgot socks! Blisters detected.`);
                     return;
                 }
                 state.shoes = true;
@@ -84,20 +84,20 @@ export default function Module1() {
             else if (action === 'Leave home') {
                 if (!state.shoes) {
                     setSimStatus('error');
-                    setActivityMessage(`❌ Error at Step ${i+1}: You tried to walk outside barefoot!`);
+                    setActivityMessage(`❌ Error at Step ${i + 1}: You tried to walk outside barefoot!`);
                     return;
                 }
                 if (!state.bag) {
                     setSimStatus('error');
-                    setActivityMessage(`❌ Error at Step ${i+1}: You left without your school bag!`);
+                    setActivityMessage(`❌ Error at Step ${i + 1}: You left without your school bag!`);
                     return;
                 }
                 if (!state.eaten || !state.brushed) {
                     setSimStatus('error');
-                    setActivityMessage(`❌ Error at Step ${i+1}: You left without eating or brushing teeth! Poor hygiene detected.`);
+                    setActivityMessage(`❌ Error at Step ${i + 1}: You left without eating or brushing teeth! Poor hygiene detected.`);
                     return;
                 }
-                
+
                 // Move kid to school
                 setKidPosition(80);
                 await new Promise(r => setTimeout(r, 1200));
@@ -132,23 +132,23 @@ export default function Module1() {
         let brushed = false;
         let eaten = false;
 
-        for(let i=0; i <= simStep; i++) {
-            if(activityState[i] === 'Wear socks') socks = true;
-            if(activityState[i] === 'Wear shoes') shoes = true;
-            if(activityState[i] === 'Pack bag') bag = true;
-            if(activityState[i] === 'Wake up') awake = true;
-            if(activityState[i] === 'Brush teeth') brushed = true;
-            if(activityState[i] === 'Eat breakfast') eaten = true;
+        for (let i = 0; i <= simStep; i++) {
+            if (activityState[i] === 'Wear socks') socks = true;
+            if (activityState[i] === 'Wear shoes') shoes = true;
+            if (activityState[i] === 'Pack bag') bag = true;
+            if (activityState[i] === 'Wake up') awake = true;
+            if (activityState[i] === 'Brush teeth') brushed = true;
+            if (activityState[i] === 'Eat breakfast') eaten = true;
         }
 
         const isWalking = simStatus === 'running' && kidPosition > 15 && kidPosition < 80;
 
         return (
-            <div style={{ 
-                position: 'relative', 
-                width: '60px', 
+            <div style={{
+                position: 'relative',
+                width: '60px',
                 height: '100px',
-                animation: isWalking ? 'bob 0.4s infinite alternate' : 'none' 
+                animation: isWalking ? 'bob 0.4s infinite alternate' : 'none'
             }}>
                 <svg width="100%" height="100%" viewBox="0 0 50 100">
                     {/* Backpack (Conditional - drawn behind body) */}
@@ -166,8 +166,8 @@ export default function Module1() {
                     ) : (
                         <>
                             <path d="M 27 18 Q 29 16 31 18" fill="none" stroke="#1e293b" strokeWidth="1.5" />
-                            <text x="35" y="10" fontSize="10" fill="#1e293b" style={{fontFamily: 'sans-serif', fontWeight: 'bold'}}>z</text>
-                            <text x="42" y="5" fontSize="8" fill="#1e293b" style={{fontFamily: 'sans-serif', fontWeight: 'bold'}}>z</text>
+                            <text x="35" y="10" fontSize="10" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>z</text>
+                            <text x="42" y="5" fontSize="8" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>z</text>
                         </>
                     )}
 
@@ -175,7 +175,7 @@ export default function Module1() {
                     {brushed && (
                         <path d="M 32 24 Q 35 24 35 21 Q 35 24 38 24 Q 35 24 35 27 Q 35 24 32 24" fill="#67e8f9" />
                     )}
-                    
+
                     {/* Body */}
                     <rect x="15" y="35" width="20" height="30" rx="6" fill="#3b82f6" />
 
@@ -186,7 +186,7 @@ export default function Module1() {
                             <path d="M 36 41 Q 38 39 39 41" fill="none" stroke="#22c55e" strokeWidth="1.5" />
                         </g>
                     )}
-                    
+
                     {/* Legs */}
                     <rect x="18" y="60" width="6" height="25" fill="#fcd34d" />
                     <rect x="26" y="60" width="6" height="25" fill="#fcd34d" />
@@ -217,7 +217,7 @@ export default function Module1() {
                 <div className="logo-text">AlgoThink <span>Module 1</span></div>
                 <Link href="/dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>← Dashboard</Link>
             </header>
-            
+
             <div className="panel">
                 <h1 style={{ fontSize: '36px', color: '#60a5fa', marginBottom: '20px', fontWeight: '900' }}>The 7 Superpowers of Algorithmic Thinkers</h1>
                 <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: '1.7', marginBottom: '30px' }}>
@@ -285,9 +285,9 @@ export default function Module1() {
 
                 {/* Interactive Activity Game */}
                 <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
-                    <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '16px' }}>🎮 2D Simulation: Prepare for School</h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '20px' }}>Program the sequence to get the kid to school. Click 'Run Simulation' to execute your algorithm visually!</p>
-                    
+                    <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '16px' }}>🎮 2D Simulation Game: Prepare for School</h2>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '20px' }}>Program the algorithmic sequence to get the kid to school. Click "Run Simulation" to visually understand how an algorithm works</p>
+
                     {/* Visual 2D Canvas */}
                     <div style={{ height: '260px', background: 'linear-gradient(to bottom, #38bdf8, #bae6fd)', borderRadius: '12px', border: '4px solid #0f172a', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                         <style>{`
@@ -316,7 +316,7 @@ export default function Module1() {
 
                         {/* Floor */}
                         <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '60px', background: '#22c55e', borderTop: '6px solid #166534' }}></div>
-                        
+
                         {/* House (Left) */}
                         <div style={{ position: 'absolute', bottom: '60px', left: '5%', zIndex: 5, width: '120px' }}>
                             <svg width="100%" height="100%" viewBox="0 0 100 120" style={{ overflow: 'visible' }}>
@@ -326,7 +326,7 @@ export default function Module1() {
                                 <rect x="20" y="60" width="15" height="15" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
                                 <rect x="65" y="60" width="15" height="15" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
                             </svg>
-                            <div style={{textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff'}}>HOME</div>
+                            <div style={{ textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff' }}>HOME</div>
                         </div>
 
                         {/* School (Right) */}
@@ -342,7 +342,7 @@ export default function Module1() {
                                 <line x1="60" y1="35" x2="68" y2="35" stroke="black" strokeWidth="2" strokeLinecap="round" />
                                 <rect x="45" y="100" width="30" height="40" fill="#b45309" stroke="#78350f" strokeWidth="2" />
                             </svg>
-                            <div style={{textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff'}}>SCHOOL</div>
+                            <div style={{ textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff' }}>SCHOOL</div>
                         </div>
 
                         {/* Kid Avatar */}
@@ -382,7 +382,7 @@ export default function Module1() {
                 <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
                     <h2 style={{ fontSize: '26px', color: '#ffffff', marginBottom: '16px' }}>🧩 1. Decomposition: Divide and Conquer</h2>
                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
-                        Decomposition is breaking down a massive, overwhelming problem into small, manageable pieces. 
+                        Decomposition is breaking down a massive, overwhelming problem into small, manageable pieces.
                     </p>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
                         <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px' }}>
@@ -458,7 +458,7 @@ export default function Module1() {
                         </div>
                     </div>
                 </div>
-                
+
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
                     <Link href="/course/module-2" className="btn btn-primary" style={{ width: 'auto', background: '#3b82f6', padding: '12px 30px' }}>Proceed to Module 2 ➡️</Link>
                 </div>
