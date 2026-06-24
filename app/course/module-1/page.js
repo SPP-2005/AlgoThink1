@@ -22,7 +22,7 @@ export default function Module1() {
         setActivityMessage("");
         setSimStep(-1);
         setSimStatus('idle');
-        setKidPosition(50);
+        setKidPosition(15);
     };
 
     const runSimulation = async () => {
@@ -33,7 +33,7 @@ export default function Module1() {
 
         setSimStatus('running');
         setActivityMessage("Running simulation...");
-        setKidPosition(50);
+        setKidPosition(15);
 
         let currentInventory = { socks: false, shoes: false, bag: false };
 
@@ -75,9 +75,9 @@ export default function Module1() {
                     return;
                 }
                 
-                // Move kid to door
-                setKidPosition(250);
-                await new Promise(r => setTimeout(r, 1000));
+                // Move kid to school
+                setKidPosition(80);
+                await new Promise(r => setTimeout(r, 1200));
             }
         }
 
@@ -92,7 +92,6 @@ export default function Module1() {
     };
 
     const renderKid = () => {
-        // Determine what the kid looks like based on the simulation progress
         let socks = false;
         let shoes = false;
         let bag = false;
@@ -103,15 +102,49 @@ export default function Module1() {
             if(activityState[i] === 'Pack bag') bag = true;
         }
 
-        let avatar = "🧍";
-        if (shoes && bag) avatar = "🚶‍♂️🎒";
-        else if (bag) avatar = "🧍🎒";
-        else if (shoes) avatar = "🚶‍♂️";
+        const isWalking = simStatus === 'running' && kidPosition > 15 && kidPosition < 80;
 
         return (
-            <div style={{ position: 'relative', fontSize: '60px' }}>
-                {avatar}
-                {socks && !shoes && <span style={{position: 'absolute', bottom: '-5px', left: '15px', fontSize: '20px'}}>🧦</span>}
+            <div style={{ 
+                position: 'relative', 
+                width: '60px', 
+                height: '100px',
+                animation: isWalking ? 'bob 0.4s infinite alternate' : 'none' 
+            }}>
+                <svg width="100%" height="100%" viewBox="0 0 50 100">
+                    {/* Backpack (Conditional - drawn behind body) */}
+                    {bag && (
+                        <rect x="2" y="38" width="15" height="25" rx="5" fill="#10b981" />
+                    )}
+                    {/* Head */}
+                    <circle cx="25" cy="20" r="14" fill="#fcd34d" />
+                    {/* Face */}
+                    <circle cx="29" cy="18" r="2" fill="#1e293b" />
+                    <path d="M 28 24 Q 30 26 32 24" fill="none" stroke="#1e293b" strokeWidth="1.5" strokeLinecap="round" />
+                    
+                    {/* Body */}
+                    <rect x="15" y="35" width="20" height="30" rx="6" fill="#3b82f6" />
+                    
+                    {/* Legs */}
+                    <rect x="18" y="60" width="6" height="25" fill="#fcd34d" />
+                    <rect x="26" y="60" width="6" height="25" fill="#fcd34d" />
+
+                    {/* Socks (Conditional) */}
+                    {socks && (
+                        <>
+                            <rect x="18" y="75" width="6" height="10" fill="#ffffff" />
+                            <rect x="26" y="75" width="6" height="10" fill="#ffffff" />
+                        </>
+                    )}
+
+                    {/* Shoes (Conditional) */}
+                    {shoes && (
+                        <>
+                            <path d="M 16 85 Q 18 95 24 95 L 24 85 Z" fill="#ef4444" />
+                            <path d="M 26 85 Q 26 95 34 95 L 34 85 Z" fill="#ef4444" />
+                        </>
+                    )}
+                </svg>
             </div>
         );
     };
@@ -192,18 +225,65 @@ export default function Module1() {
                     <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '20px' }}>Program the sequence to get the kid to school. Click 'Run Simulation' to execute your algorithm visually!</p>
                     
                     {/* Visual 2D Canvas */}
-                    <div style={{ height: '180px', background: 'linear-gradient(to bottom, #0f172a, #1e293b)', borderRadius: '12px', border: '2px solid var(--border)', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)' }}>
-                        {/* Floor */}
-                        <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '40px', background: '#334155', borderTop: '2px solid #475569' }}></div>
-                        
-                        {/* Kid Avatar */}
-                        <div style={{ position: 'absolute', bottom: '20px', left: `${kidPosition}px`, transition: 'left 1s ease-in-out', zIndex: 10 }}>
-                            {renderKid()}
+                    <div style={{ height: '260px', background: 'linear-gradient(to bottom, #38bdf8, #bae6fd)', borderRadius: '12px', border: '4px solid #0f172a', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                        <style>{`
+                            @keyframes bob { 0% { transform: translateY(0px); } 100% { transform: translateY(-8px); } }
+                            @keyframes cloudMove { 0% { transform: translateX(-100px); } 100% { transform: translateX(800px); } }
+                        `}</style>
+
+                        {/* Sun */}
+                        <div style={{ position: 'absolute', top: '20px', right: '40px', width: '50px', height: '50px', background: '#fef08a', borderRadius: '50%', boxShadow: '0 0 30px #fef08a' }}></div>
+
+                        {/* Clouds */}
+                        <div style={{ position: 'absolute', top: '30px', left: '0', opacity: 0.9, animation: 'cloudMove 25s linear infinite' }}>
+                            <svg width="100" height="50" viewBox="0 0 80 40" fill="#ffffff">
+                                <circle cx="20" cy="20" r="15" />
+                                <circle cx="40" cy="15" r="20" />
+                                <circle cx="60" cy="25" r="15" />
+                            </svg>
+                        </div>
+                        <div style={{ position: 'absolute', top: '60px', left: '-200px', opacity: 0.7, animation: 'cloudMove 30s linear infinite 10s' }}>
+                            <svg width="120" height="60" viewBox="0 0 80 40" fill="#ffffff">
+                                <circle cx="20" cy="20" r="15" />
+                                <circle cx="40" cy="15" r="20" />
+                                <circle cx="60" cy="25" r="15" />
+                            </svg>
                         </div>
 
-                        {/* Door */}
-                        <div style={{ position: 'absolute', right: '40px', bottom: '38px', fontSize: '80px', zIndex: 5 }}>
-                            🚪
+                        {/* Floor */}
+                        <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '60px', background: '#22c55e', borderTop: '6px solid #166534' }}></div>
+                        
+                        {/* House (Left) */}
+                        <div style={{ position: 'absolute', bottom: '60px', left: '5%', zIndex: 5, width: '120px' }}>
+                            <svg width="100%" height="100%" viewBox="0 0 100 120" style={{ overflow: 'visible' }}>
+                                <rect x="10" y="50" width="80" height="70" fill="#cbd5e1" stroke="#334155" strokeWidth="2" />
+                                <polygon points="-5,50 50,5 105,50" fill="#ef4444" stroke="#991b1b" strokeWidth="2" />
+                                <rect x="40" y="80" width="20" height="40" fill="#64748b" stroke="#334155" strokeWidth="2" />
+                                <rect x="20" y="60" width="15" height="15" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
+                                <rect x="65" y="60" width="15" height="15" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
+                            </svg>
+                            <div style={{textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff'}}>HOME</div>
+                        </div>
+
+                        {/* School (Right) */}
+                        <div style={{ position: 'absolute', bottom: '60px', right: '5%', zIndex: 5, width: '160px' }}>
+                            <svg width="100%" height="100%" viewBox="0 0 120 140" style={{ overflow: 'visible' }}>
+                                <rect x="10" y="60" width="100" height="80" fill="#fcd34d" stroke="#b45309" strokeWidth="2" />
+                                <rect x="20" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
+                                <rect x="52" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
+                                <rect x="85" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
+                                <polygon points="-5,60 60,5 125,60" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
+                                <circle cx="60" cy="35" r="14" fill="white" stroke="#0f172a" strokeWidth="2" />
+                                <line x1="60" y1="35" x2="60" y2="25" stroke="black" strokeWidth="2" strokeLinecap="round" />
+                                <line x1="60" y1="35" x2="68" y2="35" stroke="black" strokeWidth="2" strokeLinecap="round" />
+                                <rect x="45" y="100" width="30" height="40" fill="#b45309" stroke="#78350f" strokeWidth="2" />
+                            </svg>
+                            <div style={{textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff'}}>SCHOOL</div>
+                        </div>
+
+                        {/* Kid Avatar */}
+                        <div style={{ position: 'absolute', bottom: '60px', left: `${kidPosition}%`, transform: 'translateX(-50%)', transition: 'left 1.2s ease-in-out', zIndex: 10 }}>
+                            {renderKid()}
                         </div>
                     </div>
 
