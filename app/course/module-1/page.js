@@ -540,16 +540,12 @@ export default function Module1() {
                 {/* 5. Repetition */}
                 <div style={{ marginBottom: '50px', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
                     <h2 style={{ fontSize: '26px', color: '#ffffff', marginBottom: '16px' }}>🔄 5. Repetition: The Power of Loops</h2>
-                    
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '30px' }}>
-                        <div style={{ flex: '1', minWidth: '280px' }}>
-                            <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '16px', fontSize: '16px' }}>
-                                Never write the exact same instruction twice. If you're washing 100 plates, you don't write "Wash Plate" 100 times. You tell the system: <strong>"Repeat until sink is empty: Wash Plate"</strong>.
-                            </p>
-                        </div>
+                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '24px', fontSize: '16px' }}>
+                        Never write the exact same instruction twice. If you're washing 100 plates, you don't write "Wash Plate" 100 times. You tell the system: <strong>"Repeat until sink is empty: Wash Plate"</strong>.
+                    </p>
 
-                        {/* Hammer Game */}
-                        <div style={{ flex: '0 0 320px', background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                    {/* Hammer Game */}
+                    <div style={{ width: '320px', background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)' }}>
                             <h3 style={{ fontSize: '18px', color: '#a78bfa', marginBottom: '8px' }}>🔨 Example of Loops</h3>
                             <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '12px', lineHeight: '1.5' }}>
                                 <strong>Goal:</strong> Drive the nail flush into the wood. Try it without loops first, then try it with a loop!
@@ -606,7 +602,6 @@ export default function Module1() {
                             </div>
                             {hammerMessage && <div style={{ marginTop: '10px', fontSize: '12px', color: hammerStatus === 'error' ? '#f87171' : hammerStatus === 'success' ? '#34d399' : '#fbbf24', fontWeight: 'bold' }}>{hammerMessage}</div>}
                         </div>
-                    </div>
                 </div>
 
                 {/* 6. Decision Making */}
