@@ -83,11 +83,19 @@ export default function Module1() {
 
         // Final validation
         if (currentInventory.shoes && currentInventory.socks && currentInventory.bag && activityState.includes('Leave home')) {
-            setSimStatus('success');
-            setActivityMessage("✅ Perfect Execution! The sequence was flawless. You used Algorithmic Sequencing.");
+            const perfectSequence = ['Wear socks', 'Wear shoes', 'Pack bag', 'Leave home'];
+            const isPerfect = activityState.every((val, index) => val === perfectSequence[index]);
+
+            if (isPerfect) {
+                setSimStatus('success');
+                setActivityMessage("✅ Perfect Execution! The optimal sequence was flawless.");
+            } else {
+                setSimStatus('warning');
+                setActivityMessage("⚠️ Task Completed, but Sub-optimal! You made it to school, but normally you pack your bag right before leaving. Order matters for efficiency!");
+            }
         } else {
             setSimStatus('error');
-            setActivityMessage("❌ Simulation ended, but you didn't leave home fully prepared! Debug your sequence.");
+            setActivityMessage("❌ Simulation ended, but you didn't reach school fully prepared! Debug your sequence.");
         }
     };
 
