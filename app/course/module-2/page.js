@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Module2() {
     const [activeScenario, setActiveScenario] = useState(1);
-    const [activeTab, setActiveTab] = useState('3D Simulation');
+    const [activeTab, setActiveTab] = useState('🕹️ 3D Simulation');
     const [currentStep, setCurrentStep] = useState(1);
     const [autoPlay, setAutoPlay] = useState(false);
 
@@ -199,7 +199,7 @@ export default function Module2() {
 
                 {/* Tabs */}
                 <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '20px', marginBottom: '30px' }}>
-                    {['3D Simulation', 'Fun Fact 💡', 'Common Mistakes'].map(tab => (
+                    {['🕹️ 3D Simulation', 'Fun Fact 💡', '⚠️ Common Mistakes'].map(tab => (
                         <button 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
@@ -221,7 +221,7 @@ export default function Module2() {
                 </div>
 
                 {/* Tab Content - 3D Simulation */}
-                {activeTab === '3D Simulation' && (
+                {activeTab === '🕹️ 3D Simulation' && (
                     <>
                         <div style={{ display: 'flex', gap: '40px', marginBottom: '30px' }}>
                             {/* Left: Image Viewer */}
@@ -324,7 +324,7 @@ export default function Module2() {
                 )}
 
                 {/* Tab Content - Common Mistakes */}
-                {activeTab === 'Common Mistakes' && (
+                {activeTab === '⚠️ Common Mistakes' && (
                     <div style={{ padding: '20px 0' }}>
                         <div style={{ background: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.2)', borderRadius: '20px', padding: '30px', marginBottom: '40px' }}>
                             <h3 style={{ color: '#f87171', fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>What happens when the algorithm fails?</h3>
