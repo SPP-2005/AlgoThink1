@@ -98,10 +98,7 @@ export default function Module2() {
         <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif' }}>
             <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '60px' }}>
                 <div style={{ fontSize: '24px', fontWeight: 'bold' }}>Algo<span style={{ color: '#818cf8' }}>Think</span> <span style={{ fontSize: '14px', color: 'var(--text-muted)', marginLeft: '10px' }}>Module 2</span></div>
-                <div style={{ display: 'flex', gap: '12px' }}>
-                    <Link href="/course/module-1" className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontSize: '14px' }}>← Module 1</Link>
-                    <Link href="/dashboard" className="btn btn-primary" style={{ background: '#6366f1', color: 'white', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontSize: '14px' }}>Dashboard</Link>
-                </div>
+                <Link href="/dashboard" className="btn btn-primary" style={{ background: '#6366f1', color: 'white', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontSize: '14px' }}>Dashboard</Link>
             </header>
 
             {/* Hero Section */}
@@ -336,9 +333,9 @@ export default function Module2() {
                 )}
             </div>
             
-            <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Link href="/course/module-1" className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '12px 24px', borderRadius: '12px', textDecoration: 'none', fontSize: '15px' }}>← Back to Overview</Link>
-                <Link href="/course/module-3" className="btn btn-primary" style={{ background: '#6366f1', padding: '12px 30px', fontSize: '15px', borderRadius: '12px', textDecoration: 'none', color: 'white', fontWeight: 'bold' }}>Next Scenario →</Link>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                <Link href="/course/module-1" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>← Module 1</Link>
+                <Link href="/course/module-3" className="btn btn-primary" style={{ width: 'auto', background: '#6366f1', padding: '12px 30px' }}>Proceed to Module 3 ➡️</Link>
             </div>
         </main>
     );
