@@ -545,9 +545,9 @@ export default function Module1() {
                     </p>
 
                     {/* Hammer Game */}
-                    <div style={{ width: '320px', background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                            <h3 style={{ fontSize: '18px', color: '#a78bfa', marginBottom: '8px' }}>🔨 Example of Loops</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '12px', lineHeight: '1.5' }}>
+                    <div style={{ width: '100%', background: 'rgba(255,255,255,0.05)', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                            <h3 style={{ fontSize: '20px', color: '#a78bfa', marginBottom: '8px' }}>🔨 Example of Loops</h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '16px', lineHeight: '1.6' }}>
                                 <strong>Goal:</strong> Drive the nail flush into the wood. Try it without loops first, then try it with a loop!
                             </p>
 
@@ -579,26 +579,26 @@ export default function Module1() {
                                 </svg>
                             </div>
 
-                            <div style={{ display: 'flex', gap: '6px', flexDirection: 'column', marginBottom: '12px' }}>
+                            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
                                 {availableHammerItems.map((item, idx) => (
-                                    <button key={idx} onClick={() => handleHammerAdd(item)} disabled={hammerStatus === 'running'} style={{ background: 'var(--surface-light)', border: '1px solid var(--border)', color: 'white', padding: '6px 12px', borderRadius: '6px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer', transition: 'all 0.2s', fontSize: '12px', textAlign: 'left' }}>
+                                    <button key={idx} onClick={() => handleHammerAdd(item)} disabled={hammerStatus === 'running'} style={{ background: 'var(--surface-light)', border: '1px solid var(--border)', color: 'white', padding: '8px 16px', borderRadius: '8px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer', transition: 'all 0.2s', fontSize: '14px' }}>
                                         + {item}
                                     </button>
                                 ))}
                             </div>
 
-                            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '8px', minHeight: '50px', border: '1px dashed var(--border)', display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
-                                {hammerSeq.length === 0 && <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}>Build your sequence...</span>}
+                            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '16px', borderRadius: '12px', minHeight: '60px', border: '1px dashed var(--border)', display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                                {hammerSeq.length === 0 && <span style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Build your sequence...</span>}
                                 {hammerSeq.map((item, idx) => (
-                                    <div key={idx} style={{ background: hammerSimStep === idx ? '#f59e0b' : '#8b5cf6', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '11px', boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)', transition: 'background 0.3s' }}>
+                                    <div key={idx} style={{ background: hammerSimStep === idx ? '#f59e0b' : '#8b5cf6', color: 'white', padding: '6px 12px', borderRadius: '6px', fontSize: '13px', boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)', transition: 'background 0.3s' }}>
                                         {idx + 1}. {item}
                                     </div>
                                 ))}
                             </div>
 
-                            <div style={{ marginTop: '12px', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-                                <button onClick={runHammerSim} disabled={hammerStatus === 'running'} className="btn btn-primary" style={{ padding: '6px 12px', fontSize: '12px', background: hammerStatus === 'running' ? '#64748b' : '#8b5cf6', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer', flex: 1 }}>▶ Run</button>
-                                <button onClick={handleHammerReset} disabled={hammerStatus === 'running'} className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '6px 12px', fontSize: '12px', borderRadius: '6px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>🔄 Reset</button>
+                            <div style={{ marginTop: '16px', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                                <button onClick={runHammerSim} disabled={hammerStatus === 'running'} className="btn btn-primary" style={{ padding: '8px 24px', fontSize: '14px', background: hammerStatus === 'running' ? '#64748b' : '#8b5cf6', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>▶ Run Sequence</button>
+                                <button onClick={handleHammerReset} disabled={hammerStatus === 'running'} className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '8px 24px', fontSize: '14px', borderRadius: '8px', cursor: hammerStatus === 'running' ? 'not-allowed' : 'pointer' }}>🔄 Reset</button>
                             </div>
                             {hammerMessage && <div style={{ marginTop: '10px', fontSize: '12px', color: hammerStatus === 'error' ? '#f87171' : hammerStatus === 'success' ? '#34d399' : '#fbbf24', fontWeight: 'bold' }}>{hammerMessage}</div>}
                         </div>
