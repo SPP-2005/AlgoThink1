@@ -11,7 +11,7 @@ export default function Module2() {
             <div className="panel">
                 <h1 style={{ fontSize: '36px', color: '#818cf8', marginBottom: '20px', fontWeight: '900' }}>Algorithms in Everyday Life</h1>
                 <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: '1.7', marginBottom: '40px' }}>
-                    You might think you have never written an algorithm before, but your brain executes thousands of complex algorithms every single day without you even realizing it. By learning to recognize these patterns, you can optimize your daily routines, save time, and avoid frustrating mistakes. Let's look at how the 7 Pillars apply to surviving the real world.
+                    You might think you have never written an algorithm before, but your brain executes thousands of complex algorithms every single day without you even realizing it. By learning to recognize these patterns, you can optimize your daily routines, save time, and avoid frustrating mistakes. Let's look at how the 7 Superpowers apply to surviving the real world.
                 </p>
 
                 {/* Scenario 1 */}
