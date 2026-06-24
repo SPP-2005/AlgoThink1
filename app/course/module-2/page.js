@@ -26,12 +26,12 @@ export default function Module2() {
             image: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200',
             tags: [{ label: 'Assumption', color: '#fbbf24' }, { label: 'Sequencing', color: '#60a5fa' }, { label: 'Precision', color: '#34d399' }],
             steps: [
-                { id: 1, title: 'Check Water', desc: 'Is the machine filled with fresh water?' },
-                { id: 2, title: 'Add Coffee Beans', desc: 'Measure the right amount of beans.' },
-                { id: 3, title: 'Grind Beans', desc: 'Grind to the right coarseness.' },
-                { id: 4, title: 'Tamp the Grounds', desc: 'Press evenly for the perfect shot.' },
-                { id: 5, title: 'Brew', desc: 'Extract the espresso or coffee.' },
-                { id: 6, title: 'Pour and Enjoy', desc: 'Your perfect coffee is ready!' }
+                { id: 1, title: 'Check Water', desc: 'Is the machine filled with fresh water?', image: 'https://images.unsplash.com/photo-1623946059905-245ed694582e?q=80&w=1200' },
+                { id: 2, title: 'Add Coffee Beans', desc: 'Measure the right amount of beans.', image: 'https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=1200' },
+                { id: 3, title: 'Grind Beans', desc: 'Grind to the right coarseness.', image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1200' },
+                { id: 4, title: 'Tamp the Grounds', desc: 'Press evenly for the perfect shot.', image: 'https://images.unsplash.com/photo-1610632380989-680fe40816c6?q=80&w=1200' },
+                { id: 5, title: 'Brew', desc: 'Extract the espresso or coffee.', image: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200' },
+                { id: 6, title: 'Pour and Enjoy', desc: 'Your perfect coffee is ready!', image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200' }
             ],
             learnings: [
                 { icon: '🔍', title: 'Assumption Checking', desc: 'Verify everything before you start.' },
@@ -47,12 +47,12 @@ export default function Module2() {
             image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=1200',
             tags: [{ label: 'Decomposition', color: '#c084fc' }, { label: 'Decision Making', color: '#f472b6' }],
             steps: [
-                { id: 1, title: 'Gather Laundry', desc: 'Collect all clothes from hampers.' },
-                { id: 2, title: 'Sort by Color', desc: 'Separate whites, darks, and colors.' },
-                { id: 3, title: 'Check Labels', desc: 'Identify delicate or dry-clean only items.' },
-                { id: 4, title: 'Load Machine', desc: 'Do not overload; leave room for agitation.' },
-                { id: 5, title: 'Select Cycle', desc: 'Choose temperature and spin speed.' },
-                { id: 6, title: 'Dry and Fold', desc: 'Transfer to dryer or hang, then fold.' }
+                { id: 1, title: 'Gather Laundry', desc: 'Collect all clothes from hampers.', image: 'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?q=80&w=1200' },
+                { id: 2, title: 'Sort by Color', desc: 'Separate whites, darks, and colors.', image: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=1200' },
+                { id: 3, title: 'Check Labels', desc: 'Identify delicate or dry-clean only items.', image: 'https://images.unsplash.com/photo-1584844141695-8120fbba1e98?q=80&w=1200' },
+                { id: 4, title: 'Load Machine', desc: 'Do not overload; leave room for agitation.', image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=1200' },
+                { id: 5, title: 'Select Cycle', desc: 'Choose temperature and spin speed.', image: 'https://images.unsplash.com/photo-1582735689255-7fc75bb42f1b?q=80&w=1200' },
+                { id: 6, title: 'Dry and Fold', desc: 'Transfer to dryer or hang, then fold.', image: 'https://images.unsplash.com/photo-1581084364407-73d8ab5b4971?q=80&w=1200' }
             ],
             learnings: [
                 { icon: '🧩', title: 'Decomposition', desc: 'Break the pile into smaller loads.' },
@@ -68,12 +68,12 @@ export default function Module2() {
             image: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200',
             tags: [{ label: 'Precision', color: '#34d399' }, { label: 'Iteration', color: '#fb923c' }, { label: 'Loops', color: '#60a5fa' }],
             steps: [
-                { id: 1, title: 'Set Destination', desc: 'Input the exact address.' },
-                { id: 2, title: 'Calculate Route', desc: 'Find the optimal path.' },
-                { id: 3, title: 'Start Driving', desc: 'Follow step-by-step directions.' },
-                { id: 4, title: 'Monitor Traffic', desc: 'Check for delays or accidents.' },
-                { id: 5, title: 'Reroute if Needed', desc: 'Iterate the path based on new data.' },
-                { id: 6, title: 'Arrive safely', desc: 'Destination reached.' }
+                { id: 1, title: 'Set Destination', desc: 'Input the exact address.', image: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=1200' },
+                { id: 2, title: 'Calculate Route', desc: 'Find the optimal path.', image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200' },
+                { id: 3, title: 'Start Driving', desc: 'Follow step-by-step directions.', image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=1200' },
+                { id: 4, title: 'Monitor Traffic', desc: 'Check for delays or accidents.', image: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200' },
+                { id: 5, title: 'Reroute if Needed', desc: 'Iterate the path based on new data.', image: 'https://images.unsplash.com/photo-1558227092-b43ecf4853eb?q=80&w=1200' },
+                { id: 6, title: 'Arrive safely', desc: 'Destination reached.', image: 'https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?q=80&w=1200' }
             ],
             learnings: [
                 { icon: '📍', title: 'Precision', desc: 'Exact coordinates are required.' },
@@ -225,8 +225,9 @@ export default function Module2() {
                     <>
                         <div style={{ display: 'flex', gap: '40px', marginBottom: '30px' }}>
                             {/* Left: Image Viewer */}
-                            <div style={{ flex: '1.4', position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', minHeight: '450px' }}>
-                                <img src={activeData.image} alt="Simulation" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <div style={{ flex: '1.4', position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', minHeight: '450px', background: '#0f172a' }}>
+                                {/* Render the image that corresponds to the active step */}
+                                <img key={activeData.steps[currentStep-1].image} src={activeData.steps[currentStep-1].image} alt={activeData.steps[currentStep-1].title} style={{ width: '100%', height: '100%', objectFit: 'cover', animation: 'fadeIn 0.5s ease' }} />
                                 
                                 <div style={{ position: 'absolute', top: '20px', left: '20px', background: '#6366f1', padding: '8px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
                                     Step {currentStep} / 6
