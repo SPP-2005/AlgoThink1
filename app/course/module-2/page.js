@@ -340,9 +340,7 @@ export default function Module2() {
                 {/* Tab Content - Pillars in Action */}
                 {activeTab === 'Pillars in Action' && (
                     <div style={{ padding: '20px 0' }}>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '40px', textAlign: 'center', maxWidth: '600px', margin: '0 auto 40px auto' }}>
-                            Here is how the Pillars of Algorithmic Thinking directly map to solving this everyday problem.
-                        </p>
+
                         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '16px' }}>
                             {activeData.learnings.map((learning, idx) => (
                                 <div key={idx} style={{ background: 'linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(99, 102, 241, 0.05))', border: '1px solid rgba(99, 102, 241, 0.2)', borderRadius: '30px', padding: '10px 24px', display: 'flex', alignItems: 'center', gap: '10px', width: 'fit-content' }}>
