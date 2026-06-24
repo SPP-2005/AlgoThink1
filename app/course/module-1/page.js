@@ -456,11 +456,11 @@ export default function Module1() {
                         ))}
                     </div>
 
-                    <div style={{ marginTop: '20px', display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <div style={{ marginTop: '20px', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
                         <button onClick={runSimulation} disabled={simStatus === 'running'} className="btn btn-primary" style={{ padding: '8px 24px', background: simStatus === 'running' ? '#64748b' : '#3b82f6', cursor: simStatus === 'running' ? 'not-allowed' : 'pointer' }}>▶ Run Simulation</button>
                         <button onClick={handleReset} disabled={simStatus === 'running'} className="btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '8px 24px', borderRadius: '8px', cursor: simStatus === 'running' ? 'not-allowed' : 'pointer' }}>🔄 Reset</button>
-                        {activityMessage && <span style={{ marginLeft: '10px', color: simStatus === 'error' ? '#f87171' : simStatus === 'success' ? '#34d399' : '#fbbf24', fontWeight: 'bold' }}>{activityMessage}</span>}
                     </div>
+                    {activityMessage && <div style={{ marginTop: '16px', fontSize: '16px', padding: '12px 16px', borderRadius: '8px', background: 'rgba(0,0,0,0.2)', borderLeft: `4px solid ${simStatus === 'error' ? '#f87171' : simStatus === 'success' ? '#34d399' : '#fbbf24'}`, color: simStatus === 'error' ? '#fca5a5' : simStatus === 'success' ? '#6ee7b7' : '#fcd34d', fontWeight: 'bold', width: '100%' }}>{activityMessage}</div>}
                 </div>
 
                 {/* 1. Decomposition */}
