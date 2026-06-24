@@ -551,7 +551,7 @@ export default function Module1() {
                                 <strong>Goal:</strong> Drive the nail flush into the wood. Try it without loops first, then try it with a loop!
                             </p>
 
-                            <div style={{ height: '140px', background: 'linear-gradient(to bottom, #1e293b, #0f172a)', borderRadius: '12px', border: '2px solid var(--border)', position: 'relative', overflow: 'hidden', marginBottom: '16px', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', paddingBottom: '10px' }}>
+                            <div style={{ height: '220px', background: 'linear-gradient(to bottom, #1e293b, #0f172a)', borderRadius: '12px', border: '2px solid var(--border)', position: 'relative', overflow: 'hidden', marginBottom: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                 <style>{`
                                     @keyframes hammerStrike {
                                         0% { transform: rotate(0deg); }
@@ -559,7 +559,7 @@ export default function Module1() {
                                         100% { transform: rotate(0deg); }
                                     }
                                 `}</style>
-                                <svg width="200" height="150" viewBox="0 0 200 150">
+                                <svg width="240" height="180" viewBox="0 -20 200 180" style={{ overflow: 'visible' }}>
                                     {/* Wood */}
                                     <rect x="30" y="80" width="140" height="70" fill="#b45309" stroke="#78350f" strokeWidth="4" />
                                     
