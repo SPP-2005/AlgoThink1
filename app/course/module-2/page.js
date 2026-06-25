@@ -251,6 +251,13 @@ export default function Module2() {
                     ))}
                 </div>
 
+                {/* Preload images for the active scenario so animations don't jerk on first load */}
+                <div style={{ display: 'none' }}>
+                    {activeData.steps.map(step => (
+                        <img key={step.image} src={step.image} alt="preload" />
+                    ))}
+                </div>
+
                 {/* Tab Content - 3D Simulation */}
                 {activeTab === '🎮 3D Simulation' && (
                     <>
