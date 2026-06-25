@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Module2() {
-    const [activeScenario, setActiveScenario] = useState(1);
-    const [activeTab, setActiveTab] = useState('🕹️ 3D Simulation');
+    const [activeScenario, setActiveScenario] = useState(null);
+    const [activeTab, setActiveTab] = useState('🎮 3D Simulation');
     const [currentStep, setCurrentStep] = useState(1);
     const [autoPlay, setAutoPlay] = useState(false);
 
@@ -151,7 +151,13 @@ export default function Module2() {
                     {scenarios.map(s => (
                         <div 
                             key={s.id} 
-                            onClick={() => { setActiveScenario(s.id); setCurrentStep(1); }}
+                            onClick={() => { 
+                                setActiveScenario(s.id); 
+                                setCurrentStep(1); 
+                                setTimeout(() => {
+                                    document.getElementById('detailed-view')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }, 100);
+                            }}
                             style={{ 
                                 background: 'rgba(255,255,255,0.02)', 
                                 border: `2px solid ${activeScenario === s.id ? '#818cf8' : 'rgba(255,255,255,0.1)'}`, 
@@ -184,8 +190,18 @@ export default function Module2() {
             </div>
 
             {/* Active Scenario Detailed View */}
-            <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '40px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+            <div 
+                style={{ 
+                    maxHeight: activeScenario ? '3000px' : '0px', 
+                    opacity: activeScenario ? 1 : 0, 
+                    overflow: 'hidden', 
+                    transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                    marginTop: activeScenario ? '40px' : '0'
+                }}
+            >
+                {activeScenario && (
+                    <div id="detailed-view" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '40px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <div style={{ width: '48px', height: '48px', background: '#334155', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>
                             {activeScenario === 1 ? '☕' : activeScenario === 2 ? '🧺' : '🚥'}
@@ -199,7 +215,7 @@ export default function Module2() {
 
                 {/* Tabs */}
                 <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '20px', marginBottom: '30px' }}>
-                    {['🕹️ 3D Simulation', 'Fun Fact 💡', '⚠️ Common Mistakes'].map(tab => (
+                    {['🎮 3D Simulation', 'Fun Fact 💡', '🚨 Common Mistakes'].map(tab => (
                         <button 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
@@ -221,7 +237,7 @@ export default function Module2() {
                 </div>
 
                 {/* Tab Content - 3D Simulation */}
-                {activeTab === '🕹️ 3D Simulation' && (
+                {activeTab === '🎮 3D Simulation' && (
                     <>
                         <div style={{ display: 'flex', gap: '40px', marginBottom: '30px' }}>
                             {/* Left: Image Viewer */}
@@ -321,10 +337,12 @@ export default function Module2() {
                             </p>
                         </div>
                     </div>
+                    </div>
                 )}
+            </div>
 
                 {/* Tab Content - Common Mistakes */}
-                {activeTab === '⚠️ Common Mistakes' && (
+                {activeTab === '🚨 Common Mistakes' && (
                     <div style={{ padding: '20px 0' }}>
                         <div style={{ background: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.2)', borderRadius: '20px', padding: '30px', marginBottom: '40px' }}>
                             <h3 style={{ color: '#f87171', fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>What happens when the algorithm fails?</h3>
@@ -341,12 +359,19 @@ export default function Module2() {
                         </div>
                     </div>
                 )}
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '60px' }}>
+                    <Link href="/course/module-1" className="btn btn-secondary">
+                        ← Previous: Module 1
+                    </Link>
+                    <Link href="/course/module-3" className="btn btn-primary">
+                        Proceed to Module 3 →
+                    </Link>
+                </div>
             </div>
-            
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-                <Link href="/course/module-1" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>← Module 1</Link>
-                <Link href="/course/module-3" className="btn btn-primary" style={{ width: 'auto', background: '#6366f1', padding: '12px 30px' }}>Proceed to Module 3 ➡️</Link>
-            </div>
+        )}
+        </div>
+        </div>
         </main>
     );
 }
