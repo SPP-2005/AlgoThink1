@@ -370,12 +370,12 @@ export default function Module2() {
         )}
         </div>
         
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '60px' }}>
-            <Link href="/course/module-1" className="btn btn-secondary">
-                ← Previous: Module 1
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
+            <Link href="/course/module-1" className="btn btn-secondary" style={{ width: 'auto', background: 'rgba(255,255,255,0.05)', color: 'white', padding: '12px 30px', border: '1px solid var(--border)' }}>
+                ⬅️ Previous: Module 1
             </Link>
-            <Link href="/course/module-3" className="btn btn-primary">
-                Proceed to Module 3 →
+            <Link href="/course/module-3" className="btn btn-primary" style={{ width: 'auto', background: '#3b82f6', padding: '12px 30px' }}>
+                Proceed to Module 3 ➡️
             </Link>
         </div>
         
