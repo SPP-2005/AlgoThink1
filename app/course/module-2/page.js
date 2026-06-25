@@ -102,7 +102,18 @@ export default function Module2() {
             </header>
 
             {/* Hero Section */}
-            <div style={{ display: 'flex', gap: '60px', marginBottom: '60px', alignItems: 'center' }}>
+            <style>{`
+                @keyframes float {
+                    0% { transform: translateY(0px); }
+                    50% { transform: translateY(-12px); }
+                    100% { transform: translateY(0px); }
+                }
+                @keyframes blink {
+                    0%, 96%, 98% { opacity: 1; }
+                    97% { opacity: 0; }
+                }
+            `}</style>
+            <div style={{ display: 'flex', gap: '60px', marginTop: '40px', marginBottom: '60px', alignItems: 'center' }}>
                 <div style={{ flex: 1 }}>
                     <h1 style={{ fontSize: '56px', fontWeight: '900', marginBottom: '24px', lineHeight: '1.1' }}>
                         Algorithms in<br/>
@@ -121,18 +132,20 @@ export default function Module2() {
                         <div style={{ position: 'absolute', bottom: '-8px', right: '20px', width: '0', height: '0', borderLeft: '10px solid transparent', borderRight: '10px solid transparent', borderTop: '10px solid #f8fafc' }}></div>
                     </div>
                     {/* Abstract SVG Robot Representation */}
-                    <svg width="220" height="220" viewBox="0 0 100 100" style={{ filter: 'drop-shadow(0px 20px 30px rgba(0,0,0,0.5))' }}>
+                    <svg width="220" height="220" viewBox="0 0 100 100" style={{ filter: 'drop-shadow(0px 20px 30px rgba(0,0,0,0.5))', animation: 'float 4s ease-in-out infinite' }}>
                         <rect x="25" y="25" width="50" height="45" rx="20" fill="#1e293b" stroke="#334155" strokeWidth="2" />
                         <rect x="30" y="30" width="40" height="25" rx="10" fill="#0f172a" />
-                        <path d="M 38 40 Q 42 35 46 40" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round" />
-                        <path d="M 54 40 Q 58 35 62 40" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round" />
+                        <g style={{ animation: 'blink 4s infinite' }}>
+                            <path d="M 38 40 Q 42 35 46 40" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round" />
+                            <path d="M 54 40 Q 58 35 62 40" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round" />
+                        </g>
                         <path d="M 40 48 Q 50 52 60 48" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round" />
                         <rect x="45" y="70" width="10" height="15" fill="#334155" />
                         <rect x="25" y="85" width="50" height="15" rx="7" fill="#1e293b" />
                     </svg>
                     <div style={{ position: 'absolute', bottom: '24px', display: 'flex', gap: '12px' }}>
                         <div style={{ background: 'rgba(0,0,0,0.6)', padding: '8px 16px', borderRadius: '20px', fontSize: '13px', color: '#a78bfa', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid rgba(167, 139, 250, 0.3)' }}><span>🔮</span> 3 Scenarios</div>
-                        <div style={{ background: 'rgba(0,0,0,0.6)', padding: '8px 16px', borderRadius: '20px', fontSize: '13px', color: '#34d399', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid rgba(52, 211, 153, 0.3)' }}><span>⚙️</span> 7 Pillars in Action</div>
+                        <div style={{ background: 'rgba(0,0,0,0.6)', padding: '8px 16px', borderRadius: '20px', fontSize: '13px', color: '#34d399', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid rgba(52, 211, 153, 0.3)' }}><span>💡</span> Fun Facts</div>
                     </div>
                 </div>
             </div>
@@ -357,18 +370,19 @@ export default function Module2() {
                         </div>
                     </div>
                 )}
-                
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '60px' }}>
-                    <Link href="/course/module-1" className="btn btn-secondary">
-                        ← Previous: Module 1
-                    </Link>
-                    <Link href="/course/module-3" className="btn btn-primary">
-                        Proceed to Module 3 →
-                    </Link>
-                </div>
             </div>
         )}
         </div>
+        
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '60px' }}>
+            <Link href="/course/module-1" className="btn btn-secondary">
+                ← Previous: Module 1
+            </Link>
+            <Link href="/course/module-3" className="btn btn-primary">
+                Proceed to Module 3 →
+            </Link>
+        </div>
+        
         </main>
     );
 }
