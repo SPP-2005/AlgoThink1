@@ -80,7 +80,7 @@ export default function Lab() {
                         <option value="custom">Custom Scenario</option>
                     </select>
                     <Link href="/dashboard" className="btn btn-primary" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 'auto', padding: '10px 20px' }}>
-                        ← Course
+                        ⬅️ Course
                     </Link>
                 </div>
             </header>
