@@ -65,7 +65,7 @@ export default function Module2() {
             id: 3,
             title: 'Navigating Traffic',
             desc: 'Navigate through traffic using iteration and real-time decisions.',
-            image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200',
+            image: '/traffic_hero.png',
             tags: [{ label: 'Decision Making', color: '#fbbf24' }, { label: 'Iteration', color: '#f97316' }, { label: 'Pattern Recognition', color: '#f472b6' }, { label: 'Precision', color: '#34d399' }],
             steps: [
                 { id: 1, title: 'Input Destination', desc: 'Define the target endpoint for the algorithm.', image: '/1 (3).png' },
