@@ -337,9 +337,7 @@ export default function Module2() {
                             </p>
                         </div>
                     </div>
-                    </div>
                 )}
-            </div>
 
                 {/* Tab Content - Common Mistakes */}
                 {activeTab === '🚨 Common Mistakes' && (
@@ -370,7 +368,6 @@ export default function Module2() {
                 </div>
             </div>
         )}
-        </div>
         </div>
         </main>
     );
