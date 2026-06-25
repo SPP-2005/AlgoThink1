@@ -8,9 +8,12 @@
     "start": "next start"
   },
   "dependencies": {
+    "@google/genai": "latest",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "@google/genai": "latest"
+    "three": "^0.185.0"
   }
 }
