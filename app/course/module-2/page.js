@@ -251,9 +251,9 @@ export default function Module2() {
                         <div style={{ display: 'flex', gap: '40px', marginBottom: '30px' }}>
                             {/* Left: Image Viewer */}
                             <div style={{ flex: '1.4', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                {/* Image Container (No padding, rounded corners clip the sharp image edges) */}
-                                <div style={{ flex: 1, position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', background: '#0f172a', minHeight: '400px' }}>
-                                    <img key={activeData.steps[currentStep-1].image} src={activeData.steps[currentStep-1].image} alt={activeData.steps[currentStep-1].title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', animation: 'fadeIn 0.5s ease' }} />
+                                {/* Image Container (Height determined naturally by image to prevent cropping) */}
+                                <div style={{ width: '100%', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', background: '#0f172a', display: 'flex' }}>
+                                    <img key={activeData.steps[currentStep-1].image} src={activeData.steps[currentStep-1].image} alt={activeData.steps[currentStep-1].title} style={{ display: 'block', width: '100%', height: 'auto', objectFit: 'contain', animation: 'fadeIn 0.5s ease' }} />
                                 </div>
 
                                 {/* Controls Container (Now completely separate, no longer overlapping the photo) */}
