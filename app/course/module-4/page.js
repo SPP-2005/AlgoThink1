@@ -86,7 +86,7 @@ export default function Module4() {
                         <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=1200" alt="Neon Sorting Visualization" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: '400px', objectFit: 'cover' }} />
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-                        <Link href="/course/module-3" className="btn" style={{ width: 'auto', background: 'transparent', border: '1px solid var(--border)', color: 'white' }}>⬅️ Back to Module 3</Link>
+                        <Link href="/course/module-3" className="btn btn-secondary" style={{ width: 'auto', background: 'rgba(255,255,255,0.05)', color: 'white', padding: '12px 30px', border: '1px solid var(--border)' }}>⬅️ Previous: Module 3</Link>
                         <Link href="/lab" className="btn btn-primary" style={{ width: 'auto', background: '#b45309', color: '#ffffff', padding: '16px 40px', fontSize: '18px', borderRadius: '30px' }}>Test Your Understanding: Enter The Lab 🚀</Link>
                     </div>
                 </div>
