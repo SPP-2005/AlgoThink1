@@ -96,6 +96,12 @@ export default function Module2() {
 
     return (
         <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif' }}>
+            <style dangerouslySetInnerHTML={{__html: `
+                @keyframes flipFade {
+                    0% { opacity: 0; transform: perspective(800px) rotateY(15deg) scale(0.95); }
+                    100% { opacity: 1; transform: perspective(800px) rotateY(0deg) scale(1); }
+                }
+            `}} />
             <header>
                 <div className="logo-text">AlgoThink <span>Module 2</span></div>
                 <Link href="/dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>⬅️ Dashboard</Link>
@@ -253,17 +259,17 @@ export default function Module2() {
                             <div style={{ flex: '1.4', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                 {/* Image Container (Height determined naturally by image to prevent cropping) */}
                                 <div style={{ width: '100%', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', background: '#0f172a', display: 'flex' }}>
-                                    <img key={activeData.steps[currentStep-1].image} src={activeData.steps[currentStep-1].image} alt={activeData.steps[currentStep-1].title} style={{ display: 'block', width: '100%', height: 'auto', objectFit: 'contain', animation: 'fadeIn 0.5s ease' }} />
+                                    <img key={activeData.steps[currentStep-1].image} src={activeData.steps[currentStep-1].image} alt={activeData.steps[currentStep-1].title} style={{ display: 'block', width: '100%', height: 'auto', objectFit: 'contain', animation: 'flipFade 0.4s cubic-bezier(0.4, 0, 0.2, 1)' }} />
                                 </div>
 
                                 {/* Controls Container (Now completely separate, no longer overlapping the photo) */}
                                 <div style={{ background: 'rgba(15, 23, 42, 0.85)', borderRadius: '16px', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
-                                    <button onClick={handlePrevStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'transparent', border: '1px solid var(--text-muted)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '20px', transition: 'all 0.2s' }}>←</button>
+                                    <button onClick={handlePrevStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'transparent', border: '1px solid var(--text-muted)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '32px', transition: 'all 0.2s' }}>←</button>
                                     <div style={{ flex: 1, margin: '0 24px' }}>
                                         <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '6px' }}>{activeData.steps[currentStep-1].title}</h3>
                                         <p style={{ color: 'var(--text-muted)', fontSize: '15px', margin: 0, lineHeight: '1.5' }}>{activeData.steps[currentStep-1].desc}</p>
                                     </div>
-                                    <button onClick={handleNextStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#6366f1', border: 'none', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '20px', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)' }}>→</button>
+                                    <button onClick={handleNextStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#6366f1', border: 'none', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '32px', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)' }}>→</button>
                                 </div>
                             </div>
 
