@@ -126,8 +126,8 @@ export default function Module2() {
                         Explore real-life scenarios and see how the 7 Superpowers of Algorithmic Thinking help solve everyday problems.
                     </p>
                 </div>
-                <div style={{ flex: 1, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '30px', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '300px' }}>
-                    <div className="bob-display" style={{ transform: 'scale(1.1)' }}>
+                <div style={{ flex: 1, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '350px' }}>
+                    <div className="bob-display" style={{ transform: 'scale(0.95)', marginTop: '20px', marginBottom: '20px' }}>
                         <div className="bob-character success">
                             <div className="bob-face">
                                 <div className="eye left-eye"></div>
@@ -139,7 +139,7 @@ export default function Module2() {
                             Algorithms are everywhere! Let's discover them together.
                         </div>
                     </div>
-                    <div style={{ position: 'absolute', bottom: '24px', display: 'flex', gap: '12px' }}>
+                    <div style={{ display: 'flex', gap: '12px', marginTop: '10px' }}>
                         <div style={{ background: 'rgba(0,0,0,0.6)', padding: '8px 16px', borderRadius: '20px', fontSize: '13px', color: '#a78bfa', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid rgba(167, 139, 250, 0.3)' }}><span>🔮</span> 3 Scenarios</div>
                         <div style={{ background: 'rgba(0,0,0,0.6)', padding: '8px 16px', borderRadius: '20px', fontSize: '13px', color: '#34d399', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid rgba(52, 211, 153, 0.3)' }}><span>💡</span> Fun Facts</div>
                     </div>
