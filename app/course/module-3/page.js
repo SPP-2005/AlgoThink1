@@ -1,23 +1,24 @@
 "use client";
-import React, { useState, useEffect, useRef, Suspense, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import * as THREE from 'three';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, useFBX, useAnimations } from '@react-three/drei';
 
-// ==========================================
-// 3D GAME COMPONENTS & LOGIC
-// ==========================================
+const MISSIONS = [
+    { id: 1, title: 'School Festival Manager', difficulty: 'Beginner', time: '10 mins', concepts: ['Decomposition', 'Sequencing'], image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200', locked: false, desc: 'Organize the ultimate school festival. You must plan the resources, sequence the setup, and execute the event flawlessly.' },
+    { id: 2, title: 'Smart City Planner', difficulty: 'Intermediate', time: '15 mins', concepts: ['Iteration', 'Decision Making'], image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200', locked: true, desc: 'Optimize traffic flow and city resources in real-time to prevent gridlock.' },
+    { id: 3, title: 'Robot Chef Academy', difficulty: 'Advanced', time: '20 mins', concepts: ['Precision', 'Loops'], image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1200', locked: true, desc: 'Program a robotic kitchen line to cook 500 meals without a single precision error.' },
+    { id: 4, title: 'Space Colony Survival', difficulty: 'Expert', time: '30 mins', concepts: ['All Pillars'], image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200', locked: true, desc: 'Manage oxygen, power, and food systems. One logical error means total colony failure.' },
+    { id: 5, title: 'Theme Park Designer', difficulty: 'Master', time: '45 mins', concepts: ['Systems Thinking'], image: 'https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?q=80&w=1200', locked: true, desc: 'Design coaster loops, manage crowds, and balance throughput efficiency.' }
+];
 
-// Pre-define the coordinates for each algorithmic action
-const LOCATIONS = {
-    start: { x: 0, z: 0 },
-    book_venue: { x: 2, z: 0 },
-    hire_vols: { x: 4, z: 2 },
-    order_food: { x: 0, z: 2 },
-    marketing: { x: 2, z: 2 },
-    open_gates: { x: 2, z: 4 }
-};
+const PLANNING_ITEMS = [
+    { id: 'venue', label: 'Venue Booking', essential: true, icon: '🏟️' },
+    { id: 'food', label: 'Food Vendors', essential: true, icon: '🍔' },
+    { id: 'vols', label: 'Volunteers', essential: true, icon: '🙋' },
+    { id: 'safety', label: 'Security & Safety', essential: true, icon: '🛡️' },
+    { id: 'market', label: 'Marketing', essential: true, icon: '📢' },
+    { id: 'laser', label: 'Laser Show', essential: false, icon: '✨' },
+    { id: 'celeb', label: 'Celebrity Guest', essential: false, icon: '⭐' }
+];
 
 const ALGO_BLOCKS = [
     { id: 'book_venue', label: 'Book Venue', icon: '🏟️' },
@@ -27,352 +28,437 @@ const ALGO_BLOCKS = [
     { id: 'open_gates', label: 'Open Gates', icon: '🎟️' }
 ];
 
-// The AAA Character loaded from the user's Mixamo FBX files!
-function AnimatedCharacter({ targetX, targetZ, animState }) {
-    const group = useRef();
-    
-    // Load all the user's FBX files!
-    const idleFbx = useFBX('/Idle.fbx');
-    const walkFbx = useFBX('/Walking.fbx');
-    const victoryFbx = useFBX('/Victory.fbx');
-    const defeatFbx = useFBX('/Defeat.fbx');
-    const typeFbx = useFBX('/Typing.fbx');
-
-    // Extract and rename animations so they don't all say "mixamo.com"
-    const animations = useMemo(() => {
-        const anims = [];
-        if (idleFbx.animations.length) { const a = idleFbx.animations[0].clone(); a.name = "IDLE"; anims.push(a); }
-        if (walkFbx.animations.length) { const a = walkFbx.animations[0].clone(); a.name = "WALK"; anims.push(a); }
-        if (victoryFbx.animations.length) { const a = victoryFbx.animations[0].clone(); a.name = "VICTORY"; anims.push(a); }
-        if (defeatFbx.animations.length) { const a = defeatFbx.animations[0].clone(); a.name = "DEFEAT"; anims.push(a); }
-        if (typeFbx.animations.length) { const a = typeFbx.animations[0].clone(); a.name = "INTERACT"; anims.push(a); }
-        return anims;
-    }, [idleFbx, walkFbx, victoryFbx, defeatFbx, typeFbx]);
-
-    const { actions } = useAnimations(animations, group);
-
-    // Animation Controller
-    useEffect(() => {
-        if (actions && actions[animState]) {
-            actions[animState].reset().fadeIn(0.2).play();
-            return () => actions[animState]?.fadeOut(0.2);
-        }
-    }, [animState, actions]);
-
-    // Physics & Movement Controller
-    useFrame((state, delta) => {
-        if(group.current) {
-            const currentX = group.current.position.x;
-            const currentZ = group.current.position.z;
-            
-            // Calculate distance to target
-            const dx = targetX - currentX;
-            const dz = targetZ - currentZ;
-            const distance = Math.sqrt(dx*dx + dz*dz);
-            
-            // Smoothly move towards target if walking
-            if (animState === 'WALK' && distance > 0.05) {
-                group.current.position.x += (dx / distance) * delta * 2; // speed
-                group.current.position.z += (dz / distance) * delta * 2;
-                
-                // Rotate to face walking direction
-                const targetRot = Math.atan2(dx, dz);
-                const targetQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), targetRot);
-                group.current.quaternion.slerp(targetQuat, delta * 10);
-            } else if (animState === 'DEFEAT') {
-                // Turn to face the camera in shame
-                const targetQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), 0);
-                group.current.quaternion.slerp(targetQuat, delta * 5);
-            } else if (animState === 'VICTORY') {
-                // Turn towards the "Gates"
-                const targetQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), Math.PI);
-                group.current.quaternion.slerp(targetQuat, delta * 5);
-            }
-        }
-    });
-
-    return (
-        <group ref={group} position={[LOCATIONS.start.x, 0, LOCATIONS.start.z]} scale={0.015} castShadow>
-            {/* We render the mesh from the Idle FBX, but apply animations from the others! */}
-            <primitive object={idleFbx} />
-        </group>
-    );
-}
-
-// Procedural Festival Ground Environment
-function FestivalGround() {
-    return (
-        <group>
-            {/* Main Ground */}
-            <mesh position={[2, -0.1, 2]} receiveShadow>
-                <boxGeometry args={[10, 0.2, 10]} />
-                <meshStandardMaterial color="#1e293b" />
-            </mesh>
-            
-            {/* Grid Pathways */}
-            {[0,1,2,3,4].map(x => (
-                <mesh key={`px-${x}`} position={[x, -0.04, 2]} receiveShadow>
-                    <boxGeometry args={[0.8, 0.02, 10]} />
-                    <meshStandardMaterial color="#334155" />
-                </mesh>
-            ))}
-            {[0,1,2,3,4].map(z => (
-                <mesh key={`pz-${z}`} position={[2, -0.04, z]} receiveShadow>
-                    <boxGeometry args={[10, 0.02, 0.8]} />
-                    <meshStandardMaterial color="#334155" />
-                </mesh>
-            ))}
-
-            {/* Venue Building (x:2, z:0) */}
-            <group position={[2, 0, -1]}>
-                <mesh position={[0, 1, 0]} castShadow receiveShadow>
-                    <boxGeometry args={[2, 2, 1.5]} />
-                    <meshStandardMaterial color="#3b82f6" />
-                </mesh>
-                <mesh position={[0, 2.5, 0]}>
-                    <coneGeometry args={[1.5, 1, 4]} />
-                    <meshStandardMaterial color="#1e3a8a" />
-                </mesh>
-            </group>
-
-            {/* Food Stalls (x:0, z:2) */}
-            <group position={[-1, 0, 2]}>
-                <mesh position={[0, 0.5, 0]} castShadow receiveShadow>
-                    <boxGeometry args={[1, 1, 1]} />
-                    <meshStandardMaterial color="#f59e0b" />
-                </mesh>
-                <mesh position={[0, 1.2, 0]}>
-                    <coneGeometry args={[0.8, 0.5, 4]} />
-                    <meshStandardMaterial color="#b45309" />
-                </mesh>
-            </group>
-
-            {/* Volunteers Tent (x:4, z:2) */}
-            <group position={[5, 0, 2]}>
-                <mesh position={[0, 0.5, 0]} castShadow receiveShadow>
-                    <boxGeometry args={[1, 1, 1]} />
-                    <meshStandardMaterial color="#10b981" />
-                </mesh>
-                <mesh position={[0, 1.2, 0]}>
-                    <coneGeometry args={[0.8, 0.5, 4]} />
-                    <meshStandardMaterial color="#047857" />
-                </mesh>
-            </group>
-
-            {/* The Main Gates (x:2, z:4) */}
-            <group position={[2, 0, 5]}>
-                <mesh position={[-1, 1, 0]} castShadow>
-                    <boxGeometry args={[0.5, 2, 0.5]} />
-                    <meshStandardMaterial color="#e2e8f0" metalness={0.8} />
-                </mesh>
-                <mesh position={[1, 1, 0]} castShadow>
-                    <boxGeometry args={[0.5, 2, 0.5]} />
-                    <meshStandardMaterial color="#e2e8f0" metalness={0.8} />
-                </mesh>
-                <mesh position={[0, 2.2, 0]} castShadow>
-                    <boxGeometry args={[2.5, 0.4, 0.5]} />
-                    <meshStandardMaterial color="#e2e8f0" metalness={0.8} />
-                </mesh>
-                {/* Glowing gate field */}
-                <mesh position={[0, 1, 0]}>
-                    <boxGeometry args={[1.5, 2, 0.1]} />
-                    <meshStandardMaterial color="#10b981" transparent opacity={0.3} emissive="#10b981" emissiveIntensity={2} />
-                </mesh>
-            </group>
-        </group>
-    );
-}
-
-// ==========================================
-// MAIN UI COMPONENT
-// ==========================================
 export default function Module3() {
-    const [algorithm, setAlgorithm] = useState([]);
-    const [simState, setSimState] = useState('IDLE'); // IDLE, RUNNING, SUCCESS, FAILED
-    const [failMessage, setFailMessage] = useState('');
+    const [gameState, setGameState] = useState('HUB'); // HUB, INTRO, PLANNING, BUILDER, SIMULATION, DEBUG, ANALYZER
+    const [selectedMission, setSelectedMission] = useState(null);
     
-    // Character State
-    const [targetPos, setTargetPos] = useState(LOCATIONS.start);
-    const [animState, setAnimState] = useState('IDLE'); // IDLE, WALK, INTERACT, VICTORY, DEFEAT
+    // Mission State
+    const [plan, setPlan] = useState([]);
+    const [sequence, setSequence] = useState([]);
+    
+    // Sim State
+    const [simStep, setSimStep] = useState(0);
+    const [simLog, setSimLog] = useState([]);
+    const [simStatus, setSimStatus] = useState('idle'); // idle, running, failed, success
+    const [failReason, setFailReason] = useState(null);
 
-    const resetSim = () => {
-        setTargetPos(LOCATIONS.start);
-        setAnimState('IDLE');
-        setSimState('IDLE');
-        setFailMessage('');
+    const startMission = (mission) => {
+        setSelectedMission(mission);
+        setPlan([]);
+        setSequence([]);
+        setGameState('INTRO');
+    };
+
+    const togglePlanItem = (item) => {
+        if (plan.find(p => p.id === item.id)) {
+            setPlan(plan.filter(p => p.id !== item.id));
+        } else {
+            setPlan([...plan, item]);
+        }
     };
 
     const toggleSequenceItem = (block) => {
-        if(simState !== 'IDLE') resetSim();
-        if (algorithm.find(s => s.id === block.id)) {
-            setAlgorithm(algorithm.filter(s => s.id !== block.id));
+        if (sequence.find(s => s.id === block.id)) {
+            setSequence(sequence.filter(s => s.id !== block.id));
         } else {
-            setAlgorithm([...algorithm, block]);
+            setSequence([...sequence, block]);
         }
     };
 
-    // Execution Logic
+    // --- Simulation Logic ---
     useEffect(() => {
-        if (simState === 'RUNNING') {
-            let step = 0;
-            
-            const executeNextBlock = () => {
-                if (step >= algorithm.length) {
-                    // Check completion
-                    if (algorithm.length === ALGO_BLOCKS.length && !failMessage) {
-                        setAnimState('VICTORY');
-                        setSimState('SUCCESS');
+        if (gameState === 'SIMULATION' && simStatus === 'running') {
+            if (simStep < sequence.length) {
+                const timer = setTimeout(() => {
+                    const currentAction = sequence[simStep].id;
+                    let error = null;
+                    
+                    // LOGIC CHECKS
+                    if (currentAction !== 'book_venue' && !sequence.slice(0, simStep).find(s => s.id === 'book_venue')) {
+                        error = { title: "Missing Sequencing", desc: `You tried to execute '${sequence[simStep].label}' without a venue! You must book a venue before taking other actions.` };
+                    }
+                    else if (currentAction === 'open_gates' && simStep < 4) {
+                        error = { title: "Premature Execution", desc: `You opened the gates before everything was ready! Total chaos ensued as the crowd rushed in with no food or volunteers.` };
+                    }
+                    else if (currentAction === 'marketing' && !sequence.slice(0, simStep).find(s => s.id === 'book_venue')) {
+                        error = { title: "Missing Decision Logic", desc: `You launched marketing but couldn't tell anyone WHERE the event is because you haven't booked a venue yet!` };
+                    }
+                    
+                    if (error) {
+                        setFailReason(error);
+                        setSimStatus('failed');
+                        setSimLog(prev => [...prev, { status: 'error', text: `❌ CRITICAL ERROR: ${sequence[simStep].label} failed.`}]);
                     } else {
-                        setAnimState('DEFEAT');
-                        setSimState('FAILED');
-                        setFailMessage(`Algorithm halted. Sequence incomplete or logic error occurred.`);
+                        setSimLog(prev => [...prev, { status: 'success', text: `✅ SUCCESS: ${sequence[simStep].label} completed seamlessly.`}]);
+                        setSimStep(s => s + 1);
                     }
-                    return;
-                }
-
-                const currentAction = algorithm[step];
-                let error = null;
-
-                // --- ALGORITHMIC LOGIC CHECKS ---
-                if (currentAction.id !== 'book_venue' && !algorithm.slice(0, step).find(s => s.id === 'book_venue')) {
-                    error = `You tried to execute '${currentAction.label}' without a venue! You must book a venue first.`;
-                }
-                else if (currentAction.id === 'open_gates' && step < 4) {
-                    error = `Premature Execution! You opened the gates before the festival was fully prepped.`;
-                }
-                else if (currentAction.id === 'marketing' && !algorithm.slice(0, step).find(s => s.id === 'book_venue')) {
-                    error = `You launched marketing but couldn't tell anyone WHERE the event is!`;
-                }
-
-                if (error) {
-                    setFailMessage(`CRITICAL ERROR: ${error}`);
-                    setAnimState('DEFEAT');
-                    setSimState('FAILED');
-                    return;
-                }
-
-                // If valid, walk to location
-                const destination = LOCATIONS[currentAction.id];
-                setTargetPos(destination);
-                setAnimState('WALK');
-
-                // Wait for walking to finish (simulated by timeout), then play INTERACT
-                setTimeout(() => {
-                    if (simState !== 'IDLE') { // Ensure they didn't reset
-                        setAnimState(currentAction.id === 'open_gates' ? 'VICTORY' : 'INTERACT');
-                        
-                        // Wait for interaction to finish, then go next
-                        setTimeout(() => {
-                            if (simState !== 'IDLE') {
-                                step++;
-                                executeNextBlock();
-                            }
-                        }, 2000);
+                }, 1500);
+                return () => clearTimeout(timer);
+            } else {
+                // Final check for Decomposition
+                const missingEssentials = PLANNING_ITEMS.filter(item => item.essential && !plan.find(p => p.id === item.id));
+                const hasNonEssentials = plan.filter(p => !p.essential).length > 0;
+                
+                const timer = setTimeout(() => {
+                    if (missingEssentials.length > 0) {
+                         setFailReason({ title: "Poor Decomposition", desc: `The event ran, but ultimately failed because your initial plan was missing core components: ${missingEssentials.map(e => e.label).join(', ')}.` });
+                         setSimStatus('failed');
+                    } else if (hasNonEssentials) {
+                         setFailReason({ title: "Resource Inefficiency", desc: `You succeeded, but you wasted budget on non-essential items like Laser Shows or Celebrities. Algorithmic thinking requires prioritizing essential components first.` });
+                         setSimStatus('failed');
+                    } else {
+                         setSimStatus('success');
                     }
-                }, 2500); // 2.5s walk time
-            };
-
-            // Start loop
-            executeNextBlock();
+                }, 1000);
+                return () => clearTimeout(timer);
+            }
         }
-    }, [simState]);
+    }, [gameState, simStatus, simStep, sequence, plan]);
+
+    // --- Renderers ---
+    const renderHub = () => (
+        <div style={{ padding: '40px', animation: 'fadeIn 0.5s ease' }}>
+            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+                <h1 style={{ fontSize: '36px', fontWeight: 'bold', background: 'linear-gradient(90deg, #6366f1, #a855f7, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '10px' }}>MISSION HUB</h1>
+                <p style={{ color: '#94a3b8', fontSize: '18px' }}>Select a scenario to test your algorithmic thinking in the field.</p>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+                {MISSIONS.map(mission => (
+                    <div 
+                        key={mission.id}
+                        onClick={() => !mission.locked && startMission(mission)}
+                        style={{ 
+                            background: 'rgba(255,255,255,0.03)', 
+                            borderRadius: '20px', 
+                            overflow: 'hidden', 
+                            border: `1px solid ${mission.locked ? 'rgba(255,255,255,0.05)' : 'rgba(99, 102, 241, 0.4)'}`,
+                            cursor: mission.locked ? 'not-allowed' : 'pointer',
+                            opacity: mission.locked ? 0.6 : 1,
+                            transition: 'all 0.3s',
+                            boxShadow: mission.locked ? 'none' : '0 10px 30px rgba(0,0,0,0.5)',
+                            transform: 'translateY(0)'
+                        }}
+                        onMouseEnter={(e) => { if(!mission.locked) { e.currentTarget.style.transform = 'translateY(-10px)'; e.currentTarget.style.borderColor = '#8b5cf6'; } }}
+                        onMouseLeave={(e) => { if(!mission.locked) { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.4)'; } }}
+                    >
+                        <div style={{ height: '160px', position: 'relative' }}>
+                            <img src={mission.image} alt={mission.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            {mission.locked && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px' }}>🔒</div>}
+                        </div>
+                        <div style={{ padding: '24px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                                <span style={{ background: mission.locked ? '#334155' : '#6366f1', padding: '4px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold' }}>{mission.difficulty}</span>
+                                <span style={{ color: '#94a3b8', fontSize: '14px' }}>⏱️ {mission.time}</span>
+                            </div>
+                            <h3 style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '10px' }}>{mission.title}</h3>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                {mission.concepts.map(c => <span key={c} style={{ fontSize: '12px', color: '#94a3b8', border: '1px solid #334155', padding: '4px 8px', borderRadius: '4px' }}>{c}</span>)}
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+
+    const renderIntro = () => (
+        <div style={{ padding: '80px 40px', textAlign: 'center', animation: 'fadeIn 0.5s ease' }}>
+            <h2 style={{ color: '#6366f1', fontWeight: 'bold', letterSpacing: '2px', marginBottom: '10px' }}>MISSION 01</h2>
+            <h1 style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '24px' }}>{selectedMission.title}</h1>
+            <p style={{ fontSize: '20px', color: '#94a3b8', maxWidth: '600px', margin: '0 auto 40px', lineHeight: '1.6' }}>{selectedMission.desc}</p>
+            
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+                <button onClick={() => setGameState('HUB')} style={{ padding: '16px 32px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '12px', cursor: 'pointer', fontSize: '16px' }}>Cancel Mission</button>
+                <button onClick={() => setGameState('PLANNING')} style={{ padding: '16px 40px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '12px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 20px rgba(59, 130, 246, 0.4)' }}>Initiate Planning Phase 🚀</button>
+            </div>
+        </div>
+    );
+
+    const renderPlanning = () => (
+        <div style={{ padding: '40px', animation: 'fadeIn 0.5s ease', display: 'flex', flexDirection: 'column', minHeight: '60vh' }}>
+            <div style={{ marginBottom: '30px' }}>
+                <h2 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}>Phase 1: Decomposition</h2>
+                <p style={{ color: '#94a3b8' }}>Analyze the mission and select ONLY the essential components required for success. Avoid unnecessary bloat.</p>
+            </div>
+            
+            <div style={{ display: 'flex', gap: '40px', flex: 1 }}>
+                <div style={{ flex: 1, background: 'rgba(0,0,0,0.2)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <h3 style={{ marginBottom: '20px', color: '#94a3b8' }}>Available Resources</h3>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                        {PLANNING_ITEMS.map(item => {
+                            const isSelected = plan.find(p => p.id === item.id);
+                            return (
+                                <div 
+                                    key={item.id}
+                                    onClick={() => togglePlanItem(item)}
+                                    style={{ 
+                                        padding: '12px 20px', 
+                                        background: isSelected ? '#3b82f6' : '#1e293b',
+                                        border: `1px solid ${isSelected ? '#60a5fa' : '#334155'}`,
+                                        borderRadius: '8px',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '10px',
+                                        opacity: isSelected ? 0.5 : 1
+                                    }}
+                                >
+                                    <span>{item.icon}</span> {item.label}
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+                
+                <div style={{ flex: 1, background: 'rgba(59, 130, 246, 0.05)', borderRadius: '16px', padding: '24px', border: '1px dashed #3b82f6' }}>
+                    <h3 style={{ marginBottom: '20px', color: '#60a5fa' }}>Your Core Plan ({plan.length} selected)</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        {plan.length === 0 && <div style={{ color: '#94a3b8', fontStyle: 'italic', padding: '20px', textAlign: 'center' }}>Click resources to add them to your plan.</div>}
+                        {plan.map(item => (
+                            <div key={item.id} onClick={() => togglePlanItem(item)} style={{ padding: '16px', background: '#1e293b', border: '1px solid #334155', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+                                <span>{item.icon}</span> <strong>{item.label}</strong>
+                                <span style={{ marginLeft: 'auto', color: '#ef4444' }}>✕</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            
+            <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'flex-end' }}>
+                <button 
+                    onClick={() => setGameState('BUILDER')} 
+                    disabled={plan.length === 0}
+                    style={{ padding: '16px 40px', background: plan.length > 0 ? '#10b981' : '#334155', color: 'white', border: 'none', borderRadius: '12px', fontSize: '18px', fontWeight: 'bold', cursor: plan.length > 0 ? 'pointer' : 'not-allowed', transition: 'all 0.2s' }}
+                >
+                    Proceed to Sequencing ➡️
+                </button>
+            </div>
+        </div>
+    );
+
+    const renderBuilder = () => (
+        <div style={{ padding: '40px', animation: 'fadeIn 0.5s ease', display: 'flex', flexDirection: 'column', minHeight: '60vh' }}>
+            <div style={{ marginBottom: '30px' }}>
+                <h2 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}>Phase 2: Sequencing</h2>
+                <p style={{ color: '#94a3b8' }}>Construct the execution pipeline. The order of operations is critical. Click blocks to add them to your pipeline.</p>
+            </div>
+            
+            <div style={{ display: 'flex', gap: '40px', flex: 1 }}>
+                <div style={{ flex: '1', background: 'rgba(0,0,0,0.2)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <h3 style={{ marginBottom: '20px', color: '#94a3b8' }}>Action Blocks</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        {ALGO_BLOCKS.map(block => {
+                            const isUsed = sequence.find(s => s.id === block.id);
+                            return (
+                                <div 
+                                    key={block.id}
+                                    onClick={() => toggleSequenceItem(block)}
+                                    style={{ 
+                                        padding: '16px', 
+                                        background: isUsed ? '#334155' : '#1e293b',
+                                        border: `1px solid ${isUsed ? '#0f172a' : '#475569'}`,
+                                        borderRadius: '8px',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '12px',
+                                        opacity: isUsed ? 0.3 : 1
+                                    }}
+                                >
+                                    <span style={{ fontSize: '20px' }}>{block.icon}</span>
+                                    <span style={{ fontWeight: 'bold' }}>{block.label}</span>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+                
+                <div style={{ flex: '2', background: '#0f172a', borderRadius: '16px', padding: '24px', border: '1px solid #334155', position: 'relative' }}>
+                    <h3 style={{ marginBottom: '30px', color: '#e2e8f0', textAlign: 'center' }}>Execution Pipeline</h3>
+                    
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                        <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: '#334155', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>START</div>
+                        
+                        {sequence.map((block, i) => (
+                            <React.Fragment key={block.id}>
+                                <div style={{ color: '#10b981', fontSize: '24px' }}>→</div>
+                                <div onClick={() => toggleSequenceItem(block)} style={{ padding: '16px 20px', background: '#059669', borderRadius: '8px', border: '1px solid #34d399', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', boxShadow: '0 4px 15px rgba(16, 185, 129, 0.2)' }}>
+                                    <span>{block.icon}</span> <strong>{block.label}</strong>
+                                </div>
+                            </React.Fragment>
+                        ))}
+                        
+                        {sequence.length < ALGO_BLOCKS.length && (
+                            <React.Fragment>
+                                <div style={{ color: '#475569', fontSize: '24px' }}>→</div>
+                                <div style={{ padding: '16px 40px', background: 'transparent', border: '2px dashed #475569', borderRadius: '8px', color: '#94a3b8' }}>Empty Slot</div>
+                            </React.Fragment>
+                        )}
+                        
+                        <div style={{ color: '#475569', fontSize: '24px' }}>→</div>
+                        <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: '#334155', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>END</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'flex-end' }}>
+                <button 
+                    onClick={() => { setGameState('SIMULATION'); setSimStatus('running'); setSimStep(0); setSimLog([]); setFailReason(null); }} 
+                    disabled={sequence.length !== ALGO_BLOCKS.length}
+                    style={{ padding: '16px 40px', background: sequence.length === ALGO_BLOCKS.length ? '#f59e0b' : '#334155', color: 'white', border: 'none', borderRadius: '12px', fontSize: '18px', fontWeight: 'bold', cursor: sequence.length === ALGO_BLOCKS.length ? 'pointer' : 'not-allowed', transition: 'all 0.2s', boxShadow: sequence.length === ALGO_BLOCKS.length ? '0 4px 20px rgba(245, 158, 11, 0.4)' : 'none' }}
+                >
+                    ▶️ Run Simulation
+                </button>
+            </div>
+        </div>
+    );
+
+    const renderSimulation = () => (
+        <div style={{ padding: '40px', animation: 'fadeIn 0.5s ease', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <h2 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '10px' }}>Live Simulation Running...</h2>
+            <p style={{ color: '#94a3b8', marginBottom: '40px' }}>Executing your algorithm in real-time environment.</p>
+            
+            <div style={{ width: '100%', maxWidth: '800px', background: '#020617', border: '1px solid #1e293b', borderRadius: '16px', padding: '30px', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ height: '4px', background: '#1e293b', borderRadius: '2px', marginBottom: '30px', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', background: simStatus === 'failed' ? '#ef4444' : simStatus === 'success' ? '#10b981' : '#3b82f6', width: `${(simStep / sequence.length) * 100}%`, transition: 'all 0.5s ease' }}></div>
+                </div>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', minHeight: '250px' }}>
+                    {simLog.map((log, i) => (
+                        <div key={i} style={{ padding: '16px', background: log.status === 'error' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)', borderLeft: `4px solid ${log.status === 'error' ? '#ef4444' : '#10b981'}`, borderRadius: '0 8px 8px 0', animation: 'slideInRight 0.3s ease', fontSize: '18px' }}>
+                            {log.text}
+                        </div>
+                    ))}
+                    
+                    {simStatus === 'running' && simStep < sequence.length && (
+                        <div style={{ padding: '16px', color: '#94a3b8', fontStyle: 'italic', display: 'flex', alignItems: 'center', gap: '10px', animation: 'pulse 1.5s infinite' }}>
+                            <span className="spinner">⚙️</span> Executing block: {sequence[simStep].label}...
+                        </div>
+                    )}
+                </div>
+            </div>
+            
+            {simStatus === 'failed' && (
+                <div style={{ marginTop: '40px', textAlign: 'center', animation: 'fadeInUp 0.5s ease' }}>
+                    <h1 style={{ color: '#ef4444', fontSize: '48px', fontWeight: 'bold', marginBottom: '20px' }}>MISSION FAILED</h1>
+                    <button onClick={() => setGameState('DEBUG')} style={{ padding: '16px 40px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '12px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 20px rgba(239, 68, 68, 0.4)' }}>Access Debug Logs 🛠️</button>
+                </div>
+            )}
+            
+            {simStatus === 'success' && (
+                <div style={{ marginTop: '40px', textAlign: 'center', animation: 'fadeInUp 0.5s ease' }}>
+                    <h1 style={{ color: '#10b981', fontSize: '48px', fontWeight: 'bold', marginBottom: '20px' }}>MISSION SUCCESS</h1>
+                    <button onClick={() => setGameState('ANALYZER')} style={{ padding: '16px 40px', background: '#10b981', color: 'white', border: 'none', borderRadius: '12px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 20px rgba(16, 185, 129, 0.4)' }}>View Performance Analyzer 📊</button>
+                </div>
+            )}
+        </div>
+    );
+
+    const renderDebug = () => (
+        <div style={{ padding: '60px 40px', animation: 'fadeIn 0.5s ease', maxWidth: '800px', margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+                <div style={{ width: '80px', height: '80px', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '40px', margin: '0 auto 20px', border: '2px solid #ef4444' }}>⚠️</div>
+                <h2 style={{ fontSize: '36px', fontWeight: 'bold', color: '#ef4444', marginBottom: '10px' }}>Debug Analysis</h2>
+                <p style={{ color: '#94a3b8', fontSize: '18px' }}>Your algorithm encountered a critical logic exception.</p>
+            </div>
+            
+            <div style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '16px', padding: '30px', marginBottom: '40px' }}>
+                <h3 style={{ color: '#fca5a5', fontSize: '24px', marginBottom: '15px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '15px' }}>Exception: {failReason?.title}</h3>
+                <p style={{ fontSize: '18px', lineHeight: '1.6' }}>{failReason?.desc}</p>
+            </div>
+            
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+                <button onClick={() => setGameState('PLANNING')} style={{ padding: '16px 32px', background: 'transparent', border: '1px solid #334155', color: 'white', borderRadius: '12px', cursor: 'pointer', fontSize: '16px' }}>⬅️ Back to Planning</button>
+                <button onClick={() => setGameState('BUILDER')} style={{ padding: '16px 40px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '12px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 20px rgba(59, 130, 246, 0.4)' }}>Refactor Algorithm ⚙️</button>
+            </div>
+        </div>
+    );
+
+    const renderAnalyzer = () => (
+        <div style={{ padding: '60px 40px', animation: 'fadeIn 0.5s ease', maxWidth: '800px', margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+                <div style={{ fontSize: '64px', marginBottom: '20px' }}>🏆</div>
+                <h2 style={{ fontSize: '42px', fontWeight: 'bold', background: 'linear-gradient(90deg, #10b981, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '10px' }}>Algorithmic Assessment</h2>
+                <p style={{ color: '#94a3b8', fontSize: '18px' }}>You successfully orchestrated the system without critical failures.</p>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '50px' }}>
+                <div style={{ background: '#1e293b', padding: '24px', borderRadius: '16px', border: '1px solid #334155' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <strong style={{ fontSize: '18px', color: '#60a5fa' }}>Decomposition</strong>
+                        <strong style={{ color: '#10b981' }}>100%</strong>
+                    </div>
+                    <div style={{ height: '8px', background: '#0f172a', borderRadius: '4px', overflow: 'hidden', marginBottom: '15px' }}>
+                        <div style={{ height: '100%', background: '#60a5fa', width: '100%' }}></div>
+                    </div>
+                    <p style={{ fontSize: '14px', color: '#94a3b8' }}>Perfectly isolated essential components without bloat.</p>
+                </div>
+                
+                <div style={{ background: '#1e293b', padding: '24px', borderRadius: '16px', border: '1px solid #334155' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <strong style={{ fontSize: '18px', color: '#f472b6' }}>Sequencing</strong>
+                        <strong style={{ color: '#10b981' }}>100%</strong>
+                    </div>
+                    <div style={{ height: '8px', background: '#0f172a', borderRadius: '4px', overflow: 'hidden', marginBottom: '15px' }}>
+                        <div style={{ height: '100%', background: '#f472b6', width: '100%' }}></div>
+                    </div>
+                    <p style={{ fontSize: '14px', color: '#94a3b8' }}>Flawless logical ordering of dependent events.</p>
+                </div>
+                
+                <div style={{ background: '#1e293b', padding: '24px', borderRadius: '16px', border: '1px solid #334155' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <strong style={{ fontSize: '18px', color: '#fbbf24' }}>Resource Efficiency</strong>
+                        <strong style={{ color: plan.length === 5 ? '#10b981' : '#fbbf24' }}>{plan.length === 5 ? '100%' : '75%'}</strong>
+                    </div>
+                    <div style={{ height: '8px', background: '#0f172a', borderRadius: '4px', overflow: 'hidden', marginBottom: '15px' }}>
+                        <div style={{ height: '100%', background: '#fbbf24', width: plan.length === 5 ? '100%' : '75%' }}></div>
+                    </div>
+                    <p style={{ fontSize: '14px', color: '#94a3b8' }}>{plan.length === 5 ? 'Zero wasted resources.' : 'Minor budget drain on non-essentials.'}</p>
+                </div>
+                
+                <div style={{ background: '#1e293b', padding: '24px', borderRadius: '16px', border: '1px solid #334155', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '32px', marginBottom: '10px' }}>🏅</div>
+                        <strong style={{ color: '#e2e8f0' }}>Master Planner Badge Unlocked</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div style={{ textAlign: 'center' }}>
+                <button onClick={() => setGameState('HUB')} style={{ padding: '16px 40px', background: '#6366f1', color: 'white', border: 'none', borderRadius: '12px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 20px rgba(99, 102, 241, 0.4)' }}>Return to Mission Hub</button>
+            </div>
+        </div>
+    );
 
     return (
-        <main style={{ maxWidth: '1400px', margin: '0 auto', padding: '20px', fontFamily: 'sans-serif', color: 'white' }}>
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <div style={{ fontSize: '24px', fontWeight: 'bold' }}>AlgoThink <span style={{ color: '#6366f1' }}>3D Mission</span></div>
+        <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif', color: 'white' }}>
+            <style dangerouslySetInnerHTML={{__html: `
+                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+                @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes slideInRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+                @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+                .spinner { display: inline-block; animation: spin 2s linear infinite; }
+                @keyframes spin { 100% { transform: rotate(360deg); } }
+            `}} />
+            
+            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
+                <div style={{ fontSize: '24px', fontWeight: 'bold' }}>AlgoThink <span style={{ color: '#6366f1' }}>Module 3</span></div>
                 <Link href="/dashboard" style={{ padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', textDecoration: 'none', borderRadius: '8px' }}>⬅️ Dashboard</Link>
             </header>
 
-            <div style={{ display: 'flex', gap: '30px', height: '75vh' }}>
-                
-                {/* LEFT: ALGORITHM BUILDER UI */}
-                <div style={{ width: '400px', background: '#0f172a', borderRadius: '24px', padding: '30px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column' }}>
-                    <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>Festival Logistics</h2>
-                    <p style={{ color: '#94a3b8', fontSize: '14px', marginBottom: '30px' }}>Arrange the action blocks in the correct logical sequence. Order matters.</p>
-                    
-                    <h3 style={{ fontSize: '14px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>Available Actions</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}>
-                        {ALGO_BLOCKS.map(block => {
-                            const isUsed = algorithm.find(s => s.id === block.id);
-                            return (
-                                <button 
-                                    key={block.id} 
-                                    onClick={() => toggleSequenceItem(block)} 
-                                    style={{ padding: '12px', background: isUsed ? '#334155' : '#1e293b', border: `1px solid ${isUsed ? '#0f172a' : '#475569'}`, borderRadius: '8px', color: 'white', cursor: 'pointer', textAlign: 'left', display: 'flex', gap: '10px', opacity: isUsed ? 0.4 : 1, transition: 'all 0.2s' }}
-                                >
-                                    <span style={{ fontSize: '20px' }}>{block.icon}</span> <strong style={{ alignSelf: 'center' }}>{block.label}</strong>
-                                </button>
-                            );
-                        })}
-                    </div>
-
-                    <div style={{ flex: 1, background: '#020617', borderRadius: '12px', border: '1px solid #1e293b', padding: '20px', overflowY: 'auto' }}>
-                        <h3 style={{ fontSize: '14px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '15px' }}>Execution Pipeline</h3>
-                        {algorithm.length === 0 && <p style={{ color: '#334155', textAlign: 'center', fontStyle: 'italic', marginTop: '40px' }}>Pipeline empty.</p>}
-                        
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            {algorithm.map((cmd, idx) => (
-                                <div key={cmd.id} onClick={() => toggleSequenceItem(cmd)} style={{ background: '#059669', padding: '12px 16px', borderRadius: '8px', border: '1px solid #34d399', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', boxShadow: '0 4px 15px rgba(16, 185, 129, 0.2)' }}>
-                                    <span>{idx + 1}.</span> <span>{cmd.icon}</span> <span style={{ fontWeight: 'bold' }}>{cmd.label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
-                        <button onClick={() => {setAlgorithm([]); resetSim();}} style={{ flex: 1, padding: '16px', background: 'transparent', border: '1px solid #ef4444', color: '#ef4444', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold' }}>Clear</button>
-                        <button onClick={() => { resetSim(); setSimState('RUNNING'); }} disabled={algorithm.length === 0 || simState === 'RUNNING'} style={{ flex: 2, padding: '16px', background: algorithm.length > 0 && simState !== 'RUNNING' ? '#10b981' : '#334155', color: 'white', border: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: 'bold', cursor: algorithm.length > 0 && simState !== 'RUNNING' ? 'pointer' : 'not-allowed', transition: 'all 0.2s', boxShadow: algorithm.length > 0 && simState !== 'RUNNING' ? '0 4px 15px rgba(16, 185, 129, 0.4)' : 'none' }}>
-                            ▶️ EXECUTE
-                        </button>
-                    </div>
-                </div>
-
-                {/* RIGHT: 3D ENGINE */}
-                <div style={{ flex: 1, position: 'relative', borderRadius: '24px', overflow: 'hidden', background: '#87CEEB', border: '1px solid rgba(255,255,255,0.1)', boxShadow: 'inset 0 0 100px rgba(0,0,0,0.8)' }}>
-                    
-                    {/* Status Overlays */}
-                    {simState === 'FAILED' && (
-                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(239, 68, 68, 0.2)', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }}>
-                            <h1 style={{ color: '#ef4444', fontSize: '64px', fontWeight: 'bold', textShadow: '0 4px 20px rgba(0,0,0,0.5)', marginBottom: '10px' }}>MISSION FAILED</h1>
-                            <p style={{ fontSize: '20px', background: 'rgba(0,0,0,0.8)', padding: '15px 30px', borderRadius: '12px', border: '1px solid #ef4444', maxWidth: '600px', textAlign: 'center' }}>{failMessage}</p>
-                            <button onClick={resetSim} style={{ marginTop: '30px', padding: '12px 30px', background: '#ef4444', border: 'none', color: 'white', borderRadius: '8px', fontSize: '18px', cursor: 'pointer', fontWeight: 'bold' }}>Debug & Retry</button>
-                        </div>
-                    )}
-
-                    {simState === 'SUCCESS' && (
-                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(16, 185, 129, 0.2)', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }}>
-                            <div style={{ fontSize: '80px', marginBottom: '20px' }}>🏆</div>
-                            <h1 style={{ color: '#10b981', fontSize: '56px', fontWeight: 'bold', textShadow: '0 4px 20px rgba(0,0,0,0.5)', marginBottom: '10px' }}>FESTIVAL SUCCESS</h1>
-                            <p style={{ fontSize: '20px', background: 'rgba(0,0,0,0.8)', padding: '15px 30px', borderRadius: '12px', border: '1px solid #10b981' }}>Your sequence was flawless.</p>
-                            <Link href="/course/module-4" style={{ marginTop: '30px', padding: '16px 40px', background: '#10b981', border: 'none', color: 'white', borderRadius: '12px', fontSize: '20px', cursor: 'pointer', fontWeight: 'bold', textDecoration: 'none', boxShadow: '0 4px 20px rgba(16, 185, 129, 0.5)' }}>Proceed to Module 4 ➡️</Link>
-                        </div>
-                    )}
-
-                    <Suspense fallback={<div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: '#1e293b', fontSize: '24px', fontWeight: 'bold' }}>Loading 3D Models...</div>}>
-                        <Canvas camera={{ position: [2, 6, 8], fov: 45 }} shadows>
-                            <color attach="background" args={['#87CEEB']} /> {/* Sky Blue */}
-                            <ambientLight intensity={0.7} />
-                            <directionalLight castShadow position={[5, 10, 5]} intensity={1.5} shadow-mapSize={[2048, 2048]} />
-                            <Environment preset="city" />
-                            
-                            <FestivalGround />
-                            
-                            {/* The Mixamo Character loaded directly from FBX files */}
-                            <AnimatedCharacter 
-                                targetX={targetPos.x} 
-                                targetZ={targetPos.z} 
-                                animState={animState}
-                            />
-
-                            <ContactShadows position={[2, -0.04, 2]} opacity={0.4} scale={20} blur={2} far={4} />
-                            <OrbitControls makeDefault target={[2, 0, 2]} maxPolarAngle={Math.PI / 2.1} minDistance={4} maxDistance={20} />
-                        </Canvas>
-                    </Suspense>
-                </div>
+            <div style={{ minHeight: '70vh', background: '#0f172a', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', position: 'relative', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
+                {gameState === 'HUB' && renderHub()}
+                {gameState === 'INTRO' && renderIntro()}
+                {gameState === 'PLANNING' && renderPlanning()}
+                {gameState === 'BUILDER' && renderBuilder()}
+                {gameState === 'SIMULATION' && renderSimulation()}
+                {gameState === 'DEBUG' && renderDebug()}
+                {gameState === 'ANALYZER' && renderAnalyzer()}
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                 <Link href="/course/module-2" style={{ padding: '12px 30px', background: 'rgba(255,255,255,0.05)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', textDecoration: 'none' }}>⬅️ Previous: Module 2</Link>
                 <Link href="/course/module-4" style={{ background: '#3b82f6', color: 'white', padding: '12px 30px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>Proceed to Module 4 ➡️</Link>
             </div>
