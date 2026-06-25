@@ -68,12 +68,12 @@ export default function Module2() {
             image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200',
             tags: [{ label: 'Decision Making', color: '#fbbf24' }, { label: 'Iteration', color: '#f97316' }, { label: 'Pattern Recognition', color: '#f472b6' }, { label: 'Precision', color: '#34d399' }],
             steps: [
-                { id: 1, title: 'Set Destination', desc: 'Define your end goal.', image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200' },
-                { id: 2, title: 'Calculate Route', desc: 'Find the shortest or fastest path.', image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200' },
-                { id: 3, title: 'Check Mirrors', desc: 'Gather data from your surroundings.', image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200' },
-                { id: 4, title: 'Accelerate / Brake', desc: 'Adjust speed based on the car ahead.', image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200' },
-                { id: 5, title: 'Loop Action', desc: 'Repeat steps 3 and 4 until arrived.', image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200' },
-                { id: 6, title: 'Arrive & Park', desc: 'Execution complete.', image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200' }
+                { id: 1, title: 'Input Destination', desc: 'Define the target endpoint for the algorithm.', image: '/1 (3).png' },
+                { id: 2, title: 'Calculate Initial Route', desc: 'Find the shortest path using distance and speed data.', image: '/2 (3).png' },
+                { id: 3, title: 'Follow Directions', desc: 'Execute the turn-by-turn sequence.', image: '/3 (3).png' },
+                { id: 4, title: 'Monitor Live Traffic', desc: 'Continuously gather real-time data for delays.', image: '/4 (3).png' },
+                { id: 5, title: 'Reroute if Needed', desc: 'Dynamically recalculate if a faster path opens up.', image: '/5 (3).png' },
+                { id: 6, title: 'Arrive at Target', desc: 'Destination reached. Execution complete.', image: '/6 (3).png' }
             ],
             mistakes: [
                 { icon: '🔄', title: 'Infinite Loop', desc: 'Getting stuck in a roundabout and missing your exit because your exit condition was never met.' },
@@ -250,15 +250,14 @@ export default function Module2() {
                     <>
                         <div style={{ display: 'flex', gap: '40px', marginBottom: '30px' }}>
                             {/* Left: Image Viewer */}
-                            <div style={{ flex: '1.4', position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', minHeight: '450px', background: '#0f172a' }}>
-                                {/* Render the image that corresponds to the active step */}
-                                <img key={activeData.steps[currentStep-1].image} src={activeData.steps[currentStep-1].image} alt={activeData.steps[currentStep-1].title} style={{ width: '100%', height: '100%', objectFit: 'contain', animation: 'fadeIn 0.5s ease', padding: '20px' }} />
-                                
-                                <div style={{ position: 'absolute', top: '20px', left: '20px', background: '#6366f1', padding: '8px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-                                    Step {currentStep} / 6
+                            <div style={{ flex: '1.4', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                {/* Image Container (No padding, rounded corners clip the sharp image edges) */}
+                                <div style={{ flex: 1, position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', background: '#0f172a', minHeight: '400px' }}>
+                                    <img key={activeData.steps[currentStep-1].image} src={activeData.steps[currentStep-1].image} alt={activeData.steps[currentStep-1].title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', animation: 'fadeIn 0.5s ease' }} />
                                 </div>
 
-                                <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px', background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(10px)', borderRadius: '16px', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                {/* Controls Container (Now completely separate, no longer overlapping the photo) */}
+                                <div style={{ background: 'rgba(15, 23, 42, 0.85)', borderRadius: '16px', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
                                     <button onClick={handlePrevStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'transparent', border: '1px solid var(--text-muted)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '20px', transition: 'all 0.2s' }}>←</button>
                                     <div style={{ flex: 1, margin: '0 24px' }}>
                                         <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '6px' }}>{activeData.steps[currentStep-1].title}</h3>
