@@ -24,7 +24,7 @@ export default function Module2() {
             title: 'The "Perfect" Morning Coffee',
             desc: 'Brew the perfect cup by following the right steps, in the right order.',
             image: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200',
-            tags: [{ label: 'Assumption', color: '#fbbf24' }, { label: 'Sequencing', color: '#60a5fa' }, { label: 'Precision', color: '#34d399' }],
+            tags: [{ label: 'Decomposition', color: '#c084fc' }, { label: 'Abstraction', color: '#818cf8' }, { label: 'Sequencing', color: '#60a5fa' }, { label: 'Precision', color: '#34d399' }],
             steps: [
                 { id: 1, title: 'Check Water', desc: 'Is the machine filled with fresh water?', image: '/1.png' },
                 { id: 2, title: 'Add Coffee Beans', desc: 'Measure the right amount of beans.', image: '/2.png' },
@@ -45,7 +45,7 @@ export default function Module2() {
             title: 'Doing the Laundry',
             desc: 'Use decomposition and decision making to clean your clothes the smart way.',
             image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=1200',
-            tags: [{ label: 'Decomposition', color: '#c084fc' }, { label: 'Pattern Recognition', color: '#f472b6' }, { label: 'Sequencing', color: '#60a5fa' }],
+            tags: [{ label: 'Decomposition', color: '#c084fc' }, { label: 'Pattern Recognition', color: '#f472b6' }, { label: 'Decision Making', color: '#fbbf24' }, { label: 'Sequencing', color: '#60a5fa' }],
             steps: [
                 { id: 1, title: 'Gather Laundry', desc: 'Collect all clothes from hampers.', image: 'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?q=80&w=1200' },
                 { id: 2, title: 'Sort by Color', desc: 'Separate whites, darks, and colors.', image: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=1200' },
@@ -59,24 +59,24 @@ export default function Module2() {
                 { icon: '🗑️', title: 'Unhandled Edge Cases', desc: 'Leaving tissues in a pocket. The algorithm didn\'t account for outliers.' },
                 { icon: '📦', title: 'Memory Overflow', desc: 'Overloading the machine beyond its capacity constraints, causing a crash (or bad wash).' }
             ],
-            funFact: { icon: '🌊', concept: 'Pipelining', title: 'Wash while you dry!', desc: 'Imagine waiting for Load 1 to wash AND dry before starting Load 2. That is too slow! A true speedrunner puts Load 1 in the dryer and immediately puts Load 2 in the washer. This continuous flow is called Pipelining.' }
+            funFact: { icon: '🗄️', concept: 'Batch Processing', title: 'Don\'t wash one sock!', desc: 'Washing one sock at a time is wildly inefficient. Waiting until you have a full basket and doing it all at once is called "Batch Processing" in computing, saving time and resources!' }
         },
         {
             id: 3,
             title: 'Navigating Traffic',
             desc: 'Navigate through traffic using iteration and real-time decisions.',
-            image: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200',
-            tags: [{ label: 'Precision', color: '#34d399' }, { label: 'Iteration', color: '#fb923c' }, { label: 'Loops', color: '#60a5fa' }],
+            image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200',
+            tags: [{ label: 'Decision Making', color: '#fbbf24' }, { label: 'Iteration', color: '#f97316' }, { label: 'Pattern Recognition', color: '#f472b6' }, { label: 'Precision', color: '#34d399' }],
             steps: [
-                { id: 1, title: 'Set Destination', desc: 'Input the exact address.', image: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=1200' },
-                { id: 2, title: 'Calculate Route', desc: 'Find the optimal path.', image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200' },
-                { id: 3, title: 'Start Driving', desc: 'Follow step-by-step directions.', image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=1200' },
-                { id: 4, title: 'Monitor Traffic', desc: 'Check for delays or accidents.', image: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200' },
-                { id: 5, title: 'Reroute if Needed', desc: 'Iterate the path based on new data.', image: 'https://images.unsplash.com/photo-1558227092-b43ecf4853eb?q=80&w=1200' },
-                { id: 6, title: 'Arrive safely', desc: 'Destination reached.', image: 'https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?q=80&w=1200' }
+                { id: 1, title: 'Set Destination', desc: 'Define your end goal.', image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200' },
+                { id: 2, title: 'Calculate Route', desc: 'Find the shortest or fastest path.', image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200' },
+                { id: 3, title: 'Check Mirrors', desc: 'Gather data from your surroundings.', image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200' },
+                { id: 4, title: 'Accelerate / Brake', desc: 'Adjust speed based on the car ahead.', image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200' },
+                { id: 5, title: 'Loop Action', desc: 'Repeat steps 3 and 4 until arrived.', image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200' },
+                { id: 6, title: 'Arrive & Park', desc: 'Execution complete.', image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1200' }
             ],
             mistakes: [
-                { icon: '♾️', title: 'Infinite Loops', desc: 'Circling the block forever because the algorithm lacks an exit condition.' },
+                { icon: '🔄', title: 'Infinite Loop', desc: 'Getting stuck in a roundabout and missing your exit because your exit condition was never met.' },
                 { icon: '🧟', title: 'Stale State Data', desc: 'Following a GPS route into a closed road because the traffic data wasn\'t updated.' },
                 { icon: '🛑', title: 'Unhandled Exceptions', desc: 'Getting a flat tire without a spare. The algorithm crashed and had no error-recovery plan.' }
             ],
