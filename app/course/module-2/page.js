@@ -271,12 +271,16 @@ export default function Module2() {
 
                                 {/* Controls Container (Now completely separate, no longer overlapping the photo) */}
                                 <div style={{ background: 'rgba(15, 23, 42, 0.85)', borderRadius: '16px', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
-                                    <button onClick={handlePrevStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'transparent', border: '1px solid var(--text-muted)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '32px', transition: 'all 0.2s' }}>←</button>
+                                    <button onClick={handlePrevStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'transparent', border: '1px solid var(--text-muted)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '32px', padding: 0, transition: 'all 0.2s' }}>
+                                        <span style={{ marginTop: '-4px' }}>←</span>
+                                    </button>
                                     <div style={{ flex: 1, margin: '0 24px' }}>
                                         <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '6px' }}>{activeData.steps[currentStep-1].title}</h3>
                                         <p style={{ color: 'var(--text-muted)', fontSize: '15px', margin: 0, lineHeight: '1.5' }}>{activeData.steps[currentStep-1].desc}</p>
                                     </div>
-                                    <button onClick={handleNextStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#6366f1', border: 'none', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '32px', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)' }}>→</button>
+                                    <button onClick={handleNextStep} style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#6366f1', border: 'none', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '32px', padding: 0, transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)' }}>
+                                        <span style={{ marginTop: '-4px' }}>→</span>
+                                    </button>
                                 </div>
                             </div>
 
