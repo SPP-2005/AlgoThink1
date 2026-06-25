@@ -47,12 +47,12 @@ export default function Module2() {
             image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=1200',
             tags: [{ label: 'Decomposition', color: '#c084fc' }, { label: 'Pattern Recognition', color: '#f472b6' }, { label: 'Decision Making', color: '#fbbf24' }, { label: 'Sequencing', color: '#60a5fa' }],
             steps: [
-                { id: 1, title: 'Gather Laundry', desc: 'Collect all clothes from hampers.', image: 'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?q=80&w=1200' },
-                { id: 2, title: 'Sort by Color', desc: 'Separate whites, darks, and colors.', image: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=1200' },
-                { id: 3, title: 'Check Labels', desc: 'Identify delicate or dry-clean only items.', image: 'https://images.unsplash.com/photo-1584844141695-8120fbba1e98?q=80&w=1200' },
-                { id: 4, title: 'Load Machine', desc: 'Do not overload; leave room for agitation.', image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=1200' },
-                { id: 5, title: 'Select Cycle', desc: 'Choose temperature and spin speed.', image: 'https://images.unsplash.com/photo-1582735689255-7fc75bb42f1b?q=80&w=1200' },
-                { id: 6, title: 'Dry and Fold', desc: 'Transfer to dryer or hang, then fold.', image: 'https://images.unsplash.com/photo-1581084364407-73d8ab5b4971?q=80&w=1200' }
+                { id: 1, title: 'Gather Laundry', desc: 'Collect all clothes from hampers.', image: '/1 (2).png' },
+                { id: 2, title: 'Sort by Color', desc: 'Separate whites, darks, and colors.', image: '/2 (2).png' },
+                { id: 3, title: 'Check Labels', desc: 'Identify delicate or dry-clean only items.', image: '/3 (2).png' },
+                { id: 4, title: 'Load Machine', desc: 'Do not overload; leave room for agitation.', image: '/4 (2).png' },
+                { id: 5, title: 'Select Cycle', desc: 'Choose temperature and spin speed.', image: '/5 (2).png' },
+                { id: 6, title: 'Dry and Fold', desc: 'Transfer to dryer or hang, then fold.', image: '/6 (2).png' }
             ],
             mistakes: [
                 { icon: '💥', title: 'Bad Branching Logic', desc: 'Mixing a red shirt with whites because the sorting logic was flawed.' },
