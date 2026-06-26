@@ -315,198 +315,124 @@ export default function Module3() {
         </div>
     );
 
-    // Dynamic Flood-Fill Background Removal for Storybook Images
-    const TransparentImage = ({ src, style, className }) => {
-        const [imgSrc, setImgSrc] = useState(null);
-
-        useEffect(() => {
-            const img = new Image();
-            img.crossOrigin = "Anonymous";
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                const ctx = canvas.getContext('2d', { willReadFrequently: true });
-                ctx.drawImage(img, 0, 0);
-                
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const data = imageData.data;
-                const width = canvas.width;
-                const height = canvas.height;
-                
-                // Keep track of visited pixels
-                const visited = new Uint8Array(width * height);
-                // Start flood fill from all 4 corners and borders
-                const stack = [];
-                for(let x=0; x<width; x++) { stack.push([x,0]); stack.push([x,height-1]); }
-                for(let y=0; y<height; y++) { stack.push([0,y]); stack.push([width-1,y]); }
-                
-                while(stack.length > 0) {
-                    const [x, y] = stack.pop();
-                    if (x < 0 || x >= width || y < 0 || y >= height) continue;
-                    
-                    const idx = y * width + x;
-                    if (visited[idx]) continue;
-                    
-                    const dataIdx = idx * 4;
-                    const r = data[dataIdx];
-                    const g = data[dataIdx + 1];
-                    const b = data[dataIdx + 2];
-                    
-                    // Calculate lightness
-                    const l = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-                    
-                    // If it's a light background pixel
-                    if (l > 230) {
-                        visited[idx] = 1;
-                        // Smooth feathering alpha
-                        const alpha = Math.max(0, 255 - ((l - 230) * (255 / 25)));
-                        data[dataIdx + 3] = Math.min(data[dataIdx + 3], alpha);
-                        
-                        stack.push([x+1, y], [x-1, y], [x, y+1], [x, y-1]);
-                    }
-                }
-                
-                ctx.putImageData(imageData, 0, 0);
-                setImgSrc(canvas.toDataURL('image/png'));
-            };
-            img.src = src;
-        }, [src]);
-
-        if (!imgSrc) return null;
-        return <img src={imgSrc} style={{ ...style, objectFit: 'contain' }} className={className} alt="" />;
-    };
-
     const renderSimulation = () => {
         const currentAction = simStatus === 'running' && simStep < sequence.length 
             ? sequence[simStep].id 
             : (simStatus === 'success' ? 'success' : (simStatus === 'failed' ? 'failed' : 'start'));
 
+        const getSceneImage = () => {
+            switch(currentAction) {
+                case 'book_venue': return '/assets/storybook/prop_tent.png';
+                case 'order_food': return '/assets/storybook/prop_truck.png';
+                case 'hire_vols': return '/assets/storybook/prop_vols.png';
+                case 'open_gates': return '/assets/storybook/prop_crowd.png';
+                case 'marketing': return '/assets/storybook/char_student.png';
+                case 'start': return '/assets/storybook/bg_park.png';
+                case 'success': return '/assets/storybook/char_student.png';
+                case 'failed': return '/assets/storybook/char_student.png';
+                default: return '/assets/storybook/char_student.png';
+            }
+        };
+
+        const getSceneTitle = () => {
+            switch(currentAction) {
+                case 'book_venue': return 'Booking the Main Venue...';
+                case 'order_food': return 'Ordering Food Trucks...';
+                case 'hire_vols': return 'Hiring Volunteers...';
+                case 'open_gates': return 'Opening the Gates...';
+                case 'marketing': return 'Launching Marketing Campaign...';
+                case 'start': return 'Initializing Festival Protocol...';
+                case 'success': return 'Festival is a Massive Success!';
+                case 'failed': return 'System Crash Detected!';
+                default: return 'Processing...';
+            }
+        };
+
         return (
-        <div style={{ width: '100%', height: '70vh', position: 'relative', overflow: 'hidden', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)', background: '#87CEEB', border: '1px solid rgba(255,255,255,0.1)' }}>
-            <style>{`
-                @keyframes fadeScene { 0% { opacity: 0; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
-                @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-                @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); } 50% { box-shadow: 0 0 50px rgba(99, 102, 241, 0.8); } }
-                .scene-container { position: absolute; inset: 0; animation: fadeScene 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
-            `}</style>
+        <div style={{ width: '100%', height: '75vh', background: '#0f172a', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)', animation: 'fadeIn 0.5s ease' }}>
             
-            {/* Background is always park */}
-            <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/assets/storybook/bg_park.png)', backgroundSize: 'cover', backgroundPosition: 'center', filter: simStatus === 'failed' ? 'grayscale(100%) brightness(40%) sepia(50%) hue-rotate(-50deg)' : 'none', transition: 'all 0.5s' }}></div>
-
-            {/* Scene Content - Changes completely per step */}
-            <div key={currentAction} className="scene-container">
-                
-                {/* The student is always present on the left */}
-                <div style={{ position: 'absolute', left: '10%', bottom: '15%', width: '250px', height: '400px', zIndex: 20 }}>
-                    <TransparentImage src="/assets/storybook/char_student.png" style={{ width: '100%', height: '100%', animation: 'float 4s ease-in-out infinite', filter: simStatus === 'failed' ? 'brightness(0.5)' : 'none' }} />
+            {/* Top Header Bar */}
+            <div style={{ height: '80px', borderBottom: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 40px', background: 'rgba(0,0,0,0.2)', flexShrink: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <div style={{ width: '15px', height: '15px', borderRadius: '50%', background: simStatus === 'running' ? '#ef4444' : (simStatus === 'success' ? '#10b981' : '#f59e0b'), animation: simStatus === 'running' ? 'pulse 1s infinite' : 'none' }}></div>
+                    <span style={{ color: 'white', fontSize: '20px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase' }}>
+                        {simStatus === 'running' ? `Recording Step ${Math.min(simStep + 1, sequence.length)} of ${sequence.length}` : (simStatus === 'success' ? 'Simulation Complete' : 'Simulation Failed')}
+                    </span>
                 </div>
-
-                {/* Exclusive Scene Props */}
-                {currentAction === 'book_venue' && (
-                    <div style={{ position: 'absolute', right: '10%', bottom: '15%', width: '500px', height: '400px', zIndex: 10 }}>
-                        <TransparentImage src="/assets/storybook/prop_tent.png" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))' }} />
-                        <div style={{ position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', background: 'white', padding: '15px 30px', borderRadius: '20px', fontSize: '24px', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>⛺ Venue Booked</div>
-                    </div>
-                )}
-
-                {currentAction === 'order_food' && (
-                    <div style={{ position: 'absolute', right: '10%', bottom: '15%', width: '500px', height: '350px', zIndex: 10 }}>
-                        <TransparentImage src="/assets/storybook/prop_truck.png" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))' }} />
-                        <div style={{ position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', background: 'white', padding: '15px 30px', borderRadius: '20px', fontSize: '24px', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>🍔 Food Ordered</div>
-                    </div>
-                )}
-
-                {currentAction === 'hire_vols' && (
-                    <div style={{ position: 'absolute', right: '15%', bottom: '15%', width: '400px', height: '300px', zIndex: 10 }}>
-                        <TransparentImage src="/assets/storybook/prop_vols.png" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))' }} />
-                        <div style={{ position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', background: 'white', padding: '15px 30px', borderRadius: '20px', fontSize: '24px', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>🤝 Vols Hired</div>
-                    </div>
-                )}
-
-                {currentAction === 'marketing' && (
-                    <div style={{ position: 'absolute', right: '15%', bottom: '30%', width: '400px', height: '200px', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <div style={{ background: '#6366f1', color: 'white', padding: '30px 50px', borderRadius: '30px', fontSize: '40px', fontWeight: '900', textAlign: 'center', boxShadow: '0 20px 40px rgba(99, 102, 241, 0.4)', transform: 'rotate(5deg)' }}>
-                            📣 FESTIVAL<br/>MARKETING!
-                        </div>
-                    </div>
-                )}
-
-                {currentAction === 'open_gates' && (
-                    <div style={{ position: 'absolute', right: '5%', bottom: '10%', width: '600px', height: '400px', zIndex: 10 }}>
-                        <TransparentImage src="/assets/storybook/prop_crowd.png" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))' }} />
-                        <div style={{ position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', background: 'white', padding: '15px 30px', borderRadius: '20px', fontSize: '24px', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>🎟️ Gates Opened!</div>
-                    </div>
-                )}
-
-                {(currentAction === 'calculate_budget' || currentAction === 'check_supplies') && (
-                    <div style={{ position: 'absolute', left: '32%', bottom: '50%', zIndex: 10 }}>
-                        <div style={{ background: 'white', padding: '20px 30px', borderRadius: '30px', fontSize: '30px', boxShadow: '0 10px 20px rgba(0,0,0,0.2)', animation: 'float 3s infinite', position: 'relative' }}>
-                            <div style={{ position: 'absolute', bottom: '-15px', left: '20px', width: '20px', height: '20px', background: 'white', borderRadius: '50%' }}></div>
-                            <div style={{ position: 'absolute', bottom: '-30px', left: '10px', width: '10px', height: '10px', background: 'white', borderRadius: '50%' }}></div>
-                            💭 {currentAction === 'calculate_budget' ? 'Calculating Budget...' : 'Checking Supplies...'}
-                        </div>
-                    </div>
-                )}
-
-                {currentAction === 'success' && (
-                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(16, 185, 129, 0.4)', zIndex: 30, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)' }}>
-                        <div style={{ fontSize: '150px', filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))', animation: 'float 2s infinite' }}>🏆</div>
-                        <div style={{ fontSize: '60px', fontWeight: '900', color: 'white', textShadow: '0 5px 20px rgba(0,0,0,0.5)', marginTop: '20px', letterSpacing: '2px' }}>FESTIVAL SUCCESS!</div>
-                    </div>
-                )}
-
-                {currentAction === 'failed' && (
-                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(220, 38, 38, 0.7)', zIndex: 30, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)' }}>
-                        <div style={{ fontSize: '150px', filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))' }}>💥</div>
-                        <div style={{ fontSize: '60px', fontWeight: '900', color: 'white', textShadow: '0 5px 20px rgba(0,0,0,0.5)', marginTop: '20px', letterSpacing: '2px' }}>SYSTEM CRASH!</div>
-                    </div>
-                )}
+                <div style={{ color: '#94a3b8', fontSize: '18px', fontWeight: '500' }}>
+                    Algorithm Visualizer v2.0
+                </div>
             </div>
 
-            {/* Cinematic Visual Novel UI Dialogue Box */}
-            <div style={{ position: 'absolute', bottom: '30px', left: '50%', transform: 'translateX(-50%)', width: '90%', maxWidth: '1000px', background: 'rgba(15, 23, 42, 0.95)', backdropFilter: 'blur(30px)', border: '2px solid rgba(99, 102, 241, 0.3)', borderTop: '4px solid #6366f1', borderRadius: '24px', padding: '30px', zIndex: 40, boxShadow: '0 30px 60px rgba(0,0,0,0.8)', display: 'flex', gap: '30px', alignItems: 'center', animation: 'fadeInUp 0.5s ease 0.5s both, pulseGlow 4s infinite' }}>
+            {/* Main Content Area: Split 50/50 */}
+            <div style={{ flex: 1, display: 'flex', padding: '40px', gap: '40px', background: 'radial-gradient(circle at center, #1e293b 0%, #0f172a 100%)', minHeight: 0 }}>
                 
-                {/* Character Portrait */}
-                <div style={{ width: '120px', height: '120px', borderRadius: '50%', background: 'white', border: '5px solid #6366f1', overflow: 'hidden', flexShrink: 0, boxShadow: '0 10px 20px rgba(0,0,0,0.4)', position: 'relative' }}>
-                    <TransparentImage src="/assets/storybook/char_student.png" style={{ width: '100%', height: '100%', filter: simStatus === 'failed' ? 'grayscale(100%) sepia(100%) hue-rotate(-50deg) saturate(300%)' : 'none', transform: simStatus === 'running' ? 'scale(1.1) translateY(5px)' : 'scale(1)', transition: 'all 0.3s' }} />
-                </div>
-                
-                {/* Text Content */}
-                <div style={{ flex: 1 }}>
-                    <div style={{ color: simStatus === 'failed' ? '#ef4444' : simStatus === 'success' ? '#10b981' : '#818cf8', fontWeight: '900', fontSize: '22px', letterSpacing: '2px', marginBottom: '12px', textTransform: 'uppercase' }}>
-                        {simStatus === 'failed' ? '⚠️ SYSTEM CRASH DETECTED' : simStatus === 'success' ? '🎉 MISSION ACCOMPLISHED' : '⚡ ALGORITHM EXECUTING...'}
+                {/* Left Side: The Visual Scene Frame */}
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ position: 'relative', width: '100%', maxWidth: '400px', aspectRatio: '1/1', background: 'white', borderRadius: '32px', padding: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.4)', transition: 'all 0.3s ease', transform: simStatus === 'failed' ? 'rotate(-2deg)' : 'rotate(0)' }}>
+                        <img 
+                            key={currentAction} 
+                            src={getSceneImage()} 
+                            alt="Scene" 
+                            style={{ width: '100%', height: '100%', objectFit: 'contain', animation: 'fadeIn 0.5s ease', filter: simStatus === 'failed' ? 'grayscale(100%) sepia(50%) hue-rotate(-50deg) saturate(300%)' : 'none' }} 
+                        />
+                        {/* Status Icon Overlay */}
+                        {simStatus === 'success' && <div style={{ position: 'absolute', top: '-30px', right: '-30px', fontSize: '80px', filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.3))', animation: 'popBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>🏆</div>}
+                        {simStatus === 'failed' && <div style={{ position: 'absolute', top: '-30px', right: '-30px', fontSize: '80px', filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.3))', animation: 'popBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>❌</div>}
                     </div>
+                    <h2 style={{ color: 'white', fontSize: '32px', fontWeight: '800', marginTop: '40px', textAlign: 'center', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+                        {getSceneTitle()}
+                    </h2>
+                </div>
+
+                {/* Right Side: Structured Execution Log */}
+                <div style={{ width: '450px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden', flexShrink: 0 }}>
                     
-                    {simStatus === 'running' && simStep < sequence.length ? (
-                        <>
-                            {simLog.length > 0 && <div style={{ color: '#94a3b8', fontSize: '18px', marginBottom: '12px', fontStyle: 'italic' }}>✓ {simLog[simLog.length - 1].text}</div>}
-                            <div style={{ color: 'white', fontSize: '26px', lineHeight: '1.4', fontWeight: 'bold' }}>
-                                <span className="spinner" style={{ marginRight: '15px', display: 'inline-block' }}>⚙️</span>
-                                <span style={{ animation: 'pulse 1s infinite' }}>Currently Executing: {sequence[simStep].label}...</span>
+                    {/* Log Header */}
+                    <div style={{ padding: '24px 30px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)' }}>
+                        <h3 style={{ margin: 0, color: '#818cf8', fontSize: '20px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>Execution Log</h3>
+                    </div>
+
+                    {/* Log Entries */}
+                    <div style={{ flex: 1, padding: '30px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                        {simLog.map((log, index) => (
+                            <div key={index} style={{ padding: '16px 20px', background: log.isError ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)', borderLeft: `4px solid ${log.isError ? '#ef4444' : '#10b981'}`, borderRadius: '0 12px 12px 0', color: 'white', fontSize: '18px', animation: 'slideInRight 0.3s ease' }}>
+                                <div style={{ fontWeight: 'bold', color: log.isError ? '#fca5a5' : '#6ee7b7', marginBottom: '4px' }}>{log.isError ? 'ERROR' : 'SUCCESS'}</div>
+                                <div>{log.text}</div>
                             </div>
-                        </>
-                    ) : (
-                        <div style={{ color: 'white', fontSize: '24px', lineHeight: '1.5', fontWeight: '600' }}>
-                            {simLog.length > 0 ? simLog[simLog.length - 1].text : "Simulation Finished."}
-                        </div>
-                    )}
+                        ))}
+                        {simStatus === 'running' && (
+                            <div style={{ padding: '16px 20px', background: 'rgba(99, 102, 241, 0.1)', borderLeft: '4px solid #6366f1', borderRadius: '0 12px 12px 0', color: 'white', fontSize: '18px', animation: 'pulse 1.5s infinite' }}>
+                                <div style={{ fontWeight: 'bold', color: '#818cf8', marginBottom: '4px' }}>EXECUTING</div>
+                                <div>{sequence[simStep]?.label}...</div>
+                            </div>
+                        )}
+                        {simLog.length === 0 && simStatus !== 'running' && (
+                            <div style={{ color: '#94a3b8', fontSize: '16px', textAlign: 'center', marginTop: '20px', fontStyle: 'italic' }}>Waiting for execution to begin...</div>
+                        )}
+                    </div>
+
+                    {/* Footer Actions */}
+                    <div style={{ padding: '30px', borderTop: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)', display: 'flex', justifyContent: 'center' }}>
+                        {simStatus === 'running' && (
+                            <div style={{ color: '#94a3b8', fontSize: '18px', fontStyle: 'italic' }}>Please wait for execution...</div>
+                        )}
+                        {simStatus === 'failed' && (
+                            <button onClick={() => setGameState('DEBUG')} style={{ width: '100%', padding: '20px', background: '#ef4444', color: 'white', fontSize: '22px', fontWeight: 'bold', borderRadius: '16px', border: 'none', cursor: 'pointer', boxShadow: '0 10px 20px rgba(239, 68, 68, 0.3)' }}>
+                                FIX ALGORITHM 🛠️
+                            </button>
+                        )}
+                        {simStatus === 'success' && (
+                            <button onClick={() => setGameState('ANALYZER')} style={{ width: '100%', padding: '20px', background: '#10b981', color: 'white', fontSize: '22px', fontWeight: 'bold', borderRadius: '16px', border: 'none', cursor: 'pointer', boxShadow: '0 10px 20px rgba(16, 185, 129, 0.3)' }}>
+                                VIEW RESULTS 📊
+                            </button>
+                        )}
+                    </div>
                 </div>
-                
-                {/* Action Buttons based on status */}
-                {simStatus === 'failed' && (
-                    <button onClick={() => setGameState('DEBUG')} className="btn btn-primary" style={{ background: 'linear-gradient(135deg, #ef4444, #b91c1c)', width: 'auto', padding: '20px 40px', fontSize: '22px', fontWeight: 'bold', borderRadius: '16px', boxShadow: '0 15px 30px rgba(239, 68, 68, 0.5)', border: '2px solid #fca5a5' }}>FIX ALGORITHM 🛠️</button>
-                )}
-                {simStatus === 'success' && (
-                    <button onClick={() => setGameState('ANALYZER')} className="btn btn-primary" style={{ background: 'linear-gradient(135deg, #10b981, #059669)', width: 'auto', padding: '20px 40px', fontSize: '22px', fontWeight: 'bold', borderRadius: '16px', boxShadow: '0 15px 30px rgba(16, 185, 129, 0.5)', border: '2px solid #6ee7b7' }}>VIEW RESULTS 📊</button>
-                )}
             </div>
-            
-            {/* Top right cinematic progress bar */}
-            {simStatus === 'running' && (
-                <div style={{ position: 'absolute', top: '40px', right: '40px', background: 'rgba(15, 23, 42, 0.8)', padding: '16px 32px', borderRadius: '40px', color: 'white', fontSize: '20px', fontWeight: 'bold', zIndex: 60, display: 'flex', alignItems: 'center', gap: '16px', backdropFilter: 'blur(20px)', border: '2px solid rgba(99, 102, 241, 0.5)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
-                    <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444', animation: 'pulse 1s infinite' }}></div>
-                    RECORDING • STEP {Math.min(simStep + 1, sequence.length)} OF {sequence.length}
+        </div>
+        );
+    };(simStep + 1, sequence.length)} OF {sequence.length}
                 </div>
             )}
         </div>
