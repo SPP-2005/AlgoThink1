@@ -432,12 +432,7 @@ export default function Module3() {
             </div>
         </div>
         );
-    };(simStep + 1, sequence.length)} OF {sequence.length}
-                </div>
-            )}
-        </div>
-        );
-    }
+    };
 
     const renderDebug = () => (
         <div style={{ padding: '60px 40px', animation: 'fadeIn 0.5s ease', maxWidth: '800px', margin: '0 auto' }}>
