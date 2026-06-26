@@ -433,7 +433,7 @@ export default function Module3() {
     );
 
     return (
-        <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif' }}>
+        <main className="container">
             <style dangerouslySetInnerHTML={{__html: `
                 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
                 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -448,7 +448,7 @@ export default function Module3() {
                 <Link href="/dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>⬅️ Dashboard</Link>
             </header>
 
-            <div style={{ minHeight: '70vh', position: 'relative' }}>
+            <div className="panel" style={{ minHeight: '70vh', padding: 0, overflow: 'hidden', position: 'relative' }}>
                 {gameState === 'HUB' && renderHub()}
                 {gameState === 'INTRO' && renderIntro()}
                 {gameState === 'PLANNING' && renderPlanning()}
