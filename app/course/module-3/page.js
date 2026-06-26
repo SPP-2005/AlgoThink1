@@ -315,99 +315,151 @@ export default function Module3() {
         </div>
     );
 
+    // Dynamic Flood-Fill Background Removal for Storybook Images
+    const TransparentImage = ({ src, style, className }) => {
+        const [imgSrc, setImgSrc] = useState(null);
+
+        useEffect(() => {
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d', { willReadFrequently: true });
+                ctx.drawImage(img, 0, 0);
+                
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                // Keep track of visited pixels
+                const visited = new Uint8Array(width * height);
+                // Start flood fill from all 4 corners and borders
+                const stack = [];
+                for(let x=0; x<width; x++) { stack.push([x,0]); stack.push([x,height-1]); }
+                for(let y=0; y<height; y++) { stack.push([0,y]); stack.push([width-1,y]); }
+                
+                while(stack.length > 0) {
+                    const [x, y] = stack.pop();
+                    if (x < 0 || x >= width || y < 0 || y >= height) continue;
+                    
+                    const idx = y * width + x;
+                    if (visited[idx]) continue;
+                    
+                    const dataIdx = idx * 4;
+                    const r = data[dataIdx];
+                    const g = data[dataIdx + 1];
+                    const b = data[dataIdx + 2];
+                    
+                    // Calculate lightness
+                    const l = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                    
+                    // If it's a light background pixel
+                    if (l > 230) {
+                        visited[idx] = 1;
+                        // Smooth feathering alpha
+                        const alpha = Math.max(0, 255 - ((l - 230) * (255 / 25)));
+                        data[dataIdx + 3] = Math.min(data[dataIdx + 3], alpha);
+                        
+                        stack.push([x+1, y], [x-1, y], [x, y+1], [x, y-1]);
+                    }
+                }
+                
+                ctx.putImageData(imageData, 0, 0);
+                setImgSrc(canvas.toDataURL('image/png'));
+            };
+            img.src = src;
+        }, [src]);
+
+        if (!imgSrc) return null;
+        return <img src={imgSrc} style={{ ...style, objectFit: 'contain' }} className={className} alt="" />;
+    };
+
     const renderSimulation = () => {
-        const successfulSteps = sequence.slice(0, simStep).map(s => s.id);
-        const hasVenue = successfulSteps.includes('book_venue');
-        const hasVols = successfulSteps.includes('hire_vols');
-        const hasFood = successfulSteps.includes('order_food');
-        const hasMarketing = successfulSteps.includes('marketing');
-        const hasGates = successfulSteps.includes('open_gates');
+        const currentAction = simStatus === 'running' && simStep < sequence.length 
+            ? sequence[simStep].id 
+            : (simStatus === 'success' ? 'success' : (simStatus === 'failed' ? 'failed' : 'start'));
 
         return (
-        <div style={{ width: '100%', height: '70vh', position: 'relative', overflow: 'hidden', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)', animation: 'fadeIn 0.5s ease', background: '#87CEEB', border: '1px solid rgba(255,255,255,0.1)' }}>
+        <div style={{ width: '100%', height: '70vh', position: 'relative', overflow: 'hidden', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)', background: '#87CEEB', border: '1px solid rgba(255,255,255,0.1)' }}>
             <style>{`
-                @keyframes panBackground { 0% { background-position: 0% center; } 100% { background-position: -200% center; } }
-                @keyframes paperMarioWalk { 
-                    0%, 100% { transform: translateY(0) rotate(0deg) scaleY(1); } 
-                    25% { transform: translateY(-15px) rotate(5deg) scaleY(1.05); } 
-                    50% { transform: translateY(0) rotate(0deg) scaleY(0.95); } 
-                    75% { transform: translateY(-15px) rotate(-5deg) scaleY(1.05); } 
-                }
-                @keyframes driveIn { 0% { transform: translateX(100vw); } 100% { transform: translateX(0); } }
-                @keyframes driveInLeft { 0% { transform: translateX(-100vw); } 100% { transform: translateX(0); } }
-                @keyframes popBounce { 0% { transform: scale(0) translateY(50px); opacity: 0; } 60% { transform: scale(1.1) translateY(-20px); opacity: 1; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
-                @keyframes floatBalloons { 0% { transform: translateY(100vh) translateX(0); } 100% { transform: translateY(-50vh) translateX(50px); } }
-                @keyframes crowdSurge { 0% { transform: translateX(100vw); opacity: 0; } 100% { transform: translateX(-20vw); opacity: 1; } }
-                @keyframes shakeScreen { 0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); filter: blur(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-15px) translateY(10px) rotate(-2deg); filter: blur(2px) contrast(150%) hue-rotate(90deg) saturate(200%); } 20%, 40%, 60%, 80% { transform: translateX(15px) translateY(-10px) rotate(2deg); filter: blur(0) contrast(200%) hue-rotate(-90deg) saturate(300%); } }
+                @keyframes fadeScene { 0% { opacity: 0; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
+                @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
                 @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); } 50% { box-shadow: 0 0 50px rgba(99, 102, 241, 0.8); } }
-                @keyframes confettiFall { 0% { transform: translateY(-100vh) rotate(0deg); } 100% { transform: translateY(100vh) rotate(720deg); } }
-                .game-prop { position: absolute; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.4)); z-index: 10; }
-                .parallax-bg { position: absolute; inset: 0; width: 300%; background-image: url(/assets/storybook/bg_park.png); background-size: auto 100%; background-repeat: repeat-x; z-index: 1; animation: panBackground 60s linear infinite; }
+                .scene-container { position: absolute; inset: 0; animation: fadeScene 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
             `}</style>
             
-            {/* Cinematic Parallax Background - Always Moving */}
-            <div className="parallax-bg" style={{ animationPlayState: simStatus === 'failed' ? 'paused' : 'running', filter: simStatus === 'failed' ? 'grayscale(80%) brightness(50%)' : 'none' }}></div>
-            
-            {/* Screen Shake Wrapper for Action/Errors */}
-            <div style={{ position: 'absolute', inset: 0, zIndex: 5, animation: simStatus === 'failed' ? 'shakeScreen 0.8s ease forwards' : 'none' }}>
+            {/* Background is always park */}
+            <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/assets/storybook/bg_park.png)', backgroundSize: 'cover', backgroundPosition: 'center', filter: simStatus === 'failed' ? 'grayscale(100%) brightness(40%) sepia(50%) hue-rotate(-50deg)' : 'none', transition: 'all 0.5s' }}></div>
+
+            {/* Scene Content - Changes completely per step */}
+            <div key={currentAction} className="scene-container">
                 
-                {/* 1. The Student Character (Paper Mario style walking animation) */}
-                <div style={{ position: 'absolute', left: '15%', bottom: '20%', width: '180px', height: '280px', zIndex: 20, mixBlendMode: 'multiply' }}>
-                    <div style={{ width: '100%', height: '100%', backgroundImage: 'url(/assets/storybook/char_student.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', transformOrigin: 'bottom center', animation: simStatus === 'failed' ? 'none' : 'paperMarioWalk 0.8s infinite' }}></div>
+                {/* The student is always present on the left */}
+                <div style={{ position: 'absolute', left: '10%', bottom: '15%', width: '250px', height: '400px', zIndex: 20 }}>
+                    <TransparentImage src="/assets/storybook/char_student.png" style={{ width: '100%', height: '100%', animation: 'float 4s ease-in-out infinite', filter: simStatus === 'failed' ? 'brightness(0.5)' : 'none' }} />
                 </div>
 
-                {/* 2. Venue: Spawns multiple tents and a ferris wheel (represented by props) */}
-                {hasVenue && (
-                    <>
-                        <div style={{ position: 'absolute', left: '40%', bottom: '25%', width: '450px', height: '350px', zIndex: 6, animation: 'popBounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_tent.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center' }}></div>
-                        <div style={{ position: 'absolute', left: '65%', bottom: '28%', width: '300px', height: '250px', zIndex: 5, animation: 'popBounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_tent.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', transform: 'scale(0.8)' }}></div>
-                    </>
-                )}
-                
-                {/* 3. Food: Multiple food trucks driving in from both sides */}
-                {hasFood && (
-                    <>
-                        <div className="game-prop" style={{ right: '15%', bottom: '20%', width: '300px', height: '220px', animation: 'driveIn 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_truck.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center' }}></div>
-                        <div className="game-prop" style={{ left: '5%', bottom: '18%', width: '250px', height: '180px', animation: 'driveInLeft 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_truck.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', transform: 'scaleX(-1)' }}></div>
-                    </>
-                )}
-                
-                {/* 4. Volunteers: Groups popping up all over the place */}
-                {hasVols && (
-                    <>
-                        <div className="game-prop" style={{ left: '35%', bottom: '15%', width: '220px', height: '180px', animation: 'popBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_vols.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center' }}></div>
-                        <div className="game-prop" style={{ right: '35%', bottom: '18%', width: '180px', height: '150px', animation: 'popBounce 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_vols.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', transform: 'scaleX(-1)' }}></div>
-                    </>
-                )}
-                
-                {/* 5. Marketing: Floating balloons/blimps across the sky */}
-                {hasMarketing && (
-                    <>
-                        {[...Array(5)].map((_, i) => (
-                            <div key={`balloon-${i}`} style={{ position: 'absolute', left: `${10 + i * 20}%`, bottom: '-10%', fontSize: '80px', filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.3))', animation: `floatBalloons ${3 + i}s ease-in infinite alternate`, zIndex: 12 }}>🎈</div>
-                        ))}
-                        <div className="game-prop" style={{ top: '10%', right: '10%', fontSize: '100px', animation: 'popBounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards' }}>🎊📣🎊</div>
-                    </>
-                )}
-                
-                {/* 6. Open Gates: A massive crowd surging across the screen */}
-                {hasGates && (
-                    <>
-                        <div className="game-prop" style={{ right: '0%', bottom: '10%', width: '600px', height: '300px', animation: 'crowdSurge 10s linear forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_crowd.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', zIndex: 25 }}></div>
-                        <div className="game-prop" style={{ right: '-30%', bottom: '5%', width: '700px', height: '350px', animation: 'crowdSurge 12s linear forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_crowd.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', zIndex: 26, filter: 'brightness(0.8)' }}></div>
-                    </>
+                {/* Exclusive Scene Props */}
+                {currentAction === 'book_venue' && (
+                    <div style={{ position: 'absolute', right: '10%', bottom: '15%', width: '500px', height: '400px', zIndex: 10 }}>
+                        <TransparentImage src="/assets/storybook/prop_tent.png" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))' }} />
+                        <div style={{ position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', background: 'white', padding: '15px 30px', borderRadius: '20px', fontSize: '24px', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>⛺ Venue Booked</div>
+                    </div>
                 )}
 
-                {/* Overlays for Success/Fail states */}
-                {simStatus === 'failed' && <div style={{ position: 'absolute', inset: 0, background: 'rgba(220, 38, 38, 0.6)', zIndex: 15 }}></div>}
-                
-                {/* 7. Success Celebration Effects */}
-                {simStatus === 'success' && (
-                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(16, 185, 129, 0.2)', zIndex: 15, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        {[...Array(30)].map((_, i) => (
-                            <div key={`confetti-${i}`} style={{ position: 'absolute', left: `${Math.random() * 100}%`, width: '15px', height: '15px', background: ['#fef08a', '#f87171', '#60a5fa', '#34d399'][Math.floor(Math.random() * 4)], animation: `confettiFall ${2 + Math.random() * 3}s linear infinite`, animationDelay: `${Math.random() * 2}s` }}></div>
-                        ))}
-                        <div style={{ fontSize: '180px', animation: 'popBounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)', filter: 'drop-shadow(0 0 80px rgba(253, 224, 71, 1))', zIndex: 50 }}>🏆</div>
+                {currentAction === 'order_food' && (
+                    <div style={{ position: 'absolute', right: '10%', bottom: '15%', width: '500px', height: '350px', zIndex: 10 }}>
+                        <TransparentImage src="/assets/storybook/prop_truck.png" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))' }} />
+                        <div style={{ position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', background: 'white', padding: '15px 30px', borderRadius: '20px', fontSize: '24px', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>🍔 Food Ordered</div>
+                    </div>
+                )}
+
+                {currentAction === 'hire_vols' && (
+                    <div style={{ position: 'absolute', right: '15%', bottom: '15%', width: '400px', height: '300px', zIndex: 10 }}>
+                        <TransparentImage src="/assets/storybook/prop_vols.png" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))' }} />
+                        <div style={{ position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', background: 'white', padding: '15px 30px', borderRadius: '20px', fontSize: '24px', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>🤝 Vols Hired</div>
+                    </div>
+                )}
+
+                {currentAction === 'marketing' && (
+                    <div style={{ position: 'absolute', right: '15%', bottom: '30%', width: '400px', height: '200px', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ background: '#6366f1', color: 'white', padding: '30px 50px', borderRadius: '30px', fontSize: '40px', fontWeight: '900', textAlign: 'center', boxShadow: '0 20px 40px rgba(99, 102, 241, 0.4)', transform: 'rotate(5deg)' }}>
+                            📣 FESTIVAL<br/>MARKETING!
+                        </div>
+                    </div>
+                )}
+
+                {currentAction === 'open_gates' && (
+                    <div style={{ position: 'absolute', right: '5%', bottom: '10%', width: '600px', height: '400px', zIndex: 10 }}>
+                        <TransparentImage src="/assets/storybook/prop_crowd.png" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))' }} />
+                        <div style={{ position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', background: 'white', padding: '15px 30px', borderRadius: '20px', fontSize: '24px', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>🎟️ Gates Opened!</div>
+                    </div>
+                )}
+
+                {(currentAction === 'calculate_budget' || currentAction === 'check_supplies') && (
+                    <div style={{ position: 'absolute', left: '32%', bottom: '50%', zIndex: 10 }}>
+                        <div style={{ background: 'white', padding: '20px 30px', borderRadius: '30px', fontSize: '30px', boxShadow: '0 10px 20px rgba(0,0,0,0.2)', animation: 'float 3s infinite', position: 'relative' }}>
+                            <div style={{ position: 'absolute', bottom: '-15px', left: '20px', width: '20px', height: '20px', background: 'white', borderRadius: '50%' }}></div>
+                            <div style={{ position: 'absolute', bottom: '-30px', left: '10px', width: '10px', height: '10px', background: 'white', borderRadius: '50%' }}></div>
+                            💭 {currentAction === 'calculate_budget' ? 'Calculating Budget...' : 'Checking Supplies...'}
+                        </div>
+                    </div>
+                )}
+
+                {currentAction === 'success' && (
+                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(16, 185, 129, 0.4)', zIndex: 30, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)' }}>
+                        <div style={{ fontSize: '150px', filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))', animation: 'float 2s infinite' }}>🏆</div>
+                        <div style={{ fontSize: '60px', fontWeight: '900', color: 'white', textShadow: '0 5px 20px rgba(0,0,0,0.5)', marginTop: '20px', letterSpacing: '2px' }}>FESTIVAL SUCCESS!</div>
+                    </div>
+                )}
+
+                {currentAction === 'failed' && (
+                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(220, 38, 38, 0.7)', zIndex: 30, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)' }}>
+                        <div style={{ fontSize: '150px', filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))' }}>💥</div>
+                        <div style={{ fontSize: '60px', fontWeight: '900', color: 'white', textShadow: '0 5px 20px rgba(0,0,0,0.5)', marginTop: '20px', letterSpacing: '2px' }}>SYSTEM CRASH!</div>
                     </div>
                 )}
             </div>
@@ -416,8 +468,8 @@ export default function Module3() {
             <div style={{ position: 'absolute', bottom: '30px', left: '50%', transform: 'translateX(-50%)', width: '90%', maxWidth: '1000px', background: 'rgba(15, 23, 42, 0.95)', backdropFilter: 'blur(30px)', border: '2px solid rgba(99, 102, 241, 0.3)', borderTop: '4px solid #6366f1', borderRadius: '24px', padding: '30px', zIndex: 40, boxShadow: '0 30px 60px rgba(0,0,0,0.8)', display: 'flex', gap: '30px', alignItems: 'center', animation: 'fadeInUp 0.5s ease 0.5s both, pulseGlow 4s infinite' }}>
                 
                 {/* Character Portrait */}
-                <div style={{ width: '120px', height: '120px', borderRadius: '50%', background: 'white', border: '5px solid #6366f1', overflow: 'hidden', flexShrink: 0, boxShadow: '0 10px 20px rgba(0,0,0,0.4)', mixBlendMode: 'normal' }}>
-                    <img src="/assets/storybook/char_student.png" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', filter: simStatus === 'failed' ? 'grayscale(100%) sepia(100%) hue-rotate(-50deg) saturate(300%)' : 'none', transform: simStatus === 'running' ? 'scale(1.1) translateY(5px)' : 'scale(1)' }} alt="Student" />
+                <div style={{ width: '120px', height: '120px', borderRadius: '50%', background: 'white', border: '5px solid #6366f1', overflow: 'hidden', flexShrink: 0, boxShadow: '0 10px 20px rgba(0,0,0,0.4)', position: 'relative' }}>
+                    <TransparentImage src="/assets/storybook/char_student.png" style={{ width: '100%', height: '100%', filter: simStatus === 'failed' ? 'grayscale(100%) sepia(100%) hue-rotate(-50deg) saturate(300%)' : 'none', transform: simStatus === 'running' ? 'scale(1.1) translateY(5px)' : 'scale(1)', transition: 'all 0.3s' }} />
                 </div>
                 
                 {/* Text Content */}
@@ -452,7 +504,7 @@ export default function Module3() {
             
             {/* Top right cinematic progress bar */}
             {simStatus === 'running' && (
-                <div style={{ position: 'absolute', top: '40px', right: '40px', background: 'rgba(15, 23, 42, 0.8)', padding: '16px 32px', borderRadius: '40px', color: 'white', fontSize: '20px', fontWeight: 'bold', zIndex: 40, display: 'flex', alignItems: 'center', gap: '16px', backdropFilter: 'blur(20px)', border: '2px solid rgba(99, 102, 241, 0.5)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                <div style={{ position: 'absolute', top: '40px', right: '40px', background: 'rgba(15, 23, 42, 0.8)', padding: '16px 32px', borderRadius: '40px', color: 'white', fontSize: '20px', fontWeight: 'bold', zIndex: 60, display: 'flex', alignItems: 'center', gap: '16px', backdropFilter: 'blur(20px)', border: '2px solid rgba(99, 102, 241, 0.5)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                     <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444', animation: 'pulse 1s infinite' }}></div>
                     RECORDING • STEP {Math.min(simStep + 1, sequence.length)} OF {sequence.length}
                 </div>
