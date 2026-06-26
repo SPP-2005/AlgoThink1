@@ -326,156 +326,116 @@ export default function Module3() {
         return (
         <div style={{ width: '100%', height: '70vh', position: 'relative', overflow: 'hidden', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)', animation: 'fadeIn 0.5s ease', background: '#87CEEB', border: '1px solid rgba(255,255,255,0.1)' }}>
             <style>{`
-                @keyframes cloudMove { 0% { transform: translateX(-100px); } 100% { transform: translateX(1200px); } }
-                @keyframes walkIn { 0% { transform: translateX(-200px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
-                @keyframes walkInRight { 0% { transform: translateX(300px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
-                @keyframes dropIn { 0% { transform: translateY(-300px) scale(0.5); opacity: 0; } 60% { transform: translateY(20px) scale(1.1); opacity: 1; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
-                @keyframes popUp { 0% { transform: scale(0); opacity: 0; } 80% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
-                @keyframes shakeScreen { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); } 20%, 40%, 60%, 80% { transform: translateX(10px); } }
-                @keyframes floatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-                .game-prop { position: absolute; bottom: 30%; font-size: 100px; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.4)); z-index: 10; }
+                @keyframes panBackground { 0% { background-position: 0% center; } 100% { background-position: -200% center; } }
+                @keyframes paperMarioWalk { 
+                    0%, 100% { transform: translateY(0) rotate(0deg) scaleY(1); } 
+                    25% { transform: translateY(-15px) rotate(5deg) scaleY(1.05); } 
+                    50% { transform: translateY(0) rotate(0deg) scaleY(0.95); } 
+                    75% { transform: translateY(-15px) rotate(-5deg) scaleY(1.05); } 
+                }
+                @keyframes driveIn { 0% { transform: translateX(100vw); } 100% { transform: translateX(0); } }
+                @keyframes driveInLeft { 0% { transform: translateX(-100vw); } 100% { transform: translateX(0); } }
+                @keyframes popBounce { 0% { transform: scale(0) translateY(50px); opacity: 0; } 60% { transform: scale(1.1) translateY(-20px); opacity: 1; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+                @keyframes floatBalloons { 0% { transform: translateY(100vh) translateX(0); } 100% { transform: translateY(-50vh) translateX(50px); } }
+                @keyframes crowdSurge { 0% { transform: translateX(100vw); opacity: 0; } 100% { transform: translateX(-20vw); opacity: 1; } }
+                @keyframes shakeScreen { 0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); filter: blur(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-15px) translateY(10px) rotate(-2deg); filter: blur(2px) contrast(150%) hue-rotate(90deg) saturate(200%); } 20%, 40%, 60%, 80% { transform: translateX(15px) translateY(-10px) rotate(2deg); filter: blur(0) contrast(200%) hue-rotate(-90deg) saturate(300%); } }
+                @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); } 50% { box-shadow: 0 0 50px rgba(99, 102, 241, 0.8); } }
+                @keyframes confettiFall { 0% { transform: translateY(-100vh) rotate(0deg); } 100% { transform: translateY(100vh) rotate(720deg); } }
+                .game-prop { position: absolute; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.4)); z-index: 10; }
+                .parallax-bg { position: absolute; inset: 0; width: 300%; background-image: url(/assets/storybook/bg_park.png); background-size: auto 100%; background-repeat: repeat-x; z-index: 1; animation: panBackground 60s linear infinite; }
             `}</style>
             
-            {/* Background SVG Layer */}
-            <svg width="100%" height="100%" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
-                <defs>
-                    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#38bdf8" />
-                        <stop offset="100%" stopColor="#bae6fd" />
-                    </linearGradient>
-                    <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#4ade80" />
-                        <stop offset="100%" stopColor="#166534" />
-                    </linearGradient>
-                </defs>
-                <rect x="0" y="0" width="100%" height="65%" fill="url(#sky)" />
-                <rect x="0" y="65%" width="100%" height="35%" fill="url(#grass)" />
-                
-                {/* Sun */}
-                <circle cx="85%" cy="20%" r="6%" fill="#fef08a" style={{ filter: 'drop-shadow(0 0 30px #fef08a)' }} />
-                
-                {/* Mountains / Hills */}
-                <path d="M 0 65% Q 20% 40% 50% 65% T 100% 65% L 100% 100% L 0 100% Z" fill="#22c55e" opacity="0.6" />
-                <path d="M -10% 65% Q 30% 30% 60% 65% T 110% 65% L 110% 100% L -10% 100% Z" fill="#15803d" opacity="0.4" />
-                
-                {/* Clouds */}
-                <g fill="rgba(255,255,255,0.9)" style={{ animation: 'cloudMove 40s linear infinite' }}>
-                    <circle cx="10%" cy="30%" r="4%" />
-                    <circle cx="15%" cy="25%" r="5%" />
-                    <circle cx="20%" cy="30%" r="4%" />
-                </g>
-                <g fill="rgba(255,255,255,0.7)" style={{ animation: 'cloudMove 60s linear infinite reverse', transformOrigin: 'center' }}>
-                    <circle cx="70%" cy="20%" r="3%" />
-                    <circle cx="75%" cy="15%" r="4%" />
-                    <circle cx="80%" cy="20%" r="3%" />
-                </g>
-            </svg>
+            {/* Cinematic Parallax Background - Always Moving */}
+            <div className="parallax-bg" style={{ animationPlayState: simStatus === 'failed' ? 'paused' : 'running', filter: simStatus === 'failed' ? 'grayscale(80%) brightness(50%)' : 'none' }}></div>
             
-            {/* Screen Shake Wrapper for errors */}
-            <div style={{ position: 'absolute', inset: 0, zIndex: 5, animation: simStatus === 'failed' ? 'shakeScreen 0.5s ease' : 'none' }}>
+            {/* Screen Shake Wrapper for Action/Errors */}
+            <div style={{ position: 'absolute', inset: 0, zIndex: 5, animation: simStatus === 'failed' ? 'shakeScreen 0.8s ease forwards' : 'none' }}>
                 
-                {/* Student Character */}
-                <div style={{ position: 'absolute', left: '10%', bottom: '25%', width: '150px', zIndex: 20, animation: 'walkIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards', filter: 'drop-shadow(0 20px 20px rgba(0,0,0,0.5))' }}>
-                    <div style={{ animation: 'floatSlow 3s ease-in-out infinite' }}>
-                        <svg viewBox="0 0 200 300" width="100%" height="100%">
-                            {/* shadow */}
-                            <ellipse cx="100" cy="290" rx="50" ry="10" fill="rgba(0,0,0,0.3)" />
-                            {/* legs */}
-                            <rect x="70" y="200" width="20" height="80" rx="10" fill="#1e293b" />
-                            <rect x="110" y="200" width="20" height="80" rx="10" fill="#1e293b" />
-                            {/* shoes */}
-                            <path d="M 50 280 L 90 280 L 90 260 Q 50 260 50 280 Z" fill="#475569" />
-                            <path d="M 90 280 L 130 280 L 130 260 Q 90 260 90 280 Z" fill="#475569" />
-                            {/* body */}
-                            <rect x="50" y="100" width="100" height="120" rx="30" fill="#3b82f6" />
-                            {/* backpack */}
-                            <rect x="20" y="110" width="40" height="90" rx="15" fill="#ef4444" />
-                            {/* neck */}
-                            <rect x="90" y="80" width="20" height="30" fill="#fcd34d" />
-                            {/* head */}
-                            <circle cx="100" cy="60" r="45" fill="#fcd34d" />
-                            {/* hair */}
-                            <path d="M 55 60 Q 100 0 145 60 Q 100 20 55 60 Z" fill="#1e293b" />
-                            <path d="M 50 50 Q 70 20 100 20 Q 130 20 150 50 Q 100 -20 50 50 Z" fill="#1e293b" />
-                            {/* face */}
-                            <circle cx="85" cy="55" r="5" fill="#0f172a" />
-                            <circle cx="115" cy="55" r="5" fill="#0f172a" />
-                            <path d="M 90 70 Q 100 80 110 70" fill="none" stroke="#0f172a" strokeWidth="4" strokeLinecap="round" />
-                            {/* glasses */}
-                            <rect x="70" y="45" width="25" height="15" rx="4" fill="none" stroke="#334155" strokeWidth="3" />
-                            <rect x="105" y="45" width="25" height="15" rx="4" fill="none" stroke="#334155" strokeWidth="3" />
-                            <line x1="95" y1="52" x2="105" y2="52" stroke="#334155" strokeWidth="3" />
-                            {/* arms */}
-                            <rect x="130" y="120" width="25" height="80" rx="12" fill="#2563eb" transform="rotate(-15 130 120)" />
-                        </svg>
-                    </div>
+                {/* 1. The Student Character (Paper Mario style walking animation) */}
+                <div style={{ position: 'absolute', left: '15%', bottom: '20%', width: '180px', height: '280px', zIndex: 20, mixBlendMode: 'multiply' }}>
+                    <div style={{ width: '100%', height: '100%', backgroundImage: 'url(/assets/storybook/char_student.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', transformOrigin: 'bottom center', animation: simStatus === 'failed' ? 'none' : 'paperMarioWalk 0.8s infinite' }}></div>
                 </div>
 
-                {/* Animated Game Props */}
+                {/* 2. Venue: Spawns multiple tents and a ferris wheel (represented by props) */}
                 {hasVenue && (
-                    <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: '30%', width: '400px', zIndex: 8, animation: 'dropIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
-                        <svg viewBox="0 0 200 150" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 20px 20px rgba(0,0,0,0.5))' }}>
-                            <rect x="30" y="60" width="140" height="80" fill="#f8fafc" />
-                            <rect x="50" y="60" width="20" height="80" fill="#ef4444" />
-                            <rect x="90" y="60" width="20" height="80" fill="#ef4444" />
-                            <rect x="130" y="60" width="20" height="80" fill="#ef4444" />
-                            <path d="M 10 60 L 100 10 L 190 60 Z" fill="#ef4444" />
-                            <path d="M 40 60 L 100 10 L 160 60 Z" fill="#f8fafc" />
-                            <line x1="100" y1="10" x2="100" y2="-20" stroke="#94a3b8" strokeWidth="4" />
-                            <polygon points="100,-20 130,-10 100,0" fill="#eab308" />
-                            <path d="M 80 140 L 80 90 Q 100 80 120 90 L 120 140 Z" fill="#0f172a" />
-                        </svg>
-                    </div>
+                    <>
+                        <div style={{ position: 'absolute', left: '40%', bottom: '25%', width: '450px', height: '350px', zIndex: 6, animation: 'popBounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_tent.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center' }}></div>
+                        <div style={{ position: 'absolute', left: '65%', bottom: '28%', width: '300px', height: '250px', zIndex: 5, animation: 'popBounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_tent.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', transform: 'scale(0.8)' }}></div>
+                    </>
                 )}
                 
-                {hasFood && <div className="game-prop" style={{ right: '25%', animation: 'walkInRight 1s ease-out' }}>🚚🍔</div>}
-                {hasVols && <div className="game-prop" style={{ left: '25%', animation: 'popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>🙋‍♂️🙋‍♀️</div>}
-                {hasMarketing && <div className="game-prop" style={{ top: '15%', left: '50%', transform: 'translateX(-50%)', bottom: 'auto', fontSize: '120px', animation: 'popUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>✨📢✨</div>}
-                {hasGates && <div className="game-prop" style={{ right: '5%', bottom: '25%', animation: 'walkInRight 1.5s ease-out', fontSize: '130px' }}>🏃‍♂️🏃‍♀️🚶‍♂️</div>}
+                {/* 3. Food: Multiple food trucks driving in from both sides */}
+                {hasFood && (
+                    <>
+                        <div className="game-prop" style={{ right: '15%', bottom: '20%', width: '300px', height: '220px', animation: 'driveIn 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_truck.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center' }}></div>
+                        <div className="game-prop" style={{ left: '5%', bottom: '18%', width: '250px', height: '180px', animation: 'driveInLeft 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_truck.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', transform: 'scaleX(-1)' }}></div>
+                    </>
+                )}
+                
+                {/* 4. Volunteers: Groups popping up all over the place */}
+                {hasVols && (
+                    <>
+                        <div className="game-prop" style={{ left: '35%', bottom: '15%', width: '220px', height: '180px', animation: 'popBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_vols.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center' }}></div>
+                        <div className="game-prop" style={{ right: '35%', bottom: '18%', width: '180px', height: '150px', animation: 'popBounce 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_vols.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', transform: 'scaleX(-1)' }}></div>
+                    </>
+                )}
+                
+                {/* 5. Marketing: Floating balloons/blimps across the sky */}
+                {hasMarketing && (
+                    <>
+                        {[...Array(5)].map((_, i) => (
+                            <div key={`balloon-${i}`} style={{ position: 'absolute', left: `${10 + i * 20}%`, bottom: '-10%', fontSize: '80px', filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.3))', animation: `floatBalloons ${3 + i}s ease-in infinite alternate`, zIndex: 12 }}>🎈</div>
+                        ))}
+                        <div className="game-prop" style={{ top: '10%', right: '10%', fontSize: '100px', animation: 'popBounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards' }}>🎊📣🎊</div>
+                    </>
+                )}
+                
+                {/* 6. Open Gates: A massive crowd surging across the screen */}
+                {hasGates && (
+                    <>
+                        <div className="game-prop" style={{ right: '0%', bottom: '10%', width: '600px', height: '300px', animation: 'crowdSurge 10s linear forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_crowd.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', zIndex: 25 }}></div>
+                        <div className="game-prop" style={{ right: '-30%', bottom: '5%', width: '700px', height: '350px', animation: 'crowdSurge 12s linear forwards', mixBlendMode: 'multiply', backgroundImage: 'url(/assets/storybook/prop_crowd.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom center', zIndex: 26, filter: 'brightness(0.8)' }}></div>
+                    </>
+                )}
 
                 {/* Overlays for Success/Fail states */}
-                {simStatus === 'failed' && <div style={{ position: 'absolute', inset: 0, background: 'rgba(239, 68, 68, 0.4)', zIndex: 15 }}></div>}
+                {simStatus === 'failed' && <div style={{ position: 'absolute', inset: 0, background: 'rgba(220, 38, 38, 0.6)', zIndex: 15 }}></div>}
+                
+                {/* 7. Success Celebration Effects */}
                 {simStatus === 'success' && (
                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(16, 185, 129, 0.2)', zIndex: 15, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <div style={{ fontSize: '150px', animation: 'popUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)', filter: 'drop-shadow(0 0 50px rgba(253, 224, 71, 0.8))' }}>🏆</div>
+                        {[...Array(30)].map((_, i) => (
+                            <div key={`confetti-${i}`} style={{ position: 'absolute', left: `${Math.random() * 100}%`, width: '15px', height: '15px', background: ['#fef08a', '#f87171', '#60a5fa', '#34d399'][Math.floor(Math.random() * 4)], animation: `confettiFall ${2 + Math.random() * 3}s linear infinite`, animationDelay: `${Math.random() * 2}s` }}></div>
+                        ))}
+                        <div style={{ fontSize: '180px', animation: 'popBounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)', filter: 'drop-shadow(0 0 80px rgba(253, 224, 71, 1))', zIndex: 50 }}>🏆</div>
                     </div>
                 )}
             </div>
 
-            {/* Visual Novel UI Dialogue Box */}
-            <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', width: '90%', maxWidth: '900px', background: 'rgba(15, 23, 42, 0.95)', backdropFilter: 'blur(20px)', border: '2px solid rgba(255,255,255,0.1)', borderTop: '2px solid #6366f1', borderRadius: '20px', padding: '24px', zIndex: 30, boxShadow: '0 20px 50px rgba(0,0,0,0.6)', display: 'flex', gap: '24px', alignItems: 'center', animation: 'fadeInUp 0.5s ease 0.5s both' }}>
+            {/* Cinematic Visual Novel UI Dialogue Box */}
+            <div style={{ position: 'absolute', bottom: '30px', left: '50%', transform: 'translateX(-50%)', width: '90%', maxWidth: '1000px', background: 'rgba(15, 23, 42, 0.95)', backdropFilter: 'blur(30px)', border: '2px solid rgba(99, 102, 241, 0.3)', borderTop: '4px solid #6366f1', borderRadius: '24px', padding: '30px', zIndex: 40, boxShadow: '0 30px 60px rgba(0,0,0,0.8)', display: 'flex', gap: '30px', alignItems: 'center', animation: 'fadeInUp 0.5s ease 0.5s both, pulseGlow 4s infinite' }}>
                 
                 {/* Character Portrait */}
-                <div style={{ width: '90px', height: '90px', borderRadius: '50%', background: '#6366f1', border: '4px solid white', overflow: 'hidden', flexShrink: 0, boxShadow: '0 10px 20px rgba(0,0,0,0.4)' }}>
-                    <svg viewBox="0 0 100 100">
-                        <circle cx="50" cy="80" r="40" fill="#3b82f6" />
-                        <circle cx="50" cy="40" r="25" fill="#fcd34d" />
-                        <path d="M 35 40 Q 50 20 65 40 Q 50 25 35 40 Z" fill="#1e293b" />
-                        <circle cx="42" cy="35" r="3" fill="#0f172a" />
-                        <circle cx="58" cy="35" r="3" fill="#0f172a" />
-                        <path d={simStatus === 'failed' ? "M 40 48 Q 50 40 60 48" : "M 42 45 Q 50 52 58 45"} fill="none" stroke="#0f172a" strokeWidth="2" strokeLinecap="round" />
-                        <rect x="35" y="30" width="12" height="8" rx="2" fill="none" stroke="#334155" strokeWidth="2" />
-                        <rect x="53" y="30" width="12" height="8" rx="2" fill="none" stroke="#334155" strokeWidth="2" />
-                        <line x1="47" y1="34" x2="53" y2="34" stroke="#334155" strokeWidth="2" />
-                    </svg>
+                <div style={{ width: '120px', height: '120px', borderRadius: '50%', background: 'white', border: '5px solid #6366f1', overflow: 'hidden', flexShrink: 0, boxShadow: '0 10px 20px rgba(0,0,0,0.4)', mixBlendMode: 'normal' }}>
+                    <img src="/assets/storybook/char_student.png" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', filter: simStatus === 'failed' ? 'grayscale(100%) sepia(100%) hue-rotate(-50deg) saturate(300%)' : 'none', transform: simStatus === 'running' ? 'scale(1.1) translateY(5px)' : 'scale(1)' }} alt="Student" />
                 </div>
                 
                 {/* Text Content */}
                 <div style={{ flex: 1 }}>
-                    <div style={{ color: simStatus === 'failed' ? '#ef4444' : simStatus === 'success' ? '#10b981' : '#60a5fa', fontWeight: '900', fontSize: '18px', letterSpacing: '1px', marginBottom: '8px', textTransform: 'uppercase' }}>
-                        {simStatus === 'failed' ? 'SYSTEM CRASH' : simStatus === 'success' ? 'MISSION ACCOMPLISHED' : 'ALGORITHM EXECUTING...'}
+                    <div style={{ color: simStatus === 'failed' ? '#ef4444' : simStatus === 'success' ? '#10b981' : '#818cf8', fontWeight: '900', fontSize: '22px', letterSpacing: '2px', marginBottom: '12px', textTransform: 'uppercase' }}>
+                        {simStatus === 'failed' ? '⚠️ SYSTEM CRASH DETECTED' : simStatus === 'success' ? '🎉 MISSION ACCOMPLISHED' : '⚡ ALGORITHM EXECUTING...'}
                     </div>
                     
                     {simStatus === 'running' && simStep < sequence.length ? (
                         <>
-                            {simLog.length > 0 && <div style={{ color: '#94a3b8', fontSize: '15px', marginBottom: '8px' }}>Previous: {simLog[simLog.length - 1].text}</div>}
-                            <div style={{ color: 'white', fontSize: '20px', lineHeight: '1.5', fontWeight: 'bold' }}>
-                                <span className="spinner" style={{ marginRight: '10px' }}>⚙️</span>
-                                <span style={{ animation: 'pulse 1.5s infinite' }}>Executing Action: {sequence[simStep].label}...</span>
+                            {simLog.length > 0 && <div style={{ color: '#94a3b8', fontSize: '18px', marginBottom: '12px', fontStyle: 'italic' }}>✓ {simLog[simLog.length - 1].text}</div>}
+                            <div style={{ color: 'white', fontSize: '26px', lineHeight: '1.4', fontWeight: 'bold' }}>
+                                <span className="spinner" style={{ marginRight: '15px', display: 'inline-block' }}>⚙️</span>
+                                <span style={{ animation: 'pulse 1s infinite' }}>Currently Executing: {sequence[simStep].label}...</span>
                             </div>
                         </>
                     ) : (
-                        <div style={{ color: 'white', fontSize: '20px', lineHeight: '1.5', fontWeight: '500' }}>
+                        <div style={{ color: 'white', fontSize: '24px', lineHeight: '1.5', fontWeight: '600' }}>
                             {simLog.length > 0 ? simLog[simLog.length - 1].text : "Simulation Finished."}
                         </div>
                     )}
@@ -483,17 +443,18 @@ export default function Module3() {
                 
                 {/* Action Buttons based on status */}
                 {simStatus === 'failed' && (
-                    <button onClick={() => setGameState('DEBUG')} className="btn btn-primary" style={{ background: 'linear-gradient(135deg, #ef4444, #b91c1c)', width: 'auto', padding: '16px 32px', fontSize: '18px', boxShadow: '0 10px 20px rgba(239, 68, 68, 0.4)' }}>Fix Algorithm 🛠️</button>
+                    <button onClick={() => setGameState('DEBUG')} className="btn btn-primary" style={{ background: 'linear-gradient(135deg, #ef4444, #b91c1c)', width: 'auto', padding: '20px 40px', fontSize: '22px', fontWeight: 'bold', borderRadius: '16px', boxShadow: '0 15px 30px rgba(239, 68, 68, 0.5)', border: '2px solid #fca5a5' }}>FIX ALGORITHM 🛠️</button>
                 )}
                 {simStatus === 'success' && (
-                    <button onClick={() => setGameState('ANALYZER')} className="btn btn-primary" style={{ background: 'linear-gradient(135deg, #10b981, #059669)', width: 'auto', padding: '16px 32px', fontSize: '18px', boxShadow: '0 10px 20px rgba(16, 185, 129, 0.4)' }}>View Results 📊</button>
+                    <button onClick={() => setGameState('ANALYZER')} className="btn btn-primary" style={{ background: 'linear-gradient(135deg, #10b981, #059669)', width: 'auto', padding: '20px 40px', fontSize: '22px', fontWeight: 'bold', borderRadius: '16px', boxShadow: '0 15px 30px rgba(16, 185, 129, 0.5)', border: '2px solid #6ee7b7' }}>VIEW RESULTS 📊</button>
                 )}
             </div>
             
-            {/* Top right progress bar */}
+            {/* Top right cinematic progress bar */}
             {simStatus === 'running' && (
-                <div style={{ position: 'absolute', top: '30px', right: '30px', background: 'rgba(15, 23, 42, 0.8)', padding: '12px 24px', borderRadius: '30px', color: 'white', fontWeight: 'bold', zIndex: 30, display: 'flex', alignItems: 'center', gap: '12px', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                    <span className="spinner">⚙️</span> Step {Math.min(simStep + 1, sequence.length)} / {sequence.length}
+                <div style={{ position: 'absolute', top: '40px', right: '40px', background: 'rgba(15, 23, 42, 0.8)', padding: '16px 32px', borderRadius: '40px', color: 'white', fontSize: '20px', fontWeight: 'bold', zIndex: 40, display: 'flex', alignItems: 'center', gap: '16px', backdropFilter: 'blur(20px)', border: '2px solid rgba(99, 102, 241, 0.5)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                    <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444', animation: 'pulse 1s infinite' }}></div>
+                    RECORDING • STEP {Math.min(simStep + 1, sequence.length)} OF {sequence.length}
                 </div>
             )}
         </div>
