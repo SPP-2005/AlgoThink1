@@ -433,7 +433,7 @@ export default function Module3() {
     );
 
     return (
-        <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif', color: 'white' }}>
+        <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif' }}>
             <style dangerouslySetInnerHTML={{__html: `
                 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
                 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -443,12 +443,12 @@ export default function Module3() {
                 @keyframes spin { 100% { transform: rotate(360deg); } }
             `}} />
             
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
-                <div style={{ fontSize: '24px', fontWeight: 'bold' }}>AlgoThink <span style={{ color: '#6366f1' }}>Module 3</span></div>
-                <Link href="/dashboard" style={{ padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', textDecoration: 'none', borderRadius: '8px' }}>⬅️ Dashboard</Link>
+            <header>
+                <div className="logo-text">AlgoThink <span>Module 3</span></div>
+                <Link href="/dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>⬅️ Dashboard</Link>
             </header>
 
-            <div style={{ minHeight: '70vh', background: '#0f172a', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', position: 'relative', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
+            <div style={{ minHeight: '70vh', position: 'relative' }}>
                 {gameState === 'HUB' && renderHub()}
                 {gameState === 'INTRO' && renderIntro()}
                 {gameState === 'PLANNING' && renderPlanning()}
@@ -458,9 +458,13 @@ export default function Module3() {
                 {gameState === 'ANALYZER' && renderAnalyzer()}
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                <Link href="/course/module-2" style={{ padding: '12px 30px', background: 'rgba(255,255,255,0.05)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', textDecoration: 'none' }}>⬅️ Previous: Module 2</Link>
-                <Link href="/course/module-4" style={{ background: '#3b82f6', color: 'white', padding: '12px 30px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>Proceed to Module 4 ➡️</Link>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
+                <Link href="/course/module-2" className="btn btn-secondary" style={{ width: 'auto', background: 'rgba(255,255,255,0.05)', color: 'white', padding: '12px 30px', border: '1px solid var(--border)' }}>
+                    ⬅️ Previous: Module 2
+                </Link>
+                <Link href="/course/module-4" className="btn btn-primary" style={{ width: 'auto', background: '#3b82f6', padding: '12px 30px' }}>
+                    Proceed to Module 4 ➡️
+                </Link>
             </div>
         </main>
     );
