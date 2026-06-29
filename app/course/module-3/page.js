@@ -785,17 +785,6 @@ export default function Module3() {
 
 
 
-                        @keyframes propSlideIn { 0% { transform: translateX(80px) scale(0.8); opacity: 0; } 100% { transform: translateX(0) scale(1); opacity: 1; } }
-                        @keyframes propBounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
-                        @keyframes bannerDrop { 0% { transform: translateY(-60px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-                        @keyframes crowdWave { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-                        @keyframes confetti { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(80px) rotate(720deg); opacity: 0; } }
-                        @keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
-                        @keyframes sceneTransition { 0% { opacity: 0; } 100% { opacity: 1; } }
-                        @keyframes starTwinkle { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
-                        @keyframes speechBubble { 0% { transform: scale(0) translateY(10px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
-                    `}</style>
-
                     <div style={{ display: 'flex', height: '75vh' }}>
 
                         {/* ─── Left: Animated 2D Scene ──────────── */}
