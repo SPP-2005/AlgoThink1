@@ -8,6 +8,7 @@ export default function Module1() {
     const [simStep, setSimStep] = useState(-1);
     const [simStatus, setSimStatus] = useState('idle'); // idle, running, success, error
     const [kidPosition, setKidPosition] = useState(15);
+    const [simErrorType, setSimErrorType] = useState(null);
 
     // Hammer Simulation State
     const [hammerSeq, setHammerSeq] = useState([]);
@@ -17,6 +18,7 @@ export default function Module1() {
     const [hammerSimStep, setHammerSimStep] = useState(-1);
     const [hammerVisible, setHammerVisible] = useState(false);
     const [isHitting, setIsHitting] = useState(false);
+    const [hammerErrorType, setHammerErrorType] = useState(null);
 
     const availableItems = ['Brush teeth', 'Wear shoes', 'Wake up', 'Eat breakfast', 'Leave home', 'Wear socks', 'Pack bag'];
     const availableHammerItems = ['Pick up hammer', 'Hit nail', 'Loop: [Hit nail] until flush'];
@@ -33,6 +35,7 @@ export default function Module1() {
         setSimStep(-1);
         setSimStatus('idle');
         setKidPosition(15);
+        setSimErrorType(null);
     };
 
     const handleHammerAdd = (item) => {
@@ -49,6 +52,7 @@ export default function Module1() {
         setNailDepth(0);
         setHammerVisible(false);
         setIsHitting(false);
+        setHammerErrorType(null);
     };
 
     const runHammerSim = async () => {
@@ -57,6 +61,7 @@ export default function Module1() {
         setNailDepth(0);
         setHammerVisible(false);
         setHammerMessage("Running simulation...");
+        setHammerErrorType(null);
         
         let depth = 0;
         let hasHammer = false;
@@ -72,6 +77,7 @@ export default function Module1() {
             } else if (action === 'Hit nail') {
                 if (!hasHammer) {
                     setHammerStatus('error');
+                    setHammerErrorType('no_hammer');
                     setHammerMessage(`❌ Crash at Step ${i+1}: You tried to hit the nail with your bare hand! Ouch! (Iteration required)`);
                     return;
                 }
@@ -85,12 +91,14 @@ export default function Module1() {
 
                 if (depth > 100) {
                     setHammerStatus('error');
+                    setHammerErrorType('too_many_hits');
                     setHammerMessage(`❌ Crash at Step ${i+1}: You hit it too many times and damaged the wood! (Iteration required)`);
                     return;
                 }
             } else if (action === 'Loop: [Hit nail] until flush') {
                 if (!hasHammer) {
                     setHammerStatus('error');
+                    setHammerErrorType('loop_no_hammer');
                     setHammerMessage(`❌ Crash at Step ${i+1}: You can't loop a hammer hit without a hammer!`);
                     return;
                 }
@@ -118,6 +126,7 @@ export default function Module1() {
             }
         } else {
             setHammerStatus('error');
+            setHammerErrorType('not_flush');
             setHammerMessage("❌ Simulation ended, but the nail isn't flush! Iteration is key—what went wrong? Try again!");
         }
     };
@@ -131,6 +140,7 @@ export default function Module1() {
         setSimStatus('running');
         setActivityMessage("Running simulation...");
         setKidPosition(15);
+        setSimErrorType(null);
 
         let state = { awake: false, eaten: false, brushed: false, socks: false, shoes: false, bag: false };
 
@@ -143,6 +153,7 @@ export default function Module1() {
 
             if (action !== 'Wake up' && !state.awake) {
                 setSimStatus('error');
+                setSimErrorType('asleep');
                 setActivityMessage(`❌ Error at Step ${i + 1}: You tried to ${action.toLowerCase()} while asleep! Algorithm crashed.`);
                 return;
             }
@@ -162,6 +173,7 @@ export default function Module1() {
             else if (action === 'Wear socks') {
                 if (state.shoes) {
                     setSimStatus('error');
+                    setSimErrorType('socks_over_shoes');
                     setActivityMessage(`❌ Error at Step ${i + 1}: You can't put socks on OVER your shoes!`);
                     return;
                 }
@@ -170,6 +182,7 @@ export default function Module1() {
             else if (action === 'Wear shoes') {
                 if (!state.socks) {
                     setSimStatus('error');
+                    setSimErrorType('no_socks');
                     setActivityMessage(`❌ Error at Step ${i + 1}: You forgot socks! Blisters detected.`);
                     return;
                 }
@@ -181,16 +194,19 @@ export default function Module1() {
             else if (action === 'Leave home') {
                 if (!state.shoes) {
                     setSimStatus('error');
+                    setSimErrorType('barefoot');
                     setActivityMessage(`❌ Error at Step ${i + 1}: You tried to walk outside barefoot!`);
                     return;
                 }
                 if (!state.bag) {
                     setSimStatus('error');
+                    setSimErrorType('no_bag');
                     setActivityMessage(`❌ Error at Step ${i + 1}: You left without your school bag!`);
                     return;
                 }
                 if (!state.eaten || !state.brushed) {
                     setSimStatus('error');
+                    setSimErrorType('no_hygiene');
                     setActivityMessage(`❌ Error at Step ${i + 1}: You left without eating or brushing teeth! Poor hygiene detected.`);
                     return;
                 }
@@ -216,6 +232,7 @@ export default function Module1() {
         } else {
             if (simStatus !== 'error') {
                 setSimStatus('error');
+                setSimErrorType('missing_step');
                 setActivityMessage("❌ Simulation ended, but you missed a crucial step! Debug your sequence.");
             }
         }
@@ -434,6 +451,30 @@ export default function Module1() {
                         <div style={{ position: 'absolute', bottom: '60px', left: `${kidPosition}%`, transform: 'translateX(-50%)', transition: 'left 1.2s ease-in-out', zIndex: 10 }}>
                             {renderKid()}
                         </div>
+
+                        {/* Visual Error Overlay for School Prep */}
+                        {simErrorType && (
+                            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', animation: 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
+                                <div style={{ fontSize: '70px', marginBottom: '10px' }}>
+                                    {simErrorType === 'asleep' && '😴'}
+                                    {simErrorType === 'socks_over_shoes' && '👟🧦'}
+                                    {simErrorType === 'no_socks' && '🔥🦶'}
+                                    {simErrorType === 'barefoot' && '🦶🚫'}
+                                    {simErrorType === 'no_bag' && '🎒❓'}
+                                    {simErrorType === 'no_hygiene' && '🤢🦷'}
+                                    {simErrorType === 'missing_step' && '🤔'}
+                                </div>
+                                <div style={{ background: '#ef4444', color: 'white', padding: '10px 20px', borderRadius: '12px', fontSize: '20px', fontWeight: 'bold', border: '3px solid white', textAlign: 'center', maxWidth: '80%', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+                                    {simErrorType === 'asleep' && 'WAKE UP FIRST!'}
+                                    {simErrorType === 'socks_over_shoes' && 'SOCKS GO INSIDE SHOES!'}
+                                    {simErrorType === 'no_socks' && 'OUCH! BLISTERS!'}
+                                    {simErrorType === 'barefoot' && 'YOU ARE BAREFOOT!'}
+                                    {simErrorType === 'no_bag' && 'FORGOT YOUR BAG!'}
+                                    {simErrorType === 'no_hygiene' && 'GROSS! YOU STINK!'}
+                                    {simErrorType === 'missing_step' && 'YOU MISSED SOMETHING!'}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '20px' }}>
@@ -565,6 +606,22 @@ export default function Module1() {
                                         <rect x="100" y="0" width="50" height="25" fill="#475569" rx="4" />
                                     </g>
                                 </svg>
+
+                                {/* Visual Error Overlay for Hammer Game */}
+                                {hammerErrorType && (
+                                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', animation: 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
+                                        <div style={{ fontSize: '70px', marginBottom: '10px' }}>
+                                            {(hammerErrorType === 'no_hammer' || hammerErrorType === 'loop_no_hammer') && '🖐️💥'}
+                                            {hammerErrorType === 'too_many_hits' && '🪵💥'}
+                                            {hammerErrorType === 'not_flush' && '🤨'}
+                                        </div>
+                                        <div style={{ background: '#ef4444', color: 'white', padding: '10px 20px', borderRadius: '12px', fontSize: '20px', fontWeight: 'bold', border: '3px solid white', textAlign: 'center', maxWidth: '80%', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+                                            {(hammerErrorType === 'no_hammer' || hammerErrorType === 'loop_no_hammer') && 'OUCH! HIT FINGERS!'}
+                                            {hammerErrorType === 'too_many_hits' && 'WOOD DESTROYED!'}
+                                            {hammerErrorType === 'not_flush' && 'NAIL NOT FLUSH!'}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
