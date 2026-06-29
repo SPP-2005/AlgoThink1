@@ -32,7 +32,7 @@ const SCENE_DATA = {
     failed:     { bg: '#7f1d1d', title: 'SYSTEM CRASH!',            emoji: '💥', color: '#fca5a5', subtitle: '' },
 };
 
-export default function Module3() {
+export function FestivalPlanner({ onBack }) {
     const [phase, setPhase] = useState('LEARN');
     // Planning
     const [selectedResources, setSelectedResources] = useState([]);
@@ -160,8 +160,8 @@ export default function Module3() {
                         <div style={{ fontSize: '22px' }}>🎪</div>
                         <span style={{ fontSize: '18px', fontWeight: '700', color: 'white' }}>Festival Simulation</span>
                     </div>
-                    <button onClick={() => { resetAll(); setPhase('SEQUENCE'); }} style={{ padding: '8px 20px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: 'white', borderRadius: '10px', cursor: 'pointer', fontSize: '14px', fontWeight: '600' }}>
-                        ⬅️ Back to Sequence
+                    <button onClick={() => { if(phase === 'SIMULATE') { resetAll(); setPhase('SEQUENCE'); } else { onBack(); } }} style={{ padding: '8px 20px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: 'white', borderRadius: '10px', cursor: 'pointer', fontSize: '14px', fontWeight: '600' }}>
+                        ⬅️ Back
                     </button>
                 </div>
 
@@ -579,8 +579,8 @@ export default function Module3() {
             `}} />
 
             <header>
-                <div className="logo-text">AlgoThink <span>Module 3</span></div>
-                <Link href="/dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>⬅️ Dashboard</Link>
+                <div className="logo-text">AlgoThink <span>Module 3: Festival Planner</span></div>
+                <button onClick={onBack} className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Activities</button>
             </header>
 
             {/* ─── Phase Tabs ─────────────────────────────── */}
@@ -810,6 +810,105 @@ export default function Module3() {
 
 
             {/* ─── Navigation Footer ──────────────────── */}
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
+                <button onClick={onBack} className="btn btn-secondary" style={{ width: 'auto', background: 'rgba(255,255,255,0.05)', color: 'white', padding: '12px 30px', border: '1px solid var(--border)' }}>
+                    ⬅️ Back to Activities
+                </button>
+            </div>
+        </main>
+    );
+}
+
+export default function Module3() {
+    const [activeActivity, setActiveActivity] = useState(null);
+
+    const activities = [
+        {
+            id: 1,
+            title: 'Festival Planner',
+            desc: 'Use algorithmic thinking to decompose and sequence a massive outdoor festival.',
+            icon: '🎪',
+            tags: [{ label: 'Decomposition', color: '#c084fc' }, { label: 'Sequencing', color: '#60a5fa' }]
+        },
+        {
+            id: 2,
+            title: 'Robot Maze Navigator',
+            desc: 'Program a robot to navigate through a complex maze using loops and conditions.',
+            icon: '🤖',
+            tags: [{ label: 'Iteration (Loops)', color: '#f97316' }, { label: 'Conditionals', color: '#34d399' }]
+        },
+        {
+            id: 3,
+            title: 'Smart Conveyor Sorter',
+            desc: 'Write logic to filter and sort incoming packages on a factory conveyor belt.',
+            icon: '📦',
+            tags: [{ label: 'Pattern Recognition', color: '#f472b6' }, { label: 'Logic', color: '#fbbf24' }]
+        }
+    ];
+
+    if (activeActivity === 1) return <FestivalPlanner onBack={() => setActiveActivity(null)} />;
+    if (activeActivity === 2) return <RobotMaze onBack={() => setActiveActivity(null)} />;
+    if (activeActivity === 3) return <SmartSorter onBack={() => setActiveActivity(null)} />;
+
+    return (
+        <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif' }}>
+            <header>
+                <div className="logo-text">AlgoThink <span>Module 3</span></div>
+                <Link href="/dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>⬅️ Dashboard</Link>
+            </header>
+
+            <div style={{ display: 'flex', gap: '60px', marginTop: '40px', marginBottom: '60px', alignItems: 'center' }}>
+                <div style={{ flex: 1 }}>
+                    <h1 style={{ fontSize: '56px', fontWeight: '900', marginBottom: '24px', lineHeight: '1.1' }}>
+                        Interactive<br/>
+                        <span style={{ color: '#818cf8' }}>Logic Labs</span>
+                    </h1>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '16px', lineHeight: '1.6', marginBottom: '24px' }}>
+                        Time to put your algorithmic thinking to the ultimate test! Choose an activity below and solve the puzzles using the 7 Pillars of Logic.
+                    </p>
+                </div>
+                <div style={{ flex: 1, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '350px' }}>
+                    <div style={{ fontSize: '80px', marginBottom: '20px', animation: 'float 3s ease-in-out infinite' }}>🕹️</div>
+                    <div style={{ textAlign: 'center', fontSize: '18px', fontWeight: 'bold' }}>Select a Lab to Begin</div>
+                </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginBottom: '60px' }}>
+                {activities.map(act => (
+                    <div 
+                        key={act.id} 
+                        onClick={() => setActiveActivity(act.id)}
+                        style={{ 
+                            background: 'rgba(255,255,255,0.02)', 
+                            border: '1px solid rgba(255,255,255,0.1)', 
+                            borderRadius: '20px', 
+                            padding: '24px',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-6px)';
+                            e.currentTarget.style.borderColor = '#818cf8';
+                            e.currentTarget.style.boxShadow = '0 15px 40px rgba(129, 140, 248, 0.15)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'none';
+                            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                            e.currentTarget.style.boxShadow = 'none';
+                        }}
+                    >
+                        <div style={{ fontSize: '40px', marginBottom: '16px' }}>{act.icon}</div>
+                        <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>{act.title}</h3>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '20px', lineHeight: '1.6', minHeight: '66px' }}>{act.desc}</p>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                            {act.tags.map((tag, idx) => (
+                                <span key={idx} style={{ fontSize: '12px', padding: '6px 10px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: tag.color, border: `1px solid ${tag.color}30` }}>{tag.label}</span>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
                 <Link href="/course/module-2" className="btn btn-secondary" style={{ width: 'auto', background: 'rgba(255,255,255,0.05)', color: 'white', padding: '12px 30px', border: '1px solid var(--border)' }}>
                     ⬅️ Previous: Module 2
@@ -817,6 +916,47 @@ export default function Module3() {
                 <Link href="/course/module-4" className="btn btn-primary" style={{ width: 'auto', background: '#3b82f6', padding: '12px 30px' }}>
                     Proceed to Module 4 ➡️
                 </Link>
+            </div>
+            
+            <style dangerouslySetInnerHTML={{__html: \`
+                @keyframes float {
+                    0% { transform: translateY(0px); }
+                    50% { transform: translateY(-12px); }
+                    100% { transform: translateY(0px); }
+                }
+            \`}} />
+        </main>
+    );
+}
+
+// ─── STUB COMPONENTS FOR ACTIVITY 2 AND 3 ────────────────────
+function RobotMaze({ onBack }) {
+    return (
+        <main className="container">
+            <header>
+                <div className="logo-text">AlgoThink <span>Module 3: Robot Maze</span></div>
+                <button onClick={onBack} className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Activities</button>
+            </header>
+            <div className="panel" style={{ textAlign: 'center', padding: '80px 20px' }}>
+                <div style={{ fontSize: '80px', marginBottom: '20px' }}>🚧</div>
+                <h2 style={{ fontSize: '32px', marginBottom: '16px' }}>Robot Maze Simulator</h2>
+                <p style={{ color: 'var(--text-muted)', fontSize: '18px' }}>Activity under construction. Coming soon in v2.0!</p>
+            </div>
+        </main>
+    );
+}
+
+function SmartSorter({ onBack }) {
+    return (
+        <main className="container">
+            <header>
+                <div className="logo-text">AlgoThink <span>Module 3: Smart Sorter</span></div>
+                <button onClick={onBack} className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Activities</button>
+            </header>
+            <div className="panel" style={{ textAlign: 'center', padding: '80px 20px' }}>
+                <div style={{ fontSize: '80px', marginBottom: '20px' }}>🚧</div>
+                <h2 style={{ fontSize: '32px', marginBottom: '16px' }}>Smart Conveyor Belt</h2>
+                <p style={{ color: 'var(--text-muted)', fontSize: '18px' }}>Activity under construction. Coming soon in v2.0!</p>
             </div>
         </main>
     );
