@@ -918,13 +918,13 @@ export default function Module3() {
                 </Link>
             </div>
             
-            <style dangerouslySetInnerHTML={{__html: \`
+            <style dangerouslySetInnerHTML={{__html: `
                 @keyframes float {
                     0% { transform: translateY(0px); }
                     50% { transform: translateY(-12px); }
                     100% { transform: translateY(0px); }
                 }
-            \`}} />
+            `}} />
         </main>
     );
 }
