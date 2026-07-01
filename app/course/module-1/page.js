@@ -427,8 +427,8 @@ export default function Module1() {
                     <div style={{ height: '340px', borderRadius: '12px', border: '4px solid #0f172a', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                         
                         {/* 2D Game Painted Backgrounds */}
-                        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/assets/storybook/bg_bedroom.png)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 1 }} />
-                        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/assets/storybook/bg_street.png)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: kidPosition > 25 ? 1 : 0, transition: 'opacity 1.5s ease-in-out', zIndex: 2 }} />
+                        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("/assets/storybook/bg_bedroom.png")', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 1 }} />
+                        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("/assets/storybook/bg_street.png")', backgroundSize: 'cover', backgroundPosition: 'center', opacity: kidPosition > 25 ? 1 : 0, transition: 'opacity 1.5s ease-in-out', zIndex: 2 }} />
 
                         <style>{`
                             @keyframes bob { 0% { transform: translateY(0px); } 100% { transform: translateY(-8px); } }
