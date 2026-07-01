@@ -931,35 +931,3 @@ export default function Module3() {
     );
 }
 
-// ─── STUB COMPONENTS FOR ACTIVITY 2 AND 3 ────────────────────
-function RobotMaze({ onBack }) {
-    return (
-        <main className="container">
-            <header>
-                <div className="logo-text">AlgoThink <span>Module 3: Robot Maze</span></div>
-                <button onClick={onBack} className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Activities</button>
-            </header>
-            <div className="panel" style={{ textAlign: 'center', padding: '80px 20px' }}>
-                <div style={{ fontSize: '80px', marginBottom: '20px' }}>🚧</div>
-                <h2 style={{ fontSize: '32px', marginBottom: '16px' }}>Robot Maze Simulator</h2>
-                <p style={{ color: 'var(--text-muted)', fontSize: '18px' }}>Activity under construction. Coming soon in v2.0!</p>
-            </div>
-        </main>
-    );
-}
-
-function SmartSorter({ onBack }) {
-    return (
-        <main className="container">
-            <header>
-                <div className="logo-text">AlgoThink <span>Module 3: Smart Sorter</span></div>
-                <button onClick={onBack} className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Activities</button>
-            </header>
-            <div className="panel" style={{ textAlign: 'center', padding: '80px 20px' }}>
-                <div style={{ fontSize: '80px', marginBottom: '20px' }}>🚧</div>
-                <h2 style={{ fontSize: '32px', marginBottom: '16px' }}>Smart Conveyor Belt</h2>
-                <p style={{ color: 'var(--text-muted)', fontSize: '18px' }}>Activity under construction. Coming soon in v2.0!</p>
-            </div>
-        </main>
-    );
-}
