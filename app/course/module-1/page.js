@@ -424,64 +424,18 @@ export default function Module1() {
                     <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '20px' }}>Program the algorithmic sequence to get the kid to school. Click "Run Simulation" to visually understand how an algorithm works</p>
 
                     {/* Visual 2D Canvas */}
-                    <div style={{ height: '340px', background: 'linear-gradient(to bottom, #38bdf8, #bae6fd)', borderRadius: '12px', border: '4px solid #0f172a', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                    <div style={{ height: '340px', borderRadius: '12px', border: '4px solid #0f172a', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                        
+                        {/* 2D Game Painted Backgrounds */}
+                        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/assets/storybook/bg_bedroom.png)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 1 }} />
+                        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/assets/storybook/bg_street.png)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: kidPosition > 25 ? 1 : 0, transition: 'opacity 1.5s ease-in-out', zIndex: 2 }} />
+
                         <style>{`
                             @keyframes bob { 0% { transform: translateY(0px); } 100% { transform: translateY(-8px); } }
-                            @keyframes cloudMove { 0% { transform: translateX(-100px); } 100% { transform: translateX(800px); } }
                         `}</style>
 
-                        {/* Sun */}
-                        <div style={{ position: 'absolute', top: '20px', right: '40px', width: '50px', height: '50px', background: '#fef08a', borderRadius: '50%', boxShadow: '0 0 30px #fef08a' }}></div>
-
-                        {/* Clouds */}
-                        <div style={{ position: 'absolute', top: '30px', left: '0', opacity: 0.9, animation: 'cloudMove 25s linear infinite' }}>
-                            <svg width="100" height="50" viewBox="0 0 80 40" fill="#ffffff">
-                                <circle cx="20" cy="20" r="15" />
-                                <circle cx="40" cy="15" r="20" />
-                                <circle cx="60" cy="25" r="15" />
-                            </svg>
-                        </div>
-                        <div style={{ position: 'absolute', top: '60px', left: '-200px', opacity: 0.7, animation: 'cloudMove 30s linear infinite 10s' }}>
-                            <svg width="120" height="60" viewBox="0 0 80 40" fill="#ffffff">
-                                <circle cx="20" cy="20" r="15" />
-                                <circle cx="40" cy="15" r="20" />
-                                <circle cx="60" cy="25" r="15" />
-                            </svg>
-                        </div>
-
-                        {/* Floor */}
-                        <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '60px', background: '#22c55e', borderTop: '6px solid #166534' }}></div>
-
-                        {/* House (Left) */}
-                        <div style={{ position: 'absolute', bottom: '60px', left: '5%', zIndex: 5, width: '120px' }}>
-                            <svg width="100%" height="100%" viewBox="0 0 100 120" style={{ overflow: 'visible' }}>
-                                <rect x="10" y="50" width="80" height="70" fill="#cbd5e1" stroke="#334155" strokeWidth="2" />
-                                <polygon points="-5,50 50,5 105,50" fill="#ef4444" stroke="#991b1b" strokeWidth="2" />
-                                <rect x="40" y="80" width="20" height="40" fill="#64748b" stroke="#334155" strokeWidth="2" />
-                                <rect x="20" y="60" width="15" height="15" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
-                                <rect x="65" y="60" width="15" height="15" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
-                            </svg>
-                            <div style={{ textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff' }}>HOME</div>
-                        </div>
-
-                        {/* School (Right) */}
-                        <div style={{ position: 'absolute', bottom: '60px', right: '5%', zIndex: 5, width: '160px' }}>
-                            <svg width="100%" height="100%" viewBox="0 0 120 140" style={{ overflow: 'visible' }}>
-                                <rect x="10" y="60" width="100" height="80" fill="#fcd34d" stroke="#b45309" strokeWidth="2" />
-                                <rect x="20" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
-                                <rect x="52" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
-                                <rect x="85" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
-                                <polygon points="-5,60 60,5 125,60" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
-                                <circle cx="60" cy="35" r="14" fill="white" stroke="#0f172a" strokeWidth="2" />
-                                <line x1="60" y1="35" x2="60" y2="25" stroke="black" strokeWidth="2" strokeLinecap="round" />
-                                <line x1="60" y1="35" x2="68" y2="35" stroke="black" strokeWidth="2" strokeLinecap="round" />
-                                <rect x="45" y="100" width="30" height="40" fill="#b45309" stroke="#78350f" strokeWidth="2" />
-                            </svg>
-                            <div style={{ textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff' }}>SCHOOL</div>
-                        </div>
-
                         {/* Kid Avatar */}
-                        <div style={{ position: 'absolute', bottom: '60px', left: `${kidPosition}%`, transform: 'translateX(-50%)', transition: 'left 1.2s ease-in-out', zIndex: 10 }}>
+                        <div style={{ position: 'absolute', bottom: '20px', left: `${kidPosition}%`, transform: 'translateX(-50%)', transition: 'left 1.2s ease-in-out', zIndex: 10 }}>
                             {renderKid()}
                         </div>
 
