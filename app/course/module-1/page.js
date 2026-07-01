@@ -264,61 +264,94 @@ export default function Module1() {
                 height: '100px',
                 animation: isWalking ? 'bob 0.4s infinite alternate' : 'none'
             }}>
-                <svg width="100%" height="100%" viewBox="0 0 50 100">
+                <svg width="100%" height="100%" viewBox="0 0 60 100">
+                    {/* Shadow */}
+                    <ellipse cx="30" cy="95" rx="15" ry="3" fill="rgba(0,0,0,0.2)" />
+                    
                     {/* Backpack (Conditional - drawn behind body) */}
                     {bag && (
-                        <rect x="2" y="38" width="15" height="25" rx="5" fill="#10b981" />
+                        <g>
+                            <rect x="5" y="32" width="18" height="30" rx="6" fill="#334155" />
+                            <rect x="2" y="38" width="8" height="18" rx="3" fill="#475569" />
+                        </g>
                     )}
-                    {/* Head */}
-                    <circle cx="25" cy="20" r="14" fill="#fcd34d" />
+
+                    {/* Legs (Dark Jeans) */}
+                    <path d="M 22 55 L 20 85 L 26 85 L 28 55 Z" fill="#0f172a" />
+                    <path d="M 32 55 L 34 85 L 28 85 L 26 55 Z" fill="#1e293b" />
+
+                    {/* Socks (Conditional) */}
+                    {socks && (
+                        <g>
+                            <rect x="20" y="75" width="6" height="12" fill="#ffffff" />
+                            <rect x="28" y="75" width="6" height="12" fill="#e2e8f0" />
+                            {/* Sock Stripes */}
+                            <line x1="20" y1="78" x2="26" y2="78" stroke="#ef4444" strokeWidth="2" />
+                            <line x1="28" y1="78" x2="34" y2="78" stroke="#3b82f6" strokeWidth="2" />
+                        </g>
+                    )}
+
+                    {/* Shoes (Conditional - High-top Sneakers) */}
+                    {shoes && (
+                        <g>
+                            {/* Back shoe */}
+                            <path d="M 18 82 Q 18 95 28 95 L 28 85 L 22 82 Z" fill="#ef4444" />
+                            <path d="M 18 92 L 28 92 L 28 95 L 18 95 Z" fill="#ffffff" />
+                            {/* Front shoe */}
+                            <path d="M 26 82 Q 26 95 38 95 L 38 85 L 30 82 Z" fill="#b91c1c" />
+                            <path d="M 26 92 L 38 92 L 38 95 L 26 95 Z" fill="#f8fafc" />
+                        </g>
+                    )}
+
+                    {/* Body (Cool Hoodie) */}
+                    <path d="M 16 35 C 16 25, 40 25, 40 35 L 42 60 C 42 63, 16 63, 18 60 Z" fill="#6366f1" />
+                    {/* Hoodie Pocket */}
+                    <path d="M 24 50 L 36 50 L 38 58 L 22 58 Z" fill="#4f46e5" />
+                    {/* Hoodie Strings */}
+                    <line x1="26" y1="35" x2="26" y2="45" stroke="#c7d2fe" strokeWidth="1.5" />
+                    <line x1="32" y1="35" x2="32" y2="42" stroke="#c7d2fe" strokeWidth="1.5" />
+
+                    {/* Head / Neck */}
+                    <rect x="25" y="22" width="8" height="6" fill="#fcd34d" />
+                    <circle cx="30" cy="18" r="11" fill="#fcd34d" />
+                    
+                    {/* Hair (Messy Teen Hair) */}
+                    <path d="M 18 18 C 18 5, 42 5, 42 18 C 42 12, 35 8, 30 8 C 25 8, 18 12, 18 18 Z" fill="#111827" />
+                    <path d="M 18 15 Q 15 12 22 10 Q 25 5 30 8 Q 38 5 40 12 Q 44 15 42 20 Q 40 18 38 22" fill="#111827" />
+                    
+                    {/* Headphones */}
+                    <path d="M 19 18 A 12 12 0 0 1 41 18" fill="none" stroke="#e2e8f0" strokeWidth="3" />
+                    <rect x="17" y="15" width="4" height="8" rx="2" fill="#0f172a" />
+                    <rect x="39" y="15" width="4" height="8" rx="2" fill="#0f172a" />
+
                     {/* Face */}
                     {awake ? (
-                        <>
-                            <circle cx="29" cy="18" r="2" fill="#1e293b" />
-                            <path d="M 28 24 Q 30 26 32 24" fill="none" stroke="#1e293b" strokeWidth="1.5" strokeLinecap="round" />
-                        </>
+                        <g>
+                            {/* Sunglasses/Cool eyes */}
+                            <rect x="31" y="14" width="7" height="3" rx="1" fill="#1e293b" />
+                            <path d="M 33 21 Q 35 23 37 21" fill="none" stroke="#1e293b" strokeWidth="1.5" strokeLinecap="round" />
+                        </g>
                     ) : (
-                        <>
-                            <path d="M 27 18 Q 29 16 31 18" fill="none" stroke="#1e293b" strokeWidth="1.5" />
-                            <text x="35" y="10" fontSize="10" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>z</text>
-                            <text x="42" y="5" fontSize="8" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>z</text>
-                        </>
+                        <g>
+                            <path d="M 31 16 Q 34 14 37 16" fill="none" stroke="#1e293b" strokeWidth="1.5" />
+                            <text x="42" y="10" fontSize="12" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>Z</text>
+                            <text x="50" y="5" fontSize="8" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>z</text>
+                        </g>
                     )}
 
                     {/* Minty Sparkle (Brushed Teeth) */}
                     {brushed && (
-                        <path d="M 32 24 Q 35 24 35 21 Q 35 24 38 24 Q 35 24 35 27 Q 35 24 32 24" fill="#67e8f9" />
+                        <path d="M 36 21 Q 40 21 40 17 Q 40 21 44 21 Q 40 21 40 25 Q 40 21 36 21" fill="#67e8f9" />
                     )}
 
-                    {/* Body */}
-                    <rect x="15" y="35" width="20" height="30" rx="6" fill="#3b82f6" />
-
-                    {/* Breakfast (Apple in hand) */}
+                    {/* Breakfast (Holding a Coffee Cup / Energy Drink) */}
                     {eaten && (
-                        <g>
-                            <circle cx="36" cy="45" r="4" fill="#ef4444" />
-                            <path d="M 36 41 Q 38 39 39 41" fill="none" stroke="#22c55e" strokeWidth="1.5" />
+                        <g transform="translate(4, -2)">
+                            <rect x="35" y="42" width="8" height="12" fill="#e2e8f0" rx="1" />
+                            <rect x="34" y="40" width="10" height="3" fill="#0f172a" rx="1" />
+                            {/* Logo on cup */}
+                            <circle cx="39" cy="48" r="2" fill="#10b981" />
                         </g>
-                    )}
-
-                    {/* Legs */}
-                    <rect x="18" y="60" width="6" height="25" fill="#fcd34d" />
-                    <rect x="26" y="60" width="6" height="25" fill="#fcd34d" />
-
-                    {/* Socks (Conditional) */}
-                    {socks && (
-                        <>
-                            <rect x="18" y="75" width="6" height="10" fill="#ffffff" />
-                            <rect x="26" y="75" width="6" height="10" fill="#ffffff" />
-                        </>
-                    )}
-
-                    {/* Shoes (Conditional) */}
-                    {shoes && (
-                        <>
-                            <path d="M 16 85 Q 18 95 24 95 L 24 85 Z" fill="#ef4444" />
-                            <path d="M 26 85 Q 26 95 34 95 L 34 85 Z" fill="#ef4444" />
-                        </>
                     )}
                 </svg>
             </div>
