@@ -250,45 +250,22 @@ export default function Module1() {
         }
     };
 
-    const renderKid = () => {
-        let socks = false;
-        let shoes = false;
-        let bag = false;
-        let awake = false;
-        let brushed = false;
-        let eaten = false;
+    // Evaluate state for the character based on the current simulation step
+    let socks = false;
+    let shoes = false;
+    let bag = false;
+    let awake = false;
+    let brushed = false;
+    let eaten = false;
 
-        for (let i = 0; i <= simStep; i++) {
-            if (activityState[i] === 'Wear socks') socks = true;
-            if (activityState[i] === 'Wear shoes') shoes = true;
-            if (activityState[i] === 'Pack bag') bag = true;
-            if (activityState[i] === 'Wake up') awake = true;
-            if (activityState[i] === 'Brush teeth') brushed = true;
-            if (activityState[i] === 'Eat breakfast') eaten = true;
-        }
-
-        const isWalking = simStatus === 'running' && kidPosition > 15 && kidPosition < 80;
-
-        let charStatus = 'idle';
-        if (isWalking) charStatus = 'walking';
-        else if (simStatus === 'crashed') {
-            if (simErrorType === 'missing_step') charStatus = 'confused';
-            else charStatus = 'failure';
-        }
-        else if (simStatus === 'success') charStatus = 'success';
-
-        return (
-            <CartoonCharacter
-                status={charStatus}
-                bag={bag}
-                socks={socks}
-                shoes={shoes}
-                awake={awake}
-                brushed={brushed}
-                eaten={eaten}
-            />
-        );
-    };
+    for (let i = 0; i <= simStep; i++) {
+        if (activityState[i] === 'Wear socks') socks = true;
+        if (activityState[i] === 'Wear shoes') shoes = true;
+        if (activityState[i] === 'Pack bag') bag = true;
+        if (activityState[i] === 'Wake up') awake = true;
+        if (activityState[i] === 'Brush teeth') brushed = true;
+        if (activityState[i] === 'Eat breakfast') eaten = true;
+    }
 
     return (
         <main className="container">
