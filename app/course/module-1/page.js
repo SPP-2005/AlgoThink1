@@ -1,7 +1,9 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import SchoolAdventure from './SchoolAdventure';
+import dynamic from 'next/dynamic';
+
+const GameCanvas = dynamic(() => import('./game/GameCanvas'), { ssr: false });
 
 export default function Module1() {
     const [activityState, setActivityState] = useState([]);
@@ -30,6 +32,8 @@ export default function Module1() {
         }
     };
 
+    const gameRef = useRef(null);
+
     const handleReset = () => {
         setActivityState([]);
         setActivityMessage("");
@@ -37,6 +41,7 @@ export default function Module1() {
         setSimStatus('idle');
         setKidPosition(15);
         setSimErrorType(null);
+        if (gameRef.current) gameRef.current.reset();
     };
 
     const handleHammerAdd = (item) => {
@@ -132,7 +137,7 @@ export default function Module1() {
         }
     };
 
-    const runSimulation = async () => {
+    const runSimulation = () => {
         if (activityState.length === 0) {
             setActivityMessage("Please add some steps to your sequence first!");
             return;
@@ -140,132 +145,17 @@ export default function Module1() {
 
         setSimStatus('running');
         setActivityMessage("Running simulation...");
-        setKidPosition(10); // Start at bed
         setSimErrorType(null);
 
-        let state = { awake: false, eaten: false, brushed: false, socks: false, shoes: false, bag: false };
-
-        for (let i = 0; i < activityState.length; i++) {
-            setSimStep(i);
-            const action = activityState[i];
-
-            if (action !== 'Wake up' && !state.awake) {
-                setSimStatus('error');
-                setSimErrorType('asleep');
-                setActivityMessage(`❌ Error at Step ${i + 1}: You tried to ${action.toLowerCase()} while asleep! Algorithm crashed.`);
-                return;
-            }
-
-            if (action === 'Wake up') {
-                setKidPosition(10);
-                await new Promise(r => setTimeout(r, 1000));
-                state.awake = true;
-            }
-            else if (action === 'Wear socks') {
-                setKidPosition(20);
-                await new Promise(r => setTimeout(r, 1000));
-                if (state.shoes) {
-                    setSimStatus('error');
-                    setSimErrorType('socks_over_shoes');
-                    setActivityMessage(`❌ Error at Step ${i + 1}: You can't put socks on OVER your shoes!`);
-                    return;
-                }
-                state.socks = true;
-            }
-            else if (action === 'Pack bag') {
-                setKidPosition(30);
-                await new Promise(r => setTimeout(r, 1000));
-                state.bag = true;
-            }
-            else if (action === 'Brush teeth') {
-                setKidPosition(42);
-                await new Promise(r => setTimeout(r, 1000));
-                state.brushed = true;
-            }
-            else if (action === 'Eat breakfast') {
-                setKidPosition(60);
-                await new Promise(r => setTimeout(r, 1000));
-                if (!state.brushed) {
-                    setActivityMessage("⚠️ Warning: Eating before brushing? Enjoy your morning breath breakfast!");
-                }
-                state.eaten = true;
-            }
-            else if (action === 'Wear shoes') {
-                setKidPosition(78);
-                await new Promise(r => setTimeout(r, 1000));
-                if (!state.socks) {
-                    setSimStatus('error');
-                    setSimErrorType('no_socks');
-                    setActivityMessage(`❌ Error at Step ${i + 1}: You forgot socks! Blisters detected.`);
-                    return;
-                }
-                state.shoes = true;
-            }
-            else if (action === 'Leave home') {
-                setKidPosition(88);
-                await new Promise(r => setTimeout(r, 1000));
-                if (!state.shoes) {
-                    setSimStatus('error');
-                    setSimErrorType('barefoot');
-                    setActivityMessage(`❌ Error at Step ${i + 1}: You tried to walk outside barefoot!`);
-                    return;
-                }
-                if (!state.bag) {
-                    setSimStatus('error');
-                    setSimErrorType('no_bag');
-                    setActivityMessage(`❌ Error at Step ${i + 1}: You left without your school bag!`);
-                    return;
-                }
-                if (!state.eaten || !state.brushed) {
-                    setSimStatus('error');
-                    setSimErrorType('no_hygiene');
-                    setActivityMessage(`❌ Error at Step ${i + 1}: You left without eating or brushing teeth! Poor hygiene detected.`);
-                    return;
-                }
-
-                // Move kid to school
-                setKidPosition(95);
-                await new Promise(r => setTimeout(r, 1200));
-            }
-        }
-
-        // Final validation
-        if (state.shoes && state.socks && state.bag && state.eaten && state.brushed && activityState.includes('Leave home')) {
-            const perfectSequence = ['Wake up', 'Brush teeth', 'Eat breakfast', 'Pack bag', 'Wear socks', 'Wear shoes', 'Leave home'];
-            const isPerfect = activityState.every((val, index) => val === perfectSequence[index]);
-
-            if (isPerfect) {
-                setSimStatus('success');
-                setActivityMessage("✅ Perfect Execution! The optimal sequence was flawless.");
-            } else {
-                setSimStatus('warning');
-                setActivityMessage("⚠️ Task Completed, but Sub-optimal! You got to school, but your sequence of actions wasn't the most logical order.");
-            }
-        } else {
-            if (simStatus !== 'error') {
-                setSimStatus('error');
-                setSimErrorType('missing_step');
-                setActivityMessage("❌ Simulation ended, but you missed a crucial step! Debug your sequence.");
-            }
+        // Delegate entire execution to the Phaser game engine
+        if (gameRef.current) {
+            gameRef.current.executeAlgorithm(activityState);
         }
     };
 
-    // Evaluate state for the character based on the current simulation step
-    let socks = false;
-    let shoes = false;
-    let bag = false;
-    let awake = false;
-    let brushed = false;
-    let eaten = false;
-
-    for (let i = 0; i <= simStep; i++) {
-        if (activityState[i] === 'Wear socks') socks = true;
-        if (activityState[i] === 'Wear shoes') shoes = true;
-        if (activityState[i] === 'Pack bag') bag = true;
-        if (activityState[i] === 'Wake up') awake = true;
-        if (activityState[i] === 'Brush teeth') brushed = true;
-        if (activityState[i] === 'Eat breakfast') eaten = true;
-    }
+    // Game status callbacks
+    const handleGameStatus = (newStatus) => setSimStatus(newStatus);
+    const handleGameMessage = (msg) => setActivityMessage(msg);
 
     return (
         <main className="container">
@@ -332,17 +222,11 @@ export default function Module1() {
                     <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '16px' }}>🎮 2D Simulation Game: Prepare for School</h2>
                     <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '20px' }}>Program the algorithmic sequence to get the kid to school. Click "Run Simulation" to visually understand how an algorithm works</p>
 
-                    {/* Visual Mission Environment */}
-                    <SchoolAdventure
-                        simStatus={simStatus}
-                        simErrorType={simErrorType}
-                        kidPosition={kidPosition}
-                        bag={bag}
-                        socks={socks}
-                        shoes={shoes}
-                        awake={awake}
-                        brushed={brushed}
-                        eaten={eaten}
+                    {/* Phaser Game Canvas */}
+                    <GameCanvas
+                        ref={gameRef}
+                        onStatusChange={handleGameStatus}
+                        onMessage={handleGameMessage}
                     />
 
                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '20px' }}>
