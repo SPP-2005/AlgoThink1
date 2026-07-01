@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import RobotMaze from './RobotMaze';
+import SmartSorter from './SmartSorter';
 
 // ── Festival Planner Data ──────────────────────────────────────────────
 const RESOURCES = [
