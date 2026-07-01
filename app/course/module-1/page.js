@@ -1,7 +1,7 @@
-'use client';
+"use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import CartoonCharacter from './CartoonCharacter';
+import SchoolAdventure from './SchoolAdventure';
 
 export default function Module1() {
     const [activityState, setActivityState] = useState([]);
@@ -140,7 +140,7 @@ export default function Module1() {
 
         setSimStatus('running');
         setActivityMessage("Running simulation...");
-        setKidPosition(15);
+        setKidPosition(10); // Start at bed
         setSimErrorType(null);
 
         let state = { awake: false, eaten: false, brushed: false, socks: false, shoes: false, bag: false };
@@ -148,9 +148,6 @@ export default function Module1() {
         for (let i = 0; i < activityState.length; i++) {
             setSimStep(i);
             const action = activityState[i];
-
-            // Wait 1 second between steps for visual effect
-            await new Promise(r => setTimeout(r, 1000));
 
             if (action !== 'Wake up' && !state.awake) {
                 setSimStatus('error');
@@ -160,18 +157,13 @@ export default function Module1() {
             }
 
             if (action === 'Wake up') {
+                setKidPosition(10);
+                await new Promise(r => setTimeout(r, 1000));
                 state.awake = true;
             }
-            else if (action === 'Brush teeth') {
-                state.brushed = true;
-            }
-            else if (action === 'Eat breakfast') {
-                if (!state.brushed) {
-                    setActivityMessage("⚠️ Warning: Eating before brushing? Enjoy your morning breath breakfast!");
-                }
-                state.eaten = true;
-            }
             else if (action === 'Wear socks') {
+                setKidPosition(20);
+                await new Promise(r => setTimeout(r, 1000));
                 if (state.shoes) {
                     setSimStatus('error');
                     setSimErrorType('socks_over_shoes');
@@ -180,7 +172,27 @@ export default function Module1() {
                 }
                 state.socks = true;
             }
+            else if (action === 'Pack bag') {
+                setKidPosition(30);
+                await new Promise(r => setTimeout(r, 1000));
+                state.bag = true;
+            }
+            else if (action === 'Brush teeth') {
+                setKidPosition(42);
+                await new Promise(r => setTimeout(r, 1000));
+                state.brushed = true;
+            }
+            else if (action === 'Eat breakfast') {
+                setKidPosition(60);
+                await new Promise(r => setTimeout(r, 1000));
+                if (!state.brushed) {
+                    setActivityMessage("⚠️ Warning: Eating before brushing? Enjoy your morning breath breakfast!");
+                }
+                state.eaten = true;
+            }
             else if (action === 'Wear shoes') {
+                setKidPosition(78);
+                await new Promise(r => setTimeout(r, 1000));
                 if (!state.socks) {
                     setSimStatus('error');
                     setSimErrorType('no_socks');
@@ -189,10 +201,9 @@ export default function Module1() {
                 }
                 state.shoes = true;
             }
-            else if (action === 'Pack bag') {
-                state.bag = true;
-            }
             else if (action === 'Leave home') {
+                setKidPosition(88);
+                await new Promise(r => setTimeout(r, 1000));
                 if (!state.shoes) {
                     setSimStatus('error');
                     setSimErrorType('barefoot');
@@ -213,7 +224,7 @@ export default function Module1() {
                 }
 
                 // Move kid to school
-                setKidPosition(80);
+                setKidPosition(95);
                 await new Promise(r => setTimeout(r, 1200));
             }
         }
@@ -344,103 +355,18 @@ export default function Module1() {
                     <h2 style={{ fontSize: '24px', color: '#ffffff', marginBottom: '16px' }}>🎮 2D Simulation Game: Prepare for School</h2>
                     <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '20px' }}>Program the algorithmic sequence to get the kid to school. Click "Run Simulation" to visually understand how an algorithm works</p>
 
-                    {/* Visual 2D Canvas */}
-                    <div style={{ height: '340px', background: 'linear-gradient(to bottom, #38bdf8, #bae6fd)', borderRadius: '12px', border: '4px solid #0f172a', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
-                        <style>{`
-                            @keyframes bob { 0% { transform: translateY(0px); } 100% { transform: translateY(-8px); } }
-                            @keyframes cloudMove { 0% { transform: translateX(-100px); } 100% { transform: translateX(800px); } }
-                        `}</style>
-
-                        {/* Sun */}
-                        <div style={{ position: 'absolute', top: '20px', right: '40px', width: '50px', height: '50px', background: '#fef08a', borderRadius: '50%', boxShadow: '0 0 30px #fef08a' }}></div>
-
-                        {/* Clouds */}
-                        <div style={{ position: 'absolute', top: '30px', left: '0', opacity: 0.9, animation: 'cloudMove 25s linear infinite' }}>
-                            <svg width="100" height="50" viewBox="0 0 80 40" fill="#ffffff">
-                                <circle cx="20" cy="20" r="15" />
-                                <circle cx="40" cy="15" r="20" />
-                                <circle cx="60" cy="25" r="15" />
-                            </svg>
-                        </div>
-                        <div style={{ position: 'absolute', top: '60px', left: '-200px', opacity: 0.7, animation: 'cloudMove 30s linear infinite 10s' }}>
-                            <svg width="120" height="60" viewBox="0 0 80 40" fill="#ffffff">
-                                <circle cx="20" cy="20" r="15" />
-                                <circle cx="40" cy="15" r="20" />
-                                <circle cx="60" cy="25" r="15" />
-                            </svg>
-                        </div>
-
-                        {/* Floor */}
-                        <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '60px', background: '#22c55e', borderTop: '6px solid #166534' }}></div>
-
-                        {/* House (Left) */}
-                        <div style={{ position: 'absolute', bottom: '60px', left: '5%', zIndex: 5, width: '120px' }}>
-                            <svg width="100%" height="100%" viewBox="0 0 100 120" style={{ overflow: 'visible' }}>
-                                <rect x="10" y="50" width="80" height="70" fill="#cbd5e1" stroke="#334155" strokeWidth="2" />
-                                <polygon points="-5,50 50,5 105,50" fill="#ef4444" stroke="#991b1b" strokeWidth="2" />
-                                <rect x="40" y="80" width="20" height="40" fill="#64748b" stroke="#334155" strokeWidth="2" />
-                                <rect x="20" y="60" width="15" height="15" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
-                                <rect x="65" y="60" width="15" height="15" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
-                            </svg>
-                            <div style={{ textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff' }}>HOME</div>
-                        </div>
-
-                        {/* School (Right) */}
-                        <div style={{ position: 'absolute', bottom: '60px', right: '5%', zIndex: 5, width: '160px' }}>
-                            <svg width="100%" height="100%" viewBox="0 0 120 140" style={{ overflow: 'visible' }}>
-                                <rect x="10" y="60" width="100" height="80" fill="#fcd34d" stroke="#b45309" strokeWidth="2" />
-                                <rect x="20" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
-                                <rect x="52" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
-                                <rect x="85" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
-                                <polygon points="-5,60 60,5 125,60" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
-                                <circle cx="60" cy="35" r="14" fill="white" stroke="#0f172a" strokeWidth="2" />
-                                <line x1="60" y1="35" x2="60" y2="25" stroke="black" strokeWidth="2" strokeLinecap="round" />
-                                <line x1="60" y1="35" x2="68" y2="35" stroke="black" strokeWidth="2" strokeLinecap="round" />
-                                <rect x="45" y="100" width="30" height="40" fill="#b45309" stroke="#78350f" strokeWidth="2" />
-                            </svg>
-                            <div style={{ textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff' }}>SCHOOL</div>
-                        </div>
-
-                        {/* Kid Avatar */}
-                        <div style={{ position: 'absolute', bottom: '60px', left: `${kidPosition}%`, transform: 'translateX(-50%)', transition: 'left 1.2s ease-in-out', zIndex: 10 }}>
-                            {renderKid()}
-                        </div>
-
-                        {/* Visual Error Overlay for School Prep */}
-                        {simErrorType && (
-                            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', animation: 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
-                                <div style={{ fontSize: '70px', marginBottom: '10px' }}>
-                                    {simErrorType === 'asleep' && '😴'}
-                                    {simErrorType === 'socks_over_shoes' && '👟🧦'}
-                                    {simErrorType === 'no_socks' && '🔥🦶'}
-                                    {simErrorType === 'barefoot' && '🦶🚫'}
-                                    {simErrorType === 'no_bag' && '🎒❓'}
-                                    {simErrorType === 'no_hygiene' && '🤢🦷'}
-                                    {simErrorType === 'missing_step' && '🤔'}
-                                </div>
-                                <div style={{ background: '#ef4444', color: 'white', padding: '16px 24px', borderRadius: '12px', border: '3px solid white', textAlign: 'center', maxWidth: '85%', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                                    <h3 style={{ fontSize: '24px', fontWeight: '900', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
-                                        {simErrorType === 'asleep' && 'WAKE UP FIRST!'}
-                                        {simErrorType === 'socks_over_shoes' && 'SOCKS GO INSIDE SHOES!'}
-                                        {simErrorType === 'no_socks' && 'OUCH! BLISTERS!'}
-                                        {simErrorType === 'barefoot' && 'YOU ARE BAREFOOT!'}
-                                        {simErrorType === 'no_bag' && 'FORGOT YOUR BAG!'}
-                                        {simErrorType === 'no_hygiene' && 'GROSS! YOU STINK!'}
-                                        {simErrorType === 'missing_step' && 'YOU MISSED SOMETHING!'}
-                                    </h3>
-                                    <p style={{ fontSize: '16px', margin: 0, fontWeight: 'normal', opacity: 0.9 }}>
-                                        {simErrorType === 'asleep' && "You can't execute algorithms in your sleep. Add the 'Wake up' step first!"}
-                                        {simErrorType === 'socks_over_shoes' && "You tried putting socks on top of your shoes! That doesn't make any sense."}
-                                        {simErrorType === 'no_socks' && "You put your shoes on without socks! That's going to cause painful blisters."}
-                                        {simErrorType === 'barefoot' && "You tried walking outside without shoes! You need to protect your feet."}
-                                        {simErrorType === 'no_bag' && "You can't go to school without your bag. You forgot a crucial step!"}
-                                        {simErrorType === 'no_hygiene' && "You skipped eating or brushing your teeth! Always maintain good hygiene."}
-                                        {simErrorType === 'missing_step' && "Your sequence finished, but you didn't successfully prepare for school."}
-                                    </p>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                    {/* Visual Mission Environment */}
+                    <SchoolAdventure
+                        simStatus={simStatus}
+                        simErrorType={simErrorType}
+                        kidPosition={kidPosition}
+                        bag={bag}
+                        socks={socks}
+                        shoes={shoes}
+                        awake={awake}
+                        brushed={brushed}
+                        eaten={eaten}
+                    />
 
                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '20px' }}>
                         {availableItems.map((item, idx) => {
