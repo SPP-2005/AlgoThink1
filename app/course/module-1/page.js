@@ -264,94 +264,61 @@ export default function Module1() {
                 height: '100px',
                 animation: isWalking ? 'bob 0.4s infinite alternate' : 'none'
             }}>
-                <svg width="100%" height="100%" viewBox="0 0 60 100">
-                    {/* Shadow */}
-                    <ellipse cx="30" cy="95" rx="15" ry="3" fill="rgba(0,0,0,0.2)" />
-                    
+                <svg width="100%" height="100%" viewBox="0 0 50 100">
                     {/* Backpack (Conditional - drawn behind body) */}
                     {bag && (
-                        <g>
-                            <rect x="5" y="32" width="18" height="30" rx="6" fill="#334155" />
-                            <rect x="2" y="38" width="8" height="18" rx="3" fill="#475569" />
-                        </g>
+                        <rect x="2" y="38" width="15" height="25" rx="5" fill="#10b981" />
                     )}
-
-                    {/* Legs (Dark Jeans) */}
-                    <path d="M 22 55 L 20 85 L 26 85 L 28 55 Z" fill="#0f172a" />
-                    <path d="M 32 55 L 34 85 L 28 85 L 26 55 Z" fill="#1e293b" />
-
-                    {/* Socks (Conditional) */}
-                    {socks && (
-                        <g>
-                            <rect x="20" y="75" width="6" height="12" fill="#ffffff" />
-                            <rect x="28" y="75" width="6" height="12" fill="#e2e8f0" />
-                            {/* Sock Stripes */}
-                            <line x1="20" y1="78" x2="26" y2="78" stroke="#ef4444" strokeWidth="2" />
-                            <line x1="28" y1="78" x2="34" y2="78" stroke="#3b82f6" strokeWidth="2" />
-                        </g>
-                    )}
-
-                    {/* Shoes (Conditional - High-top Sneakers) */}
-                    {shoes && (
-                        <g>
-                            {/* Back shoe */}
-                            <path d="M 18 82 Q 18 95 28 95 L 28 85 L 22 82 Z" fill="#ef4444" />
-                            <path d="M 18 92 L 28 92 L 28 95 L 18 95 Z" fill="#ffffff" />
-                            {/* Front shoe */}
-                            <path d="M 26 82 Q 26 95 38 95 L 38 85 L 30 82 Z" fill="#b91c1c" />
-                            <path d="M 26 92 L 38 92 L 38 95 L 26 95 Z" fill="#f8fafc" />
-                        </g>
-                    )}
-
-                    {/* Body (Cool Hoodie) */}
-                    <path d="M 16 35 C 16 25, 40 25, 40 35 L 42 60 C 42 63, 16 63, 18 60 Z" fill="#6366f1" />
-                    {/* Hoodie Pocket */}
-                    <path d="M 24 50 L 36 50 L 38 58 L 22 58 Z" fill="#4f46e5" />
-                    {/* Hoodie Strings */}
-                    <line x1="26" y1="35" x2="26" y2="45" stroke="#c7d2fe" strokeWidth="1.5" />
-                    <line x1="32" y1="35" x2="32" y2="42" stroke="#c7d2fe" strokeWidth="1.5" />
-
-                    {/* Head / Neck */}
-                    <rect x="25" y="22" width="8" height="6" fill="#fcd34d" />
-                    <circle cx="30" cy="18" r="11" fill="#fcd34d" />
-                    
-                    {/* Hair (Messy Teen Hair) */}
-                    <path d="M 18 18 C 18 5, 42 5, 42 18 C 42 12, 35 8, 30 8 C 25 8, 18 12, 18 18 Z" fill="#111827" />
-                    <path d="M 18 15 Q 15 12 22 10 Q 25 5 30 8 Q 38 5 40 12 Q 44 15 42 20 Q 40 18 38 22" fill="#111827" />
-                    
-                    {/* Headphones */}
-                    <path d="M 19 18 A 12 12 0 0 1 41 18" fill="none" stroke="#e2e8f0" strokeWidth="3" />
-                    <rect x="17" y="15" width="4" height="8" rx="2" fill="#0f172a" />
-                    <rect x="39" y="15" width="4" height="8" rx="2" fill="#0f172a" />
-
+                    {/* Head */}
+                    <circle cx="25" cy="20" r="14" fill="#fcd34d" />
                     {/* Face */}
                     {awake ? (
-                        <g>
-                            {/* Sunglasses/Cool eyes */}
-                            <rect x="31" y="14" width="7" height="3" rx="1" fill="#1e293b" />
-                            <path d="M 33 21 Q 35 23 37 21" fill="none" stroke="#1e293b" strokeWidth="1.5" strokeLinecap="round" />
-                        </g>
+                        <>
+                            <circle cx="29" cy="18" r="2" fill="#1e293b" />
+                            <path d="M 28 24 Q 30 26 32 24" fill="none" stroke="#1e293b" strokeWidth="1.5" strokeLinecap="round" />
+                        </>
                     ) : (
-                        <g>
-                            <path d="M 31 16 Q 34 14 37 16" fill="none" stroke="#1e293b" strokeWidth="1.5" />
-                            <text x="42" y="10" fontSize="12" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>Z</text>
-                            <text x="50" y="5" fontSize="8" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>z</text>
-                        </g>
+                        <>
+                            <path d="M 27 18 Q 29 16 31 18" fill="none" stroke="#1e293b" strokeWidth="1.5" />
+                            <text x="35" y="10" fontSize="10" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>z</text>
+                            <text x="42" y="5" fontSize="8" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>z</text>
+                        </>
                     )}
 
                     {/* Minty Sparkle (Brushed Teeth) */}
                     {brushed && (
-                        <path d="M 36 21 Q 40 21 40 17 Q 40 21 44 21 Q 40 21 40 25 Q 40 21 36 21" fill="#67e8f9" />
+                        <path d="M 32 24 Q 35 24 35 21 Q 35 24 38 24 Q 35 24 35 27 Q 35 24 32 24" fill="#67e8f9" />
                     )}
 
-                    {/* Breakfast (Holding a Coffee Cup / Energy Drink) */}
+                    {/* Body */}
+                    <rect x="15" y="35" width="20" height="30" rx="6" fill="#3b82f6" />
+
+                    {/* Breakfast (Apple in hand) */}
                     {eaten && (
-                        <g transform="translate(4, -2)">
-                            <rect x="35" y="42" width="8" height="12" fill="#e2e8f0" rx="1" />
-                            <rect x="34" y="40" width="10" height="3" fill="#0f172a" rx="1" />
-                            {/* Logo on cup */}
-                            <circle cx="39" cy="48" r="2" fill="#10b981" />
+                        <g>
+                            <circle cx="36" cy="45" r="4" fill="#ef4444" />
+                            <path d="M 36 41 Q 38 39 39 41" fill="none" stroke="#22c55e" strokeWidth="1.5" />
                         </g>
+                    )}
+
+                    {/* Legs */}
+                    <rect x="18" y="60" width="6" height="25" fill="#fcd34d" />
+                    <rect x="26" y="60" width="6" height="25" fill="#fcd34d" />
+
+                    {/* Socks (Conditional) */}
+                    {socks && (
+                        <>
+                            <rect x="18" y="75" width="6" height="10" fill="#ffffff" />
+                            <rect x="26" y="75" width="6" height="10" fill="#ffffff" />
+                        </>
+                    )}
+
+                    {/* Shoes (Conditional) */}
+                    {shoes && (
+                        <>
+                            <path d="M 16 85 Q 18 95 24 95 L 24 85 Z" fill="#ef4444" />
+                            <path d="M 26 85 Q 26 95 34 95 L 34 85 Z" fill="#ef4444" />
+                        </>
                     )}
                 </svg>
             </div>
@@ -424,18 +391,64 @@ export default function Module1() {
                     <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '20px' }}>Program the algorithmic sequence to get the kid to school. Click "Run Simulation" to visually understand how an algorithm works</p>
 
                     {/* Visual 2D Canvas */}
-                    <div style={{ height: '340px', borderRadius: '12px', border: '4px solid #0f172a', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
-                        
-                        {/* 2D Game Painted Backgrounds */}
-                        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("/assets/storybook/bg_bedroom.png")', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 1 }} />
-                        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("/assets/storybook/bg_street.png")', backgroundSize: 'cover', backgroundPosition: 'center', opacity: kidPosition > 25 ? 1 : 0, transition: 'opacity 1.5s ease-in-out', zIndex: 2 }} />
-
+                    <div style={{ height: '340px', background: 'linear-gradient(to bottom, #38bdf8, #bae6fd)', borderRadius: '12px', border: '4px solid #0f172a', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                         <style>{`
                             @keyframes bob { 0% { transform: translateY(0px); } 100% { transform: translateY(-8px); } }
+                            @keyframes cloudMove { 0% { transform: translateX(-100px); } 100% { transform: translateX(800px); } }
                         `}</style>
 
+                        {/* Sun */}
+                        <div style={{ position: 'absolute', top: '20px', right: '40px', width: '50px', height: '50px', background: '#fef08a', borderRadius: '50%', boxShadow: '0 0 30px #fef08a' }}></div>
+
+                        {/* Clouds */}
+                        <div style={{ position: 'absolute', top: '30px', left: '0', opacity: 0.9, animation: 'cloudMove 25s linear infinite' }}>
+                            <svg width="100" height="50" viewBox="0 0 80 40" fill="#ffffff">
+                                <circle cx="20" cy="20" r="15" />
+                                <circle cx="40" cy="15" r="20" />
+                                <circle cx="60" cy="25" r="15" />
+                            </svg>
+                        </div>
+                        <div style={{ position: 'absolute', top: '60px', left: '-200px', opacity: 0.7, animation: 'cloudMove 30s linear infinite 10s' }}>
+                            <svg width="120" height="60" viewBox="0 0 80 40" fill="#ffffff">
+                                <circle cx="20" cy="20" r="15" />
+                                <circle cx="40" cy="15" r="20" />
+                                <circle cx="60" cy="25" r="15" />
+                            </svg>
+                        </div>
+
+                        {/* Floor */}
+                        <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '60px', background: '#22c55e', borderTop: '6px solid #166534' }}></div>
+
+                        {/* House (Left) */}
+                        <div style={{ position: 'absolute', bottom: '60px', left: '5%', zIndex: 5, width: '120px' }}>
+                            <svg width="100%" height="100%" viewBox="0 0 100 120" style={{ overflow: 'visible' }}>
+                                <rect x="10" y="50" width="80" height="70" fill="#cbd5e1" stroke="#334155" strokeWidth="2" />
+                                <polygon points="-5,50 50,5 105,50" fill="#ef4444" stroke="#991b1b" strokeWidth="2" />
+                                <rect x="40" y="80" width="20" height="40" fill="#64748b" stroke="#334155" strokeWidth="2" />
+                                <rect x="20" y="60" width="15" height="15" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
+                                <rect x="65" y="60" width="15" height="15" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
+                            </svg>
+                            <div style={{ textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff' }}>HOME</div>
+                        </div>
+
+                        {/* School (Right) */}
+                        <div style={{ position: 'absolute', bottom: '60px', right: '5%', zIndex: 5, width: '160px' }}>
+                            <svg width="100%" height="100%" viewBox="0 0 120 140" style={{ overflow: 'visible' }}>
+                                <rect x="10" y="60" width="100" height="80" fill="#fcd34d" stroke="#b45309" strokeWidth="2" />
+                                <rect x="20" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
+                                <rect x="52" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
+                                <rect x="85" y="60" width="15" height="80" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
+                                <polygon points="-5,60 60,5 125,60" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
+                                <circle cx="60" cy="35" r="14" fill="white" stroke="#0f172a" strokeWidth="2" />
+                                <line x1="60" y1="35" x2="60" y2="25" stroke="black" strokeWidth="2" strokeLinecap="round" />
+                                <line x1="60" y1="35" x2="68" y2="35" stroke="black" strokeWidth="2" strokeLinecap="round" />
+                                <rect x="45" y="100" width="30" height="40" fill="#b45309" stroke="#78350f" strokeWidth="2" />
+                            </svg>
+                            <div style={{ textAlign: 'center', fontWeight: '900', color: '#166534', marginTop: '5px', fontSize: '14px', textShadow: '1px 1px 0px #fff' }}>SCHOOL</div>
+                        </div>
+
                         {/* Kid Avatar */}
-                        <div style={{ position: 'absolute', bottom: '20px', left: `${kidPosition}%`, transform: 'translateX(-50%)', transition: 'left 1.2s ease-in-out', zIndex: 10 }}>
+                        <div style={{ position: 'absolute', bottom: '60px', left: `${kidPosition}%`, transform: 'translateX(-50%)', transition: 'left 1.2s ease-in-out', zIndex: 10 }}>
                             {renderKid()}
                         </div>
 

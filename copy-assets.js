@@ -18,8 +18,6 @@ const getLatestFile = (prefix) => {
 };
 
 const assets = [
-    { prefix: 'bg_bedroom', dest: 'bg_bedroom.png' },
-    { prefix: 'bg_street', dest: 'bg_street.png' },
     { prefix: 'bg_park', dest: 'bg_park.png' },
     { prefix: 'char_student', dest: 'char_student.png' },
     { prefix: 'prop_tent', dest: 'prop_tent.png' },
