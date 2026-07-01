@@ -1,6 +1,7 @@
 'use client';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useState } from 'react';
+import CartoonCharacter from './CartoonCharacter';
 
 export default function Module1() {
     const [activityState, setActivityState] = useState([]);
@@ -257,71 +258,24 @@ export default function Module1() {
 
         const isWalking = simStatus === 'running' && kidPosition > 15 && kidPosition < 80;
 
+        let charStatus = 'idle';
+        if (isWalking) charStatus = 'walking';
+        else if (simStatus === 'crashed') {
+            if (simErrorType === 'missing_step') charStatus = 'confused';
+            else charStatus = 'failure';
+        }
+        else if (simStatus === 'success') charStatus = 'success';
+
         return (
-            <div style={{
-                position: 'relative',
-                width: '60px',
-                height: '100px',
-                animation: isWalking ? 'bob 0.4s infinite alternate' : 'none'
-            }}>
-                <svg width="100%" height="100%" viewBox="0 0 50 100">
-                    {/* Backpack (Conditional - drawn behind body) */}
-                    {bag && (
-                        <rect x="2" y="38" width="15" height="25" rx="5" fill="#10b981" />
-                    )}
-                    {/* Head */}
-                    <circle cx="25" cy="20" r="14" fill="#fcd34d" />
-                    {/* Face */}
-                    {awake ? (
-                        <>
-                            <circle cx="29" cy="18" r="2" fill="#1e293b" />
-                            <path d="M 28 24 Q 30 26 32 24" fill="none" stroke="#1e293b" strokeWidth="1.5" strokeLinecap="round" />
-                        </>
-                    ) : (
-                        <>
-                            <path d="M 27 18 Q 29 16 31 18" fill="none" stroke="#1e293b" strokeWidth="1.5" />
-                            <text x="35" y="10" fontSize="10" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>z</text>
-                            <text x="42" y="5" fontSize="8" fill="#1e293b" style={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>z</text>
-                        </>
-                    )}
-
-                    {/* Minty Sparkle (Brushed Teeth) */}
-                    {brushed && (
-                        <path d="M 32 24 Q 35 24 35 21 Q 35 24 38 24 Q 35 24 35 27 Q 35 24 32 24" fill="#67e8f9" />
-                    )}
-
-                    {/* Body */}
-                    <rect x="15" y="35" width="20" height="30" rx="6" fill="#3b82f6" />
-
-                    {/* Breakfast (Apple in hand) */}
-                    {eaten && (
-                        <g>
-                            <circle cx="36" cy="45" r="4" fill="#ef4444" />
-                            <path d="M 36 41 Q 38 39 39 41" fill="none" stroke="#22c55e" strokeWidth="1.5" />
-                        </g>
-                    )}
-
-                    {/* Legs */}
-                    <rect x="18" y="60" width="6" height="25" fill="#fcd34d" />
-                    <rect x="26" y="60" width="6" height="25" fill="#fcd34d" />
-
-                    {/* Socks (Conditional) */}
-                    {socks && (
-                        <>
-                            <rect x="18" y="75" width="6" height="10" fill="#ffffff" />
-                            <rect x="26" y="75" width="6" height="10" fill="#ffffff" />
-                        </>
-                    )}
-
-                    {/* Shoes (Conditional) */}
-                    {shoes && (
-                        <>
-                            <path d="M 16 85 Q 18 95 24 95 L 24 85 Z" fill="#ef4444" />
-                            <path d="M 26 85 Q 26 95 34 95 L 34 85 Z" fill="#ef4444" />
-                        </>
-                    )}
-                </svg>
-            </div>
+            <CartoonCharacter
+                status={charStatus}
+                bag={bag}
+                socks={socks}
+                shoes={shoes}
+                awake={awake}
+                brushed={brushed}
+                eaten={eaten}
+            />
         );
     };
 
