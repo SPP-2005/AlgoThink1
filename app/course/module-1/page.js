@@ -391,7 +391,7 @@ export default function Module1() {
                     <p style={{ color: 'var(--text-muted)', fontSize: '16px', marginBottom: '20px' }}>Program the algorithmic sequence to get the kid to school. Click "Run Simulation" to visually understand how an algorithm works</p>
 
                     {/* Visual 2D Canvas */}
-                    <div style={{ height: '260px', background: 'linear-gradient(to bottom, #38bdf8, #bae6fd)', borderRadius: '12px', border: '4px solid #0f172a', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                    <div style={{ height: '340px', background: 'linear-gradient(to bottom, #38bdf8, #bae6fd)', borderRadius: '12px', border: '4px solid #0f172a', position: 'relative', overflow: 'hidden', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                         <style>{`
                             @keyframes bob { 0% { transform: translateY(0px); } 100% { transform: translateY(-8px); } }
                             @keyframes cloudMove { 0% { transform: translateX(-100px); } 100% { transform: translateX(800px); } }
@@ -464,14 +464,25 @@ export default function Module1() {
                                     {simErrorType === 'no_hygiene' && '🤢🦷'}
                                     {simErrorType === 'missing_step' && '🤔'}
                                 </div>
-                                <div style={{ background: '#ef4444', color: 'white', padding: '10px 20px', borderRadius: '12px', fontSize: '20px', fontWeight: 'bold', border: '3px solid white', textAlign: 'center', maxWidth: '80%', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                                    {simErrorType === 'asleep' && 'WAKE UP FIRST!'}
-                                    {simErrorType === 'socks_over_shoes' && 'SOCKS GO INSIDE SHOES!'}
-                                    {simErrorType === 'no_socks' && 'OUCH! BLISTERS!'}
-                                    {simErrorType === 'barefoot' && 'YOU ARE BAREFOOT!'}
-                                    {simErrorType === 'no_bag' && 'FORGOT YOUR BAG!'}
-                                    {simErrorType === 'no_hygiene' && 'GROSS! YOU STINK!'}
-                                    {simErrorType === 'missing_step' && 'YOU MISSED SOMETHING!'}
+                                <div style={{ background: '#ef4444', color: 'white', padding: '16px 24px', borderRadius: '12px', border: '3px solid white', textAlign: 'center', maxWidth: '85%', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+                                    <h3 style={{ fontSize: '24px', fontWeight: '900', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+                                        {simErrorType === 'asleep' && 'WAKE UP FIRST!'}
+                                        {simErrorType === 'socks_over_shoes' && 'SOCKS GO INSIDE SHOES!'}
+                                        {simErrorType === 'no_socks' && 'OUCH! BLISTERS!'}
+                                        {simErrorType === 'barefoot' && 'YOU ARE BAREFOOT!'}
+                                        {simErrorType === 'no_bag' && 'FORGOT YOUR BAG!'}
+                                        {simErrorType === 'no_hygiene' && 'GROSS! YOU STINK!'}
+                                        {simErrorType === 'missing_step' && 'YOU MISSED SOMETHING!'}
+                                    </h3>
+                                    <p style={{ fontSize: '16px', margin: 0, fontWeight: 'normal', opacity: 0.9 }}>
+                                        {simErrorType === 'asleep' && "You can't execute algorithms in your sleep. Add the 'Wake up' step first!"}
+                                        {simErrorType === 'socks_over_shoes' && "You tried putting socks on top of your shoes! That doesn't make any sense."}
+                                        {simErrorType === 'no_socks' && "You put your shoes on without socks! That's going to cause painful blisters."}
+                                        {simErrorType === 'barefoot' && "You tried walking outside without shoes! You need to protect your feet."}
+                                        {simErrorType === 'no_bag' && "You can't go to school without your bag. You forgot a crucial step!"}
+                                        {simErrorType === 'no_hygiene' && "You skipped eating or brushing your teeth! Always maintain good hygiene."}
+                                        {simErrorType === 'missing_step' && "Your sequence finished, but you didn't successfully prepare for school."}
+                                    </p>
                                 </div>
                             </div>
                         )}
@@ -580,7 +591,7 @@ export default function Module1() {
                                 <strong>Goal:</strong> Drive the nail flush into the wood. Try it without loops first, then try it with a loop!
                             </p>
 
-                            <div style={{ height: '220px', background: 'linear-gradient(to bottom, #1e293b, #0f172a)', borderRadius: '12px', border: '2px solid var(--border)', position: 'relative', overflow: 'hidden', marginBottom: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <div style={{ height: '300px', background: 'linear-gradient(to bottom, #1e293b, #0f172a)', borderRadius: '12px', border: '2px solid var(--border)', position: 'relative', overflow: 'hidden', marginBottom: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                 <style>{`
                                     @keyframes hammerStrike {
                                         0% { transform: rotate(0deg); }
@@ -615,10 +626,17 @@ export default function Module1() {
                                             {hammerErrorType === 'too_many_hits' && '🪵💥'}
                                             {hammerErrorType === 'not_flush' && '🤨'}
                                         </div>
-                                        <div style={{ background: '#ef4444', color: 'white', padding: '10px 20px', borderRadius: '12px', fontSize: '20px', fontWeight: 'bold', border: '3px solid white', textAlign: 'center', maxWidth: '80%', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                                            {(hammerErrorType === 'no_hammer' || hammerErrorType === 'loop_no_hammer') && 'OUCH! HIT FINGERS!'}
-                                            {hammerErrorType === 'too_many_hits' && 'WOOD DESTROYED!'}
-                                            {hammerErrorType === 'not_flush' && 'NAIL NOT FLUSH!'}
+                                        <div style={{ background: '#ef4444', color: 'white', padding: '16px 24px', borderRadius: '12px', border: '3px solid white', textAlign: 'center', maxWidth: '85%', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+                                            <h3 style={{ fontSize: '24px', fontWeight: '900', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+                                                {(hammerErrorType === 'no_hammer' || hammerErrorType === 'loop_no_hammer') && 'OUCH! HIT FINGERS!'}
+                                                {hammerErrorType === 'too_many_hits' && 'WOOD DESTROYED!'}
+                                                {hammerErrorType === 'not_flush' && 'NAIL NOT FLUSH!'}
+                                            </h3>
+                                            <p style={{ fontSize: '16px', margin: 0, fontWeight: 'normal', opacity: 0.9 }}>
+                                                {(hammerErrorType === 'no_hammer' || hammerErrorType === 'loop_no_hammer') && "You tried to drive a nail with your bare hand! Always pick up the right tool first."}
+                                                {hammerErrorType === 'too_many_hits' && "You hammered too many times and damaged the wood! A loop helps prevent over-hitting."}
+                                                {hammerErrorType === 'not_flush' && "The nail is still sticking out! You didn't repeat the action enough times."}
+                                            </p>
                                         </div>
                                     </div>
                                 )}
