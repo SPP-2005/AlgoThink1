@@ -112,12 +112,15 @@ export function createHammerGame(Phaser, container, callbacks) {
             bg.fillRect(W/2 - 60, tableY + 15, 15, 35); // Left leg
             bg.fillRect(W/2 + 45, tableY + 15, 15, 35); // Right leg
 
-            // Wood block on table (origin bottom center)
-            this.woodBlock = this.add.sprite(W/2, tableY, 'wood-block').setOrigin(0.5, 1).setScale(0.15);
+            // Nail (add FIRST so it's drawn behind the front face of the wood block)
+            // Wood block will be 14px tall (scale 0.20). Top is tableY - 14.
+            // We want nail top at tableY - 20 (6px travel to flush).
+            // Nail is ~9.36px tall (scale 0.12). Bottom is tableY - 10.64.
+            this.nailStart = tableY - 10.64;
+            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.12);
 
-            // Nail (origin bottom center, partially inserted)
-            this.nailStart = tableY - 6; // 6px above table is slightly inside the 10.5px tall wood block
-            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.15);
+            // Wood block on table (origin bottom center)
+            this.woodBlock = this.add.sprite(W/2, tableY, 'wood-block').setOrigin(0.5, 1).setScale(0.20);
 
             // Hammer on table (to be picked up)
             this.tableHammer = this.add.sprite(W/2 + 40, tableY - 5, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.15);
@@ -198,14 +201,12 @@ export function createHammerGame(Phaser, container, callbacks) {
                             ease: 'Cubic.easeIn',
                             onComplete: () => {
                                 // Impact moment
-                                if (isSuccess && this.nailDepth < 100) {
-                                    this.nailDepth += 10;
-                                    // Because nail origin is bottom (1), increasing depth lowers its Y coordinate.
-                                    // Wait, if it goes deeper, Y should increase!
+                                if (isSuccess && this.nailDepth < 5.9) { // ~6 max depth
+                                    this.nailDepth += 1.5;
                                     this.nail.setY(this.nailStart + this.nailDepth);
                                     
                                     // Splinters/Particles
-                                    this.spawnSparkles(this.nail.x, this.nail.y - 12);
+                                    this.spawnSparkles(this.nail.x, this.nail.y - 8);
                                     
                                     // Vibrate the wood block
                                     this.tweens.add({
@@ -215,7 +216,7 @@ export function createHammerGame(Phaser, container, callbacks) {
                                         yoyo: true,
                                         repeat: 1
                                     });
-                                } else if (!this.hasHammer || this.nailDepth >= 100) {
+                                } else if (!this.hasHammer || this.nailDepth >= 5.9) {
                                     // Error impact
                                     this.cameras.main.shake(300, 0.015);
                                     this.charHead.setTexture('char-head-sad');
@@ -345,7 +346,7 @@ export function createHammerGame(Phaser, container, callbacks) {
                     
                     await this.playHitAnim(true);
                     
-                    if (this.nailDepth > 100) {
+                    if (this.nailDepth >= 5.9) {
                         await this.showError('WOOD DESTROYED!', "You hit it too many times and damaged the wood! A loop helps prevent over-hitting.");
                         callbacks.onStatusChange('error');
                         callbacks.onMessage(`❌ Crash at Step ${i+1}: You hit the wood! (Iteration required)`);
@@ -362,7 +363,7 @@ export function createHammerGame(Phaser, container, callbacks) {
                         return;
                     }
                     
-                    while (this.nailDepth < 100) {
+                    while (this.nailDepth < 5.9) {
                         await this.playHitAnim(true);
                         await this.wait(200);
                     }
@@ -371,7 +372,7 @@ export function createHammerGame(Phaser, container, callbacks) {
             }
 
             // Validation
-            if (this.nailDepth === 100) {
+            if (Math.abs(this.nailDepth - 6) < 0.2) { // Allow slight float imprecision around 6
                 await this.showSuccess();
                 if (steps.filter(x => x === 'Hit nail').length > 1) {
                     callbacks.onStatusChange('warning');
