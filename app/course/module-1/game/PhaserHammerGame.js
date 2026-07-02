@@ -287,35 +287,63 @@ export function createHammerGame(Phaser, container, callbacks) {
         }
 
         async showSuccess() {
-            this.tweens.add({
-                targets: this.charContainer,
-                y: this.charContainer.y - 40,
-                duration: 250,
-                yoyo: true,
-                repeat: 3,
-                ease: 'Sine.easeInOut'
-            });
-
-            // Confetti
-            for (let i = 0; i < 60; i++) {
-                const colors = [0x34d399, 0xfcd34d, 0x60a5fa, 0xa78bfa];
-                const s = this.add.rectangle(
-                    this.charContainer.x + Phaser.Math.Between(-60, 60),
-                    this.charContainer.y - 40 + Phaser.Math.Between(-60, 20),
-                    8, 8, Phaser.Utils.Array.GetRandom(colors)
-                );
+            return new Promise(resolve => {
                 this.tweens.add({
-                    targets: s,
-                    x: this.charContainer.x + Phaser.Math.Between(-150, 150),
-                    y: this.charContainer.y + Phaser.Math.Between(0, 100),
-                    angle: Phaser.Math.Between(-360, 360),
-                    alpha: 0,
-                    duration: 1500 + Phaser.Math.Between(0, 1000),
-                    ease: 'Sine.easeOut',
-                    delay: i * 20,
-                    onComplete: () => s.destroy(),
+                    targets: this.charContainer,
+                    y: this.charContainer.y - 40,
+                    duration: 250,
+                    yoyo: true,
+                    repeat: 3,
+                    ease: 'Sine.easeInOut'
                 });
-            }
+
+                // Confetti
+                for (let i = 0; i < 60; i++) {
+                    const colors = [0x34d399, 0xfcd34d, 0x60a5fa, 0xa78bfa];
+                    const s = this.add.rectangle(
+                        this.charContainer.x + Phaser.Math.Between(-60, 60),
+                        this.charContainer.y - 40 + Phaser.Math.Between(-60, 20),
+                        8, 8, Phaser.Utils.Array.GetRandom(colors)
+                    );
+                    this.tweens.add({
+                        targets: s,
+                        x: this.charContainer.x + Phaser.Math.Between(-150, 150),
+                        y: this.charContainer.y + Phaser.Math.Between(0, 100),
+                        angle: Phaser.Math.Between(-360, 360),
+                        alpha: 0,
+                        duration: 1500 + Phaser.Math.Between(0, 1000),
+                        ease: 'Sine.easeOut',
+                        delay: i * 20,
+                        onComplete: () => s.destroy(),
+                    });
+                }
+
+                // Victory panel
+                const panelBg = this.add.rectangle(W / 2, H / 2, 420, 120, 0x0f172a, 0.95)
+                    .setDepth(301).setStrokeStyle(3, 0x22c55e);
+                const panelTitle = this.add.text(W / 2, H / 2 - 20, 'MISSION COMPLETE!', {
+                    fontSize: '26px', fontFamily: 'Arial, sans-serif',
+                    color: '#6ee7b7', fontStyle: 'bold',
+                }).setOrigin(0.5).setDepth(302);
+                const panelDesc = this.add.text(W / 2, H / 2 + 15, 'You successfully programmed the perfect hammering loop!', {
+                    fontSize: '14px', fontFamily: 'Arial, sans-serif',
+                    color: '#e2e8f0',
+                }).setOrigin(0.5).setDepth(302);
+
+                this.time.delayedCall(4000, () => {
+                    this.tweens.add({
+                        targets: [panelBg, panelTitle, panelDesc],
+                        alpha: 0,
+                        duration: 500,
+                        onComplete: () => {
+                            panelBg.destroy();
+                            panelTitle.destroy();
+                            panelDesc.destroy();
+                            resolve();
+                        },
+                    });
+                });
+            });
         }
 
         async onExecute(steps) {
