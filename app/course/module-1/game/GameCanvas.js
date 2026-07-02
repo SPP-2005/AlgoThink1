@@ -111,6 +111,7 @@ const GameCanvas = forwardRef(function GameCanvas({ onStatusChange, onMessage },
                 ref={containerRef}
                 style={{
                     width: '100%',
+                    aspectRatio: '2 / 1',
                     borderRadius: '12px',
                     overflow: 'hidden',
                     border: '2px solid #334155',

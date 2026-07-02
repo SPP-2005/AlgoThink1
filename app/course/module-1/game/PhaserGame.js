@@ -124,18 +124,59 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
             g.generateTexture('char-head-sad', 48, 48);
             g.destroy();
 
+            // ── Brushing head ──
+            g = this.make.graphics({ x: 0, y: 0 });
+            g.fillStyle(0x3b1a06);
+            g.fillCircle(24, 18, 22);
+            g.fillStyle(0xf5c882);
+            g.fillCircle(24, 22, 18);
+            g.fillStyle(0x3b1a06);
+            g.fillRoundedRect(4, 0, 40, 16, 10);
+            g.fillStyle(0x1a1a2e);
+            g.fillCircle(16, 22, 3.5);
+            g.fillCircle(32, 22, 3.5);
+            g.fillStyle(0xffffff);
+            g.fillCircle(17, 21, 1.3);
+            g.fillCircle(33, 21, 1.3);
+            // Open mouth
+            g.fillStyle(0x1a1a2e);
+            g.fillCircle(24, 30, 4);
+            g.generateTexture('char-head-brush', 48, 48);
+            g.destroy();
+
+            // ── Toothbrush ──
+            g = this.make.graphics({ x: 0, y: 0 });
+            g.fillStyle(0x60a5fa);
+            g.fillRoundedRect(0, 0, 20, 6, 2);
+            g.fillStyle(0xffffff);
+            g.fillRoundedRect(12, -4, 6, 4, 1);
+            g.generateTexture('char-toothbrush', 20, 10);
+            g.destroy();
+
+            // ── Backpack Straps ──
+            g = this.make.graphics({ x: 0, y: 0 });
+            g.fillStyle(0x059669);
+            g.fillRoundedRect(4, 0, 6, 36, 3);
+            g.fillRoundedRect(22, 0, 6, 36, 3);
+            g.generateTexture('char-straps', 32, 36);
+            g.destroy();
+
             // ── Character torso ──
             g = this.make.graphics({ x: 0, y: 0 });
+            // Neck
+            g.fillStyle(0xf5c882);
+            g.fillRect(10, 0, 12, 8);
+            // Body
             g.fillStyle(0x3b82f6);
-            g.fillRoundedRect(0, 0, 32, 36, 6);
+            g.fillRoundedRect(0, 6, 32, 34, 6);
             // Collar
             g.fillStyle(0xe8e8e8);
-            g.fillTriangle(10, 0, 22, 0, 16, 10);
+            g.fillTriangle(10, 6, 22, 6, 16, 16);
             // Buttons
             g.fillStyle(0xe8e8e8);
-            g.fillCircle(16, 16, 2);
-            g.fillCircle(16, 24, 2);
-            g.generateTexture('char-body', 32, 36);
+            g.fillCircle(16, 22, 2);
+            g.fillCircle(16, 30, 2);
+            g.generateTexture('char-body', 32, 40);
             g.destroy();
 
             // ── Arm ──
@@ -235,7 +276,8 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
 
             // Put character to sleep initially
             this.charHead.setTexture('char-head-sleep');
-            this.charContainer.setAlpha(0.7);
+            this.charContainer.setAngle(90);
+            this.charContainer.setPosition(130, FLOOR_Y - 80);
 
             // Create interactive object highlights
             this.highlights = {};
@@ -808,12 +850,18 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
             // Backpack (behind body, hidden initially)
             this.charBackpack = this.add.sprite(-14, -36, 'backpack-on').setOrigin(0.5, 0).setVisible(false);
 
+            // Straps (in front of body, hidden initially)
+            this.charStraps = this.add.sprite(0, -36, 'char-straps').setOrigin(0.5, 0).setVisible(false);
+
             // Arms
             this.charLeftArm = this.add.sprite(-18, -38, 'char-arm').setOrigin(0.5, 0);
             this.charRightArm = this.add.sprite(18, -38, 'char-arm').setOrigin(0.5, 0);
 
             // Head
-            this.charHead = this.add.sprite(0, -72, 'char-head').setOrigin(0.5, 0.5).setScale(1.1);
+            this.charHead = this.add.sprite(0, -62, 'char-head').setOrigin(0.5, 0.5);
+
+            // Toothbrush (in hand, hidden initially)
+            this.charToothbrush = this.add.sprite(20, -50, 'char-toothbrush').setOrigin(0.5, 0.5).setVisible(false);
 
             this.charContainer.add([
                 shadow,
@@ -821,8 +869,10 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
                 this.charLeftFoot, this.charRightFoot,
                 this.charBackpack,
                 this.charBody,
+                this.charStraps,
                 this.charLeftArm, this.charRightArm,
                 this.charHead,
+                this.charToothbrush
             ]);
 
             this.charContainer.setDepth(100);
@@ -1289,8 +1339,16 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
                     localState.awake = true;
                     state.awake = true;
                     this.charHead.setTexture('char-head');
-                    this.charContainer.setAlpha(1);
                     if (this.zzzText) { this.zzzText.destroy(); this.zzzText = null; }
+                    this.tweens.add({
+                        targets: this.charContainer,
+                        angle: 0,
+                        x: 160,
+                        y: CHAR_GROUND,
+                        duration: 600,
+                        ease: 'Back.easeOut'
+                    });
+                    await this.wait(600);
                     await this.playInteractAnim();
                     this.spawnSparkles(this.charContainer.x, this.charContainer.y - 50);
                 }
@@ -1306,11 +1364,24 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
                     await this.playPickupAnim();
                     this.bagObj.setVisible(false);
                     this.charBackpack.setVisible(true);
+                    this.charStraps.setVisible(true);
                 }
                 else if (step === 'Brush teeth') {
                     localState.brushed = true;
                     state.brushed = true;
+                    this.charHead.setTexture('char-head-brush');
+                    this.charToothbrush.setVisible(true);
+                    this.tweens.add({
+                        targets: this.charToothbrush,
+                        x: { from: 18, to: 25 },
+                        duration: 100,
+                        yoyo: true,
+                        repeat: 8
+                    });
                     await this.playInteractAnim();
+                    await this.wait(500);
+                    this.charToothbrush.setVisible(false);
+                    this.charHead.setTexture('char-head');
                     this.spawnSparkles(this.charContainer.x + 10, this.charContainer.y - 60);
                 }
                 else if (step === 'Eat breakfast') {
@@ -1400,6 +1471,7 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
             pixelArt: false,
             antialias: true,
         },
+        resolution: typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1,
     };
 
     const game = new Phaser.Game(config);
