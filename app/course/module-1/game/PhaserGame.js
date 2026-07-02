@@ -858,10 +858,10 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
             this.charRightArm = this.add.sprite(18, -38, 'char-arm').setOrigin(0.5, 0);
 
             // Head
-            this.charHead = this.add.sprite(0, -62, 'char-head').setOrigin(0.5, 0.5);
+            this.charHead = this.add.sprite(0, -56, 'char-head').setOrigin(0.5, 0.5);
 
             // Toothbrush (in hand, hidden initially)
-            this.charToothbrush = this.add.sprite(20, -50, 'char-toothbrush').setOrigin(0.5, 0.5).setVisible(false);
+            this.charToothbrush = this.add.sprite(20, -44, 'char-toothbrush').setOrigin(0.5, 0.5).setVisible(false);
 
             this.charContainer.add([
                 shadow,
