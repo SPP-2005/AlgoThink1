@@ -99,33 +99,33 @@ export function createHammerGame(Phaser, container, callbacks) {
             const bg = this.add.graphics();
             bg.fillGradientStyle(0xe0f2fe, 0xe0f2fe, 0xbae6fd, 0xbae6fd, 1);
             bg.fillRect(0, 0, W, H);
-            
+
             // Draw floor
             bg.fillStyle(0x94a3b8);
             bg.fillRect(0, FLOOR_Y, W, H - FLOOR_Y);
-            
+
             // Draw Table
             const tableY = FLOOR_Y - 45; // slightly lower
             bg.fillStyle(0x8b5cf6);
-            bg.fillRect(W/2 - 80, tableY, 160, 20); // Thicker Table top to hide the nail
+            bg.fillRect(W / 2 - 80, tableY, 160, 20); // Thicker Table top to hide the nail
             bg.fillStyle(0x7c3aed);
-            bg.fillRect(W/2 - 60, tableY + 20, 15, 25); // Left leg
-            bg.fillRect(W/2 + 45, tableY + 20, 15, 25); // Right leg
+            bg.fillRect(W / 2 - 60, tableY + 20, 15, 25); // Left leg
+            bg.fillRect(W / 2 + 45, tableY + 20, 15, 25); // Right leg
 
             // Wood block on table (origin bottom center)
             // Scale 0.25 -> Height = 17.5px
-            this.woodBlock = this.add.sprite(W/2, tableY, 'wood-block').setOrigin(0.5, 1).setScale(0.25);
+            this.woodBlock = this.add.sprite(W / 2, tableY, 'wood-block').setOrigin(0.5, 1).setScale(0.25);
 
             // Nail (origin bottom center, resting high on top of wood)
             // Scale X=0.15 (thin), Y=0.4 (tall) -> Height = 31.2px
             this.nailStart = tableY - 16.5; // Inserted 1px into the 17.5px tall wood block
-            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.15, 0.4);
+            this.nail = this.add.sprite(W / 2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.15, 0.2);
 
             // Hammer on table (to be picked up)
-            this.tableHammer = this.add.sprite(W/2 + 50, tableY - 5, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.18);
+            this.tableHammer = this.add.sprite(W / 2 + 50, tableY - 5, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.18);
 
             // Character
-            this.createCharacter(W/2 - 90, CHAR_GROUND);
+            this.createCharacter(W / 2 - 90, CHAR_GROUND);
 
             // Game State
             this.nailDepth = 0;
@@ -163,7 +163,7 @@ export function createHammerGame(Phaser, container, callbacks) {
             this.charRightArm = this.add.container(18, -38);
             const rArmSprite = this.add.sprite(0, 0, 'char-arm').setOrigin(0.5, 0).setScale(0.25);
             this.charRightArm.add(rArmSprite);
-            
+
             // Hammer in hand
             // Angled so the head points outward instead of hitting with the handle!
             this.charHammer = this.add.sprite(5, 30, 'hammer').setOrigin(0.5, 0.5).setAngle(80).setVisible(false).setScale(0.25);
@@ -202,16 +202,16 @@ export function createHammerGame(Phaser, container, callbacks) {
                                 // Impact moment
                                 if (isSuccess && this.nailDepth < 100) {
                                     this.nailDepth += 10;
-                                    
+
                                     // Map logical depth (0-100) to visual depth (0 to 30.2px)
                                     // This moves the nail 3 pixels per hit, making progress highly visible!
                                     // At depth 100, visual depth is 30.2, nail bottom reaches tableY + 13.7 (hidden in the 20px tabletop)
                                     const visualDepth = this.nailDepth * 0.302;
                                     this.nail.setY(this.nailStart + visualDepth);
-                                    
+
                                     // Splinters/Particles
                                     this.spawnSparkles(this.nail.x, this.nail.y - 12);
-                                    
+
                                     // Vibrate the wood block
                                     this.tweens.add({
                                         targets: this.woodBlock,
@@ -225,7 +225,7 @@ export function createHammerGame(Phaser, container, callbacks) {
                                     this.cameras.main.shake(300, 0.015);
                                     this.charHead.setTexture('char-head-sad');
                                 }
-                                
+
                                 // 3. Return to resting
                                 this.tweens.add({
                                     targets: this.charRightArm,
@@ -262,21 +262,21 @@ export function createHammerGame(Phaser, container, callbacks) {
         async showError(title, msg) {
             this.cameras.main.shake(400, 0.02);
             this.charHead.setTexture('char-head-sad');
-            
+
             const panelBg = this.add.rectangle(W / 2, H / 2, 400, 140, 0x0f172a, 0.95)
                 .setStrokeStyle(3, 0xef4444).setDepth(300);
-            
+
             const panelTitle = this.add.text(W / 2, H / 2 - 25, title, {
                 fontSize: '24px', fontFamily: 'Arial', color: '#fca5a5', fontStyle: 'bold'
             }).setOrigin(0.5).setDepth(301);
-            
+
             const panelDesc = this.add.text(W / 2, H / 2 + 15, msg, {
-                fontSize: '14px', fontFamily: 'Arial', color: '#e2e8f0', 
+                fontSize: '14px', fontFamily: 'Arial', color: '#e2e8f0',
                 align: 'center', wordWrap: { width: 360 }
             }).setOrigin(0.5).setDepth(301);
 
             await this.wait(3500);
-            
+
             this.tweens.add({
                 targets: [panelBg, panelTitle, panelDesc],
                 alpha: 0,
@@ -343,17 +343,17 @@ export function createHammerGame(Phaser, container, callbacks) {
                         await this.playHitAnim(false);
                         await this.showError('OUCH! BARE HAND!', "You tried to hit the nail with your bare hand! Always pick up the right tool first.");
                         callbacks.onStatusChange('error');
-                        callbacks.onMessage(`❌ Crash at Step ${i+1}: Tried to hit the nail with bare hand!`);
+                        callbacks.onMessage(`❌ Crash at Step ${i + 1}: Tried to hit the nail with bare hand!`);
                         state.executing = false;
                         return;
                     }
-                    
+
                     await this.playHitAnim(true);
-                    
+
                     if (this.nailDepth > 100) {
                         await this.showError('WOOD DESTROYED!', "You hit it too many times and damaged the wood! A loop helps prevent over-hitting.");
                         callbacks.onStatusChange('error');
-                        callbacks.onMessage(`❌ Crash at Step ${i+1}: You hit the wood! (Iteration required)`);
+                        callbacks.onMessage(`❌ Crash at Step ${i + 1}: You hit the wood! (Iteration required)`);
                         state.executing = false;
                         return;
                     }
@@ -362,11 +362,11 @@ export function createHammerGame(Phaser, container, callbacks) {
                     if (!this.hasHammer) {
                         await this.showError('CANNOT LOOP!', "You can't loop a hammer hit without holding a hammer!");
                         callbacks.onStatusChange('error');
-                        callbacks.onMessage(`❌ Crash at Step ${i+1}: Can't loop without a hammer!`);
+                        callbacks.onMessage(`❌ Crash at Step ${i + 1}: Can't loop without a hammer!`);
                         state.executing = false;
                         return;
                     }
-                    
+
                     while (this.nailDepth < 100) {
                         await this.playHitAnim(true);
                         await this.wait(200);
