@@ -105,25 +105,27 @@ export function createHammerGame(Phaser, container, callbacks) {
             bg.fillRect(0, FLOOR_Y, W, H - FLOOR_Y);
             
             // Draw Table
-            const tableY = FLOOR_Y - 50;
+            const tableY = FLOOR_Y - 45; // slightly lower
             bg.fillStyle(0x8b5cf6);
-            bg.fillRect(W/2 - 80, tableY, 160, 15); // Table top
+            bg.fillRect(W/2 - 80, tableY, 160, 20); // Thicker Table top to hide the nail
             bg.fillStyle(0x7c3aed);
-            bg.fillRect(W/2 - 60, tableY + 15, 15, 35); // Left leg
-            bg.fillRect(W/2 + 45, tableY + 15, 15, 35); // Right leg
+            bg.fillRect(W/2 - 60, tableY + 20, 15, 25); // Left leg
+            bg.fillRect(W/2 + 45, tableY + 20, 15, 25); // Right leg
 
             // Wood block on table (origin bottom center)
-            this.woodBlock = this.add.sprite(W/2, tableY, 'wood-block').setOrigin(0.5, 1).setScale(0.15);
+            // Scale 0.25 -> Height = 17.5px
+            this.woodBlock = this.add.sprite(W/2, tableY, 'wood-block').setOrigin(0.5, 1).setScale(0.25);
 
             // Nail (origin bottom center, resting high on top of wood)
-            this.nailStart = tableY - 10; // Only 0.5px inserted into the 10.5px tall wood block
-            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.15);
+            // Scale 0.4 -> Height = 31.2px
+            this.nailStart = tableY - 16.5; // Inserted 1px into the 17.5px tall wood block
+            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.4);
 
             // Hammer on table (to be picked up)
-            this.tableHammer = this.add.sprite(W/2 + 40, tableY - 5, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.15);
+            this.tableHammer = this.add.sprite(W/2 + 50, tableY - 5, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.18);
 
             // Character
-            this.createCharacter(W/2 - 80, CHAR_GROUND);
+            this.createCharacter(W/2 - 90, CHAR_GROUND);
 
             // Game State
             this.nailDepth = 0;
@@ -140,7 +142,7 @@ export function createHammerGame(Phaser, container, callbacks) {
 
         createCharacter(x, y) {
             // Make the boy bigger!
-            this.charContainer = this.add.container(x, y).setScale(1.6);
+            this.charContainer = this.add.container(x, y).setScale(1.8);
 
             // Shadow
             const shadow = this.add.graphics();
@@ -201,9 +203,10 @@ export function createHammerGame(Phaser, container, callbacks) {
                                 if (isSuccess && this.nailDepth < 100) {
                                     this.nailDepth += 10;
                                     
-                                    // Map logical depth (0-100) to visual depth (0 to 11.2px)
-                                    // This prevents the nail from falling through the floor!
-                                    const visualDepth = this.nailDepth * 0.112;
+                                    // Map logical depth (0-100) to visual depth (0 to 30.2px)
+                                    // This moves the nail 3 pixels per hit, making progress highly visible!
+                                    // At depth 100, visual depth is 30.2, nail bottom reaches tableY + 13.7 (hidden in the 20px tabletop)
+                                    const visualDepth = this.nailDepth * 0.302;
                                     this.nail.setY(this.nailStart + visualDepth);
                                     
                                     // Splinters/Particles
