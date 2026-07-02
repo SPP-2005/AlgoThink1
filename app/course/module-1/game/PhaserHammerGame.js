@@ -95,32 +95,35 @@ export function createHammerGame(Phaser, container, callbacks) {
         constructor() { super('main'); }
 
         create() {
-            // Draw Workshop Background
+            // Draw Workshop Background (Lighter warm/bright colors)
             const bg = this.add.graphics();
-            bg.fillGradientStyle(0x1e293b, 0x1e293b, 0x0f172a, 0x0f172a, 1);
+            bg.fillGradientStyle(0xe0f2fe, 0xe0f2fe, 0xbae6fd, 0xbae6fd, 1);
             bg.fillRect(0, 0, W, H);
             
             // Draw floor
-            bg.fillStyle(0x334155);
+            bg.fillStyle(0x94a3b8);
             bg.fillRect(0, FLOOR_Y, W, H - FLOOR_Y);
             
             // Draw Table
-            const tableY = FLOOR_Y - 120;
+            const tableY = FLOOR_Y - 80;
             bg.fillStyle(0x8b5cf6);
-            bg.fillRect(W/2 - 200, tableY, 400, 20); // Table top
+            bg.fillRect(W/2 - 120, tableY, 240, 15); // Table top
             bg.fillStyle(0x7c3aed);
-            bg.fillRect(W/2 - 180, tableY + 20, 20, 100); // Left leg
-            bg.fillRect(W/2 + 160, tableY + 20, 20, 100); // Right leg
+            bg.fillRect(W/2 - 100, tableY + 15, 15, 65); // Left leg
+            bg.fillRect(W/2 + 85, tableY + 15, 15, 65); // Right leg
 
             // Wood block on table
-            this.add.sprite(W/2, tableY - 35, 'wood-block').setScale(0.25);
+            this.add.sprite(W/2, tableY - 10, 'wood-block').setScale(0.15);
 
             // Nail
-            this.nailStart = tableY - 105;
-            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 0).setScale(0.25);
+            this.nailStart = tableY - 40;
+            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 0).setScale(0.15);
+
+            // Hammer on table (to be picked up)
+            this.tableHammer = this.add.sprite(W/2 + 50, tableY - 10, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.15);
 
             // Character
-            this.createCharacter(W/2 - 140, CHAR_GROUND);
+            this.createCharacter(W/2 - 160, CHAR_GROUND);
 
             // Game State
             this.nailDepth = 0;
@@ -136,7 +139,8 @@ export function createHammerGame(Phaser, container, callbacks) {
         }
 
         createCharacter(x, y) {
-            this.charContainer = this.add.container(x, y);
+            // Make the boy bigger!
+            this.charContainer = this.add.container(x, y).setScale(1.6);
 
             // Shadow
             const shadow = this.add.graphics();
@@ -285,10 +289,12 @@ export function createHammerGame(Phaser, container, callbacks) {
 
             for (let i = 0; i < steps.length; i++) {
                 const action = steps[i];
-                
                 if (action === 'Pick up hammer') {
                     this.hasHammer = true;
                     this.charHammer.setVisible(true);
+                    if (this.tableHammer) {
+                        this.tableHammer.setVisible(false);
+                    }
                     this.tweens.add({
                         targets: this.charRightArm,
                         angle: -40,
