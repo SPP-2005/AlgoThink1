@@ -205,7 +205,7 @@ export function createHammerGame(Phaser, container, callbacks) {
 
                                     // Map logical depth (0-100) to visual depth (0 to 19.5px)
                                     // At depth 100, visual depth is 19.5, making the nail perfectly flush!
-                                    const visualDepth = this.nailDepth * 0.140;
+                                    const visualDepth = this.nailDepth * 0.195;
                                     this.nail.setY(this.nailStart + visualDepth);
 
                                     // Splinters/Particles
