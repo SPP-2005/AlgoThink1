@@ -105,25 +105,25 @@ export function createHammerGame(Phaser, container, callbacks) {
             bg.fillRect(0, FLOOR_Y, W, H - FLOOR_Y);
             
             // Draw Table
-            const tableY = FLOOR_Y - 80;
+            const tableY = FLOOR_Y - 50;
             bg.fillStyle(0x8b5cf6);
-            bg.fillRect(W/2 - 120, tableY, 240, 15); // Table top
+            bg.fillRect(W/2 - 80, tableY, 160, 15); // Table top
             bg.fillStyle(0x7c3aed);
-            bg.fillRect(W/2 - 100, tableY + 15, 15, 65); // Left leg
-            bg.fillRect(W/2 + 85, tableY + 15, 15, 65); // Right leg
+            bg.fillRect(W/2 - 60, tableY + 15, 15, 35); // Left leg
+            bg.fillRect(W/2 + 45, tableY + 15, 15, 35); // Right leg
 
             // Wood block on table
             this.add.sprite(W/2, tableY - 10, 'wood-block').setScale(0.15);
 
             // Nail
-            this.nailStart = tableY - 40;
+            this.nailStart = tableY - 25;
             this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 0).setScale(0.15);
 
             // Hammer on table (to be picked up)
-            this.tableHammer = this.add.sprite(W/2 + 50, tableY - 10, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.15);
+            this.tableHammer = this.add.sprite(W/2 + 40, tableY - 10, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.15);
 
             // Character
-            this.createCharacter(W/2 - 160, CHAR_GROUND);
+            this.createCharacter(W/2 - 80, CHAR_GROUND);
 
             // Game State
             this.nailDepth = 0;
@@ -182,27 +182,44 @@ export function createHammerGame(Phaser, container, callbacks) {
 
         async playHitAnim(isSuccess) {
             return new Promise(resolve => {
+                // 1. Raise arm
                 this.tweens.add({
                     targets: this.charRightArm,
-                    angle: -110, // Raise arm
+                    angle: -110,
                     duration: 150,
                     ease: 'Power2',
-                    yoyo: true,
-                    onYoyo: () => {
-                        // Impact moment
-                        if (isSuccess && this.nailDepth < 100) {
-                            this.nailDepth += 20;
-                            this.nail.setY(this.nailStart + this.nailDepth);
-                            
-                            // Sparkles
-                            this.spawnSparkles(this.nail.x, this.nail.y);
-                        } else if (!this.hasHammer || this.nailDepth >= 100) {
-                            // Error impact
-                            this.cameras.main.shake(300, 0.015);
-                            this.charHead.setTexture('char-head-sad');
-                        }
-                    },
-                    onComplete: resolve
+                    onComplete: () => {
+                        // 2. Swing down
+                        this.tweens.add({
+                            targets: this.charRightArm,
+                            angle: -10, // Impact angle
+                            duration: 80,
+                            ease: 'Cubic.easeIn',
+                            onComplete: () => {
+                                // Impact moment
+                                if (isSuccess && this.nailDepth < 100) {
+                                    this.nailDepth += 20;
+                                    this.nail.setY(this.nailStart + this.nailDepth);
+                                    
+                                    // Sparkles
+                                    this.spawnSparkles(this.nail.x, this.nail.y);
+                                } else if (!this.hasHammer || this.nailDepth >= 100) {
+                                    // Error impact
+                                    this.cameras.main.shake(300, 0.015);
+                                    this.charHead.setTexture('char-head-sad');
+                                }
+                                
+                                // 3. Return to resting
+                                this.tweens.add({
+                                    targets: this.charRightArm,
+                                    angle: -40,
+                                    duration: 120,
+                                    ease: 'Power1',
+                                    onComplete: resolve
+                                });
+                            }
+                        });
+                    }
                 });
             });
         }
