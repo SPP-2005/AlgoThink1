@@ -117,9 +117,9 @@ export function createHammerGame(Phaser, container, callbacks) {
             this.woodBlock = this.add.sprite(W/2, tableY, 'wood-block').setOrigin(0.5, 1).setScale(0.25);
 
             // Nail (origin bottom center, resting high on top of wood)
-            // Scale 0.4 -> Height = 31.2px
+            // Scale X=0.15 (thin), Y=0.4 (tall) -> Height = 31.2px
             this.nailStart = tableY - 16.5; // Inserted 1px into the 17.5px tall wood block
-            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.4);
+            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.15, 0.4);
 
             // Hammer on table (to be picked up)
             this.tableHammer = this.add.sprite(W/2 + 50, tableY - 5, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.18);
