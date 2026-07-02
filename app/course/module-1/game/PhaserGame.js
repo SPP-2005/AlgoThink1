@@ -50,6 +50,14 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
         }
 
         generateTextures() {
+            const S = 4;
+            const origGen = Phaser.GameObjects.Graphics.prototype.generateTexture;
+            Phaser.GameObjects.Graphics.prototype.generateTexture = function(key, w, h) {
+                this.scaleX = S;
+                this.scaleY = S;
+                origGen.call(this, key, w * S, h * S);
+            };
+
             // ── Character head ──
             let g = this.make.graphics({ x: 0, y: 0 });
             // Hair back
@@ -241,6 +249,8 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
                 gg.fillRoundedRect(2, 8, 9, 10, 3);
                 gg.fillRoundedRect(13, 8, 9, 10, 3);
             });
+
+            Phaser.GameObjects.Graphics.prototype.generateTexture = origGen;
         }
 
         _genItemIcon(key, color, drawFn) {
@@ -837,31 +847,31 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
             shadow.fillEllipse(0, 5, 40, 12);
 
             // Legs (pivot at hip for swing animation)
-            this.charLeftLeg = this.add.sprite(-6, -5, 'char-leg').setOrigin(0.5, 0);
-            this.charRightLeg = this.add.sprite(6, -5, 'char-leg').setOrigin(0.5, 0);
+            this.charLeftLeg = this.add.sprite(-6, -5, 'char-leg').setOrigin(0.5, 0).setScale(0.25);
+            this.charRightLeg = this.add.sprite(6, -5, 'char-leg').setOrigin(0.5, 0).setScale(0.25);
 
             // Feet
-            this.charLeftFoot = this.add.sprite(-6, 22, 'char-barefoot').setOrigin(0.5, 0);
-            this.charRightFoot = this.add.sprite(6, 22, 'char-barefoot').setOrigin(0.5, 0);
+            this.charLeftFoot = this.add.sprite(-6, 22, 'char-barefoot').setOrigin(0.5, 0).setScale(0.25);
+            this.charRightFoot = this.add.sprite(6, 22, 'char-barefoot').setOrigin(0.5, 0).setScale(0.25);
 
             // Body
-            this.charBody = this.add.sprite(0, -40, 'char-body').setOrigin(0.5, 0);
+            this.charBody = this.add.sprite(0, -40, 'char-body').setOrigin(0.5, 0).setScale(0.25);
 
             // Backpack (behind body, hidden initially)
-            this.charBackpack = this.add.sprite(-14, -36, 'backpack-on').setOrigin(0.5, 0).setVisible(false);
+            this.charBackpack = this.add.sprite(-14, -36, 'backpack-on').setOrigin(0.5, 0).setVisible(false).setScale(0.25);
 
             // Straps (in front of body, hidden initially)
-            this.charStraps = this.add.sprite(0, -36, 'char-straps').setOrigin(0.5, 0).setVisible(false);
+            this.charStraps = this.add.sprite(0, -36, 'char-straps').setOrigin(0.5, 0).setVisible(false).setScale(0.25);
 
             // Arms
-            this.charLeftArm = this.add.sprite(-18, -38, 'char-arm').setOrigin(0.5, 0);
-            this.charRightArm = this.add.sprite(18, -38, 'char-arm').setOrigin(0.5, 0);
+            this.charLeftArm = this.add.sprite(-18, -38, 'char-arm').setOrigin(0.5, 0).setScale(0.25);
+            this.charRightArm = this.add.sprite(18, -38, 'char-arm').setOrigin(0.5, 0).setScale(0.25);
 
             // Head
-            this.charHead = this.add.sprite(0, -56, 'char-head').setOrigin(0.5, 0.5);
+            this.charHead = this.add.sprite(0, -56, 'char-head').setOrigin(0.5, 0.5).setScale(0.25);
 
             // Toothbrush (in hand, hidden initially)
-            this.charToothbrush = this.add.sprite(20, -44, 'char-toothbrush').setOrigin(0.5, 0.5).setVisible(false);
+            this.charToothbrush = this.add.sprite(20, -44, 'char-toothbrush').setOrigin(0.5, 0.5).setVisible(false).setScale(0.25);
 
             this.charContainer.add([
                 shadow,
@@ -943,7 +953,7 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
                 const bg = this.add.rectangle(sx, 22, 30, 30, 0x1e293b, 0.8)
                     .setScrollFactor(0).setDepth(201).setStrokeStyle(1, 0x334155);
                 const icon = this.add.sprite(sx, 22, item.key)
-                    .setScrollFactor(0).setDepth(202).setAlpha(0.3);
+                    .setScrollFactor(0).setDepth(202).setAlpha(0.3).setScale(0.25);
                 this.invSlots.push({ bg, icon, stateKey: item.stateKey });
             });
 
