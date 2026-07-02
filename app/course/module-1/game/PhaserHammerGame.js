@@ -16,18 +16,24 @@ export function createHammerGame(Phaser, container, callbacks) {
         }
 
         generateTextures() {
+            const S = 4;
+            const makeTex = (g, key, w, h) => {
+                g.scaleX = S; g.scaleY = S;
+                g.generateTexture(key, w * S, h * S);
+                g.destroy();
+            };
+
             // Character head
             let g = this.make.graphics({ x: 0, y: 0 });
-            g.fillStyle(0x3b1a06); g.fillCircle(24, 18, 22); // Hair back
-            g.fillStyle(0xf5c882); g.fillCircle(24, 22, 18); // Face
-            g.fillStyle(0x3b1a06); g.fillRoundedRect(4, 0, 40, 16, 10); // Fringe
-            g.fillStyle(0x1a1a2e); g.fillCircle(16, 22, 3.5); g.fillCircle(32, 22, 3.5); // Eyes
-            g.fillStyle(0xffffff); g.fillCircle(17, 21, 1.3); g.fillCircle(33, 21, 1.3); // Highlights
+            g.fillStyle(0x3b1a06); g.fillCircle(24, 18, 22);
+            g.fillStyle(0xf5c882); g.fillCircle(24, 22, 18);
+            g.fillStyle(0x3b1a06); g.fillRoundedRect(4, 0, 40, 16, 10);
+            g.fillStyle(0x1a1a2e); g.fillCircle(16, 22, 3.5); g.fillCircle(32, 22, 3.5);
+            g.fillStyle(0xffffff); g.fillCircle(17, 21, 1.3); g.fillCircle(33, 21, 1.3);
             g.lineStyle(2, 0x1a1a2e, 1);
-            g.beginPath(); g.arc(24, 27, 5, Phaser.Math.DegToRad(10), Phaser.Math.DegToRad(170), false); g.strokePath(); // Smile
-            g.fillStyle(0xf5a0a0, 0.35); g.fillCircle(9, 28, 4); g.fillCircle(39, 28, 4); // Blush
-            g.generateTexture('char-head', 48, 48);
-            g.destroy();
+            g.beginPath(); g.arc(24, 27, 5, Phaser.Math.DegToRad(10), Phaser.Math.DegToRad(170), false); g.strokePath();
+            g.fillStyle(0xf5a0a0, 0.35); g.fillCircle(9, 28, 4); g.fillCircle(39, 28, 4);
+            makeTex(g, 'char-head', 48, 48);
 
             // Sad head
             g = this.make.graphics({ x: 0, y: 0 });
@@ -38,58 +44,50 @@ export function createHammerGame(Phaser, container, callbacks) {
             g.fillStyle(0xffffff); g.fillCircle(17, 21, 1.3); g.fillCircle(33, 21, 1.3);
             g.lineStyle(2, 0x1a1a2e, 1);
             g.beginPath(); g.arc(24, 34, 5, Phaser.Math.DegToRad(190), Phaser.Math.DegToRad(350), false); g.strokePath();
-            g.generateTexture('char-head-sad', 48, 48);
-            g.destroy();
+            makeTex(g, 'char-head-sad', 48, 48);
 
             // Character torso with neck
             g = this.make.graphics({ x: 0, y: 0 });
-            g.fillStyle(0xf5c882); g.fillRect(10, 0, 12, 8); // Neck
-            g.fillStyle(0x3b82f6); g.fillRoundedRect(0, 6, 32, 34, 6); // Body
-            g.fillStyle(0xe8e8e8); g.fillTriangle(10, 6, 22, 6, 16, 16); // Collar
-            g.fillStyle(0xe8e8e8); g.fillCircle(16, 22, 2); g.fillCircle(16, 30, 2); // Buttons
-            g.generateTexture('char-body', 32, 40);
-            g.destroy();
+            g.fillStyle(0xf5c882); g.fillRect(10, 0, 12, 8);
+            g.fillStyle(0x3b82f6); g.fillRoundedRect(0, 6, 32, 34, 6);
+            g.fillStyle(0xe8e8e8); g.fillTriangle(10, 6, 22, 6, 16, 16);
+            g.fillStyle(0xe8e8e8); g.fillCircle(16, 22, 2); g.fillCircle(16, 30, 2);
+            makeTex(g, 'char-body', 32, 40);
 
             // Arm
             g = this.make.graphics({ x: 0, y: 0 });
             g.fillStyle(0x2563eb); g.fillRoundedRect(0, 0, 10, 26, 4);
             g.fillStyle(0xf5c882); g.fillCircle(5, 28, 5);
-            g.generateTexture('char-arm', 12, 34);
-            g.destroy();
+            makeTex(g, 'char-arm', 12, 34);
 
             // Leg
             g = this.make.graphics({ x: 0, y: 0 });
             g.fillStyle(0x334155); g.fillRoundedRect(0, 0, 12, 28, 3);
-            g.generateTexture('char-leg', 12, 28);
-            g.destroy();
+            makeTex(g, 'char-leg', 12, 28);
 
             // Shoe
             g = this.make.graphics({ x: 0, y: 0 });
             g.fillStyle(0xdc2626); g.fillRoundedRect(0, 0, 16, 10, 4);
-            g.generateTexture('char-shoe', 16, 10);
-            g.destroy();
+            makeTex(g, 'char-shoe', 16, 10);
 
             // Hammer
             g = this.make.graphics({ x: 0, y: 0 });
-            g.fillStyle(0xfcd34d); g.fillRoundedRect(16, 16, 8, 40, 4); // Handle
-            g.fillStyle(0x475569); g.fillRoundedRect(0, 0, 40, 20, 4); // Head
-            g.fillStyle(0x334155); g.fillRoundedRect(35, 4, 10, 12, 2); // Claw
-            g.generateTexture('hammer', 45, 60);
-            g.destroy();
+            g.fillStyle(0xfcd34d); g.fillRoundedRect(16, 16, 8, 40, 4);
+            g.fillStyle(0x475569); g.fillRoundedRect(0, 0, 40, 20, 4);
+            g.fillStyle(0x334155); g.fillRoundedRect(35, 4, 10, 12, 2);
+            makeTex(g, 'hammer', 45, 60);
 
             // Wood Block
             g = this.make.graphics({ x: 0, y: 0 });
             g.fillStyle(0xb45309); g.fillRoundedRect(0, 0, 140, 70, 4);
             g.lineStyle(4, 0x78350f); g.strokeRoundedRect(2, 2, 136, 66, 4);
-            g.generateTexture('wood-block', 140, 70);
-            g.destroy();
+            makeTex(g, 'wood-block', 140, 70);
 
             // Nail
             g = this.make.graphics({ x: 0, y: 0 });
-            g.fillStyle(0x94a3b8); g.fillRect(10, 8, 10, 70); // Body
-            g.fillStyle(0x64748b); g.fillRoundedRect(0, 0, 30, 8, 2); // Head
-            g.generateTexture('nail', 30, 78);
-            g.destroy();
+            g.fillStyle(0x94a3b8); g.fillRect(10, 8, 10, 70);
+            g.fillStyle(0x64748b); g.fillRoundedRect(0, 0, 30, 8, 2);
+            makeTex(g, 'nail', 30, 78);
         }
     }
 
@@ -115,11 +113,11 @@ export function createHammerGame(Phaser, container, callbacks) {
             bg.fillRect(W/2 + 160, tableY + 20, 20, 100); // Right leg
 
             // Wood block on table
-            this.add.sprite(W/2, tableY - 35, 'wood-block');
+            this.add.sprite(W/2, tableY - 35, 'wood-block').setScale(0.25);
 
             // Nail
             this.nailStart = tableY - 105;
-            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 0);
+            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 0).setScale(0.25);
 
             // Character
             this.createCharacter(W/2 - 140, CHAR_GROUND);
@@ -146,26 +144,26 @@ export function createHammerGame(Phaser, container, callbacks) {
             shadow.fillEllipse(0, 5, 40, 12);
 
             // Legs & Feet
-            this.charLeftLeg = this.add.sprite(-6, -5, 'char-leg').setOrigin(0.5, 0);
-            this.charRightLeg = this.add.sprite(6, -5, 'char-leg').setOrigin(0.5, 0);
-            this.charLeftFoot = this.add.sprite(-6, 22, 'char-shoe').setOrigin(0.5, 0);
-            this.charRightFoot = this.add.sprite(6, 22, 'char-shoe').setOrigin(0.5, 0);
+            this.charLeftLeg = this.add.sprite(-6, -5, 'char-leg').setOrigin(0.5, 0).setScale(0.25);
+            this.charRightLeg = this.add.sprite(6, -5, 'char-leg').setOrigin(0.5, 0).setScale(0.25);
+            this.charLeftFoot = this.add.sprite(-6, 22, 'char-shoe').setOrigin(0.5, 0).setScale(0.25);
+            this.charRightFoot = this.add.sprite(6, 22, 'char-shoe').setOrigin(0.5, 0).setScale(0.25);
 
             // Body
-            this.charBody = this.add.sprite(0, -40, 'char-body').setOrigin(0.5, 0);
+            this.charBody = this.add.sprite(0, -40, 'char-body').setOrigin(0.5, 0).setScale(0.25);
 
             // Arms
-            this.charLeftArm = this.add.sprite(-18, -38, 'char-arm').setOrigin(0.5, 0);
+            this.charLeftArm = this.add.sprite(-18, -38, 'char-arm').setOrigin(0.5, 0).setScale(0.25);
             this.charRightArm = this.add.container(18, -38);
-            const rArmSprite = this.add.sprite(0, 0, 'char-arm').setOrigin(0.5, 0);
+            const rArmSprite = this.add.sprite(0, 0, 'char-arm').setOrigin(0.5, 0).setScale(0.25);
             this.charRightArm.add(rArmSprite);
             
             // Hammer in hand
-            this.charHammer = this.add.sprite(5, 30, 'hammer').setOrigin(0.5, 0.5).setAngle(-20).setVisible(false);
+            this.charHammer = this.add.sprite(5, 30, 'hammer').setOrigin(0.5, 0.5).setAngle(-20).setVisible(false).setScale(0.25);
             this.charRightArm.add(this.charHammer);
 
             // Head
-            this.charHead = this.add.sprite(0, -56, 'char-head').setOrigin(0.5, 0.5);
+            this.charHead = this.add.sprite(0, -56, 'char-head').setOrigin(0.5, 0.5).setScale(0.25);
 
             this.charContainer.add([
                 shadow,
