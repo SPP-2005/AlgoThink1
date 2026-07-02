@@ -1060,7 +1060,7 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
             });
             this.tweens.add({
                 targets: this.charHead,
-                y: { from: -74, to: -70 },
+                y: { from: -58, to: -54 },
                 duration: 125,
                 yoyo: true, repeat: -1,
             });
@@ -1075,7 +1075,7 @@ export function createSchoolPrepGame(Phaser, container, callbacks) {
                 p.setAngle(0);
             });
             this.charBody.setY(-40);
-            this.charHead.setY(-72);
+            this.charHead.setY(-56);
 
             // Restart HUD tweens if needed
             this.cameras.main.startFollow(this.charContainer, true, 0.08, 0.08);
