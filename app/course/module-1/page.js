@@ -4,6 +4,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 
 const GameCanvas = dynamic(() => import('./game/GameCanvas'), { ssr: false });
+const HammerGameCanvas = dynamic(() => import('./game/HammerGameCanvas'), { ssr: false });
 
 export default function Module1() {
     const [activityState, setActivityState] = useState([]);
@@ -55,85 +56,18 @@ export default function Module1() {
         setHammerMessage("");
         setHammerSimStep(-1);
         setHammerStatus('idle');
-        setNailDepth(0);
-        setHammerVisible(false);
-        setIsHitting(false);
         setHammerErrorType(null);
+        if (hammerGameRef.current) hammerGameRef.current.reset();
     };
 
-    const runHammerSim = async () => {
+    const runHammerSim = () => {
         if (hammerSeq.length === 0) return;
         setHammerStatus('running');
-        setNailDepth(0);
-        setHammerVisible(false);
         setHammerMessage("Running simulation...");
         setHammerErrorType(null);
         
-        let depth = 0;
-        let hasHammer = false;
-        
-        for (let i = 0; i < hammerSeq.length; i++) {
-            setHammerSimStep(i);
-            const action = hammerSeq[i];
-            await new Promise(r => setTimeout(r, 600));
-            
-            if (action === 'Pick up hammer') {
-                hasHammer = true;
-                setHammerVisible(true);
-            } else if (action === 'Hit nail') {
-                if (!hasHammer) {
-                    setHammerStatus('error');
-                    setHammerErrorType('no_hammer');
-                    setHammerMessage(`❌ Crash at Step ${i+1}: You tried to hit the nail with your bare hand! Ouch! (Iteration required)`);
-                    return;
-                }
-                
-                setIsHitting(true);
-                await new Promise(r => setTimeout(r, 200));
-                depth += 20;
-                setNailDepth(depth);
-                await new Promise(r => setTimeout(r, 200));
-                setIsHitting(false);
-
-                if (depth > 100) {
-                    setHammerStatus('error');
-                    setHammerErrorType('too_many_hits');
-                    setHammerMessage(`❌ Crash at Step ${i+1}: You hit it too many times and damaged the wood! (Iteration required)`);
-                    return;
-                }
-            } else if (action === 'Loop: [Hit nail] until flush') {
-                if (!hasHammer) {
-                    setHammerStatus('error');
-                    setHammerErrorType('loop_no_hammer');
-                    setHammerMessage(`❌ Crash at Step ${i+1}: You can't loop a hammer hit without a hammer!`);
-                    return;
-                }
-                while (depth < 100) {
-                    setIsHitting(true);
-                    await new Promise(r => setTimeout(r, 200));
-                    depth += 20;
-                    setNailDepth(depth);
-                    await new Promise(r => setTimeout(r, 200));
-                    setIsHitting(false);
-                }
-            }
-        }
-        
-        if (depth === 100) {
-            if (hammerSeq.filter(x => x === 'Hit nail').length > 1) {
-                setHammerStatus('warning');
-                setHammerMessage("⚠️ Task Completed, but you repeated the 'Hit nail' step manually! Don't repeat yourself—use a Loop next time.");
-            } else if (hammerSeq.includes('Loop: [Hit nail] until flush')) {
-                setHammerStatus('success');
-                setHammerMessage("✅ Perfect! You used a Loop to avoid repeating steps, and Iterated to find the perfect algorithm!");
-            } else {
-                 setHammerStatus('success');
-                 setHammerMessage("✅ Done! But try using a loop next time.");
-            }
-        } else {
-            setHammerStatus('error');
-            setHammerErrorType('not_flush');
-            setHammerMessage("❌ Simulation ended, but the nail isn't flush! Iteration is key—what went wrong? Try again!");
+        if (hammerGameRef.current) {
+            hammerGameRef.current.executeAlgorithm(hammerSeq);
         }
     };
 
@@ -156,6 +90,10 @@ export default function Module1() {
     // Game status callbacks
     const handleGameStatus = (newStatus) => setSimStatus(newStatus);
     const handleGameMessage = (msg) => setActivityMessage(msg);
+
+    const hammerGameRef = useRef(null);
+    const handleHammerStatus = (newStatus) => setHammerStatus(newStatus);
+    const handleHammerMessage = (msg) => setHammerMessage(msg);
 
     return (
         <main className="container">
@@ -332,56 +270,11 @@ export default function Module1() {
                                 <strong>Goal:</strong> Drive the nail flush into the wood. Try it without loops first, then try it with a loop!
                             </p>
 
-                            <div style={{ height: '300px', background: 'linear-gradient(to bottom, #1e293b, #0f172a)', borderRadius: '12px', border: '2px solid var(--border)', position: 'relative', overflow: 'hidden', marginBottom: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <style>{`
-                                    @keyframes hammerStrike {
-                                        0% { transform: rotate(0deg); }
-                                        50% { transform: rotate(-45deg); }
-                                        100% { transform: rotate(0deg); }
-                                    }
-                                `}</style>
-                                <svg width="240" height="180" viewBox="0 -20 200 180" style={{ overflow: 'visible' }}>
-                                    {/* Wood */}
-                                    <rect x="30" y="80" width="140" height="70" fill="#b45309" stroke="#78350f" strokeWidth="4" />
-                                    
-                                    {/* Nail */}
-                                    <g style={{ transform: `translateY(${nailDepth * 0.4}px)`, transition: 'transform 0.2s' }}>
-                                        <rect x="95" y="10" width="10" height="70" fill="#94a3b8" />
-                                        <rect x="85" y="5" width="30" height="8" fill="#64748b" rx="2" />
-                                    </g>
-
-                                    {/* Hammer */}
-                                    <g style={{ transformOrigin: '140px 10px', animation: isHitting ? 'hammerStrike 0.3s ease-in-out' : 'none', opacity: 1 }}>
-                                        {/* Handle */}
-                                        <rect x="135" y="10" width="12" height="60" fill="#fcd34d" rx="4" />
-                                        {/* Head */}
-                                        <rect x="100" y="0" width="50" height="25" fill="#475569" rx="4" />
-                                    </g>
-                                </svg>
-
-                                {/* Visual Error Overlay for Hammer Game */}
-                                {hammerErrorType && (
-                                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', animation: 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
-                                        <div style={{ fontSize: '70px', marginBottom: '10px' }}>
-                                            {(hammerErrorType === 'no_hammer' || hammerErrorType === 'loop_no_hammer') && '🖐️💥'}
-                                            {hammerErrorType === 'too_many_hits' && '🪵💥'}
-                                            {hammerErrorType === 'not_flush' && '🤨'}
-                                        </div>
-                                        <div style={{ background: '#ef4444', color: 'white', padding: '16px 24px', borderRadius: '12px', border: '3px solid white', textAlign: 'center', maxWidth: '85%', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                                            <h3 style={{ fontSize: '24px', fontWeight: '900', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
-                                                {(hammerErrorType === 'no_hammer' || hammerErrorType === 'loop_no_hammer') && 'OUCH! HIT FINGERS!'}
-                                                {hammerErrorType === 'too_many_hits' && 'WOOD DESTROYED!'}
-                                                {hammerErrorType === 'not_flush' && 'NAIL NOT FLUSH!'}
-                                            </h3>
-                                            <p style={{ fontSize: '16px', margin: 0, fontWeight: 'normal', opacity: 0.9 }}>
-                                                {(hammerErrorType === 'no_hammer' || hammerErrorType === 'loop_no_hammer') && "You tried to drive a nail with your bare hand! Always pick up the right tool first."}
-                                                {hammerErrorType === 'too_many_hits' && "You hammered too many times and damaged the wood! A loop helps prevent over-hitting."}
-                                                {hammerErrorType === 'not_flush' && "The nail is still sticking out! You didn't repeat the action enough times."}
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                            <HammerGameCanvas 
+                                ref={hammerGameRef}
+                                onStatusChange={handleHammerStatus}
+                                onMessage={handleHammerMessage}
+                            />
 
                             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
                                 {availableHammerItems.map((item, idx) => (
