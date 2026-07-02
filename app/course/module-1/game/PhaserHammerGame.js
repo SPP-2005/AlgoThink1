@@ -116,9 +116,9 @@ export function createHammerGame(Phaser, container, callbacks) {
             // Scale 0.25 -> Height = 17.5px
             this.woodBlock = this.add.sprite(W / 2, tableY, 'wood-block').setOrigin(0.5, 1).setScale(0.25);
 
-            // Nail (origin bottom center, resting perfectly on top of wood)
+            // Nail (origin bottom center, starting significantly higher above the wood block)
             // Scale X=0.15 (thin), Y=0.25 (balanced height) -> Height = 19.5px
-            this.nailStart = tableY - 17.5; // Sits exactly on the 17.5px tall wood block
+            this.nailStart = tableY - 25; // Starts 7.5px higher than the wood block top
             this.nail = this.add.sprite(W / 2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.15, 0.25);
 
             // Hammer on table (to be picked up)
@@ -203,9 +203,9 @@ export function createHammerGame(Phaser, container, callbacks) {
                                 if (isSuccess && this.nailDepth < 100) {
                                     this.nailDepth += 10;
 
-                                    // Map logical depth (0-100) to visual depth (0 to 19.5px)
-                                    // At depth 100, visual depth is 19.5, making the nail perfectly flush!
-                                    const visualDepth = this.nailDepth * 0.1;
+                                    // Map logical depth (0-100) to visual depth (0 to 27px)
+                                    // At depth 100, visual depth is 27, making the nail travel 27px to become perfectly flush!
+                                    const visualDepth = this.nailDepth * 0.27;
                                     this.nail.setY(this.nailStart + visualDepth);
 
                                     // Splinters/Particles
