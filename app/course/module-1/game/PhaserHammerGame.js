@@ -112,15 +112,15 @@ export function createHammerGame(Phaser, container, callbacks) {
             bg.fillRect(W/2 - 60, tableY + 15, 15, 35); // Left leg
             bg.fillRect(W/2 + 45, tableY + 15, 15, 35); // Right leg
 
-            // Wood block on table
-            this.add.sprite(W/2, tableY - 10, 'wood-block').setScale(0.15);
+            // Wood block on table (origin bottom center)
+            this.woodBlock = this.add.sprite(W/2, tableY, 'wood-block').setOrigin(0.5, 1).setScale(0.15);
 
-            // Nail
-            this.nailStart = tableY - 25;
-            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 0).setScale(0.15);
+            // Nail (origin bottom center, partially inserted)
+            this.nailStart = tableY - 6; // 6px above table is slightly inside the 10.5px tall wood block
+            this.nail = this.add.sprite(W/2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.15);
 
             // Hammer on table (to be picked up)
-            this.tableHammer = this.add.sprite(W/2 + 40, tableY - 10, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.15);
+            this.tableHammer = this.add.sprite(W/2 + 40, tableY - 5, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.15);
 
             // Character
             this.createCharacter(W/2 - 80, CHAR_GROUND);
@@ -163,7 +163,8 @@ export function createHammerGame(Phaser, container, callbacks) {
             this.charRightArm.add(rArmSprite);
             
             // Hammer in hand
-            this.charHammer = this.add.sprite(5, 30, 'hammer').setOrigin(0.5, 0.5).setAngle(-20).setVisible(false).setScale(0.25);
+            // Angled so the head points outward instead of hitting with the handle!
+            this.charHammer = this.add.sprite(5, 30, 'hammer').setOrigin(0.5, 0.5).setAngle(80).setVisible(false).setScale(0.25);
             this.charRightArm.add(this.charHammer);
 
             // Head
@@ -198,11 +199,22 @@ export function createHammerGame(Phaser, container, callbacks) {
                             onComplete: () => {
                                 // Impact moment
                                 if (isSuccess && this.nailDepth < 100) {
-                                    this.nailDepth += 20;
+                                    this.nailDepth += 10;
+                                    // Because nail origin is bottom (1), increasing depth lowers its Y coordinate.
+                                    // Wait, if it goes deeper, Y should increase!
                                     this.nail.setY(this.nailStart + this.nailDepth);
                                     
-                                    // Sparkles
-                                    this.spawnSparkles(this.nail.x, this.nail.y);
+                                    // Splinters/Particles
+                                    this.spawnSparkles(this.nail.x, this.nail.y - 12);
+                                    
+                                    // Vibrate the wood block
+                                    this.tweens.add({
+                                        targets: this.woodBlock,
+                                        y: this.woodBlock.y + 2,
+                                        duration: 30,
+                                        yoyo: true,
+                                        repeat: 1
+                                    });
                                 } else if (!this.hasHammer || this.nailDepth >= 100) {
                                     // Error impact
                                     this.cameras.main.shake(300, 0.015);
@@ -226,14 +238,16 @@ export function createHammerGame(Phaser, container, callbacks) {
 
         spawnSparkles(x, y) {
             for (let i = 0; i < 6; i++) {
-                const s = this.add.circle(x, y, 4, 0xfcd34d);
+                // Use wood/dust colors instead of gold sparkles
+                const colors = [0xd97706, 0xb45309, 0x78350f, 0x92400e];
+                const s = this.add.circle(x, y, 3, Phaser.Utils.Array.GetRandom(colors));
                 this.tweens.add({
                     targets: s,
-                    x: x + Phaser.Math.Between(-30, 30),
-                    y: y + Phaser.Math.Between(-40, 10),
+                    x: x + Phaser.Math.Between(-25, 25),
+                    y: y + Phaser.Math.Between(-30, -5),
                     alpha: 0,
-                    scale: 0.2,
-                    duration: 600,
+                    scale: 0.1,
+                    duration: 500,
                     ease: 'Sine.easeOut',
                     onComplete: () => s.destroy()
                 });
