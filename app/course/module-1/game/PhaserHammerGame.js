@@ -117,9 +117,9 @@ export function createHammerGame(Phaser, container, callbacks) {
             this.woodBlock = this.add.sprite(W / 2, tableY, 'wood-block').setOrigin(0.5, 1).setScale(0.25);
 
             // Nail (origin bottom center, resting high on top of wood)
-            // Scale X=0.15 (thin), Y=0.4 (tall) -> Height = 31.2px
+            // Scale X=0.15 (thin), Y=0.25 (balanced height) -> Height = 19.5px
             this.nailStart = tableY - 16.5; // Inserted 1px into the 17.5px tall wood block
-            this.nail = this.add.sprite(W / 2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.15, 0.1);
+            this.nail = this.add.sprite(W / 2, this.nailStart, 'nail').setOrigin(0.5, 1).setScale(0.15, 0.25);
 
             // Hammer on table (to be picked up)
             this.tableHammer = this.add.sprite(W / 2 + 50, tableY - 5, 'hammer').setOrigin(0.5, 0.5).setAngle(90).setScale(0.18);
@@ -203,10 +203,10 @@ export function createHammerGame(Phaser, container, callbacks) {
                                 if (isSuccess && this.nailDepth < 100) {
                                     this.nailDepth += 10;
 
-                                    // Map logical depth (0-100) to visual depth (0 to 30.2px)
-                                    // This moves the nail 3 pixels per hit, making progress highly visible!
-                                    // At depth 100, visual depth is 30.2, nail bottom reaches tableY + 13.7 (hidden in the 20px tabletop)
-                                    const visualDepth = this.nailDepth * 0.302;
+                                    // Map logical depth (0-100) to visual depth (0 to 18.5px)
+                                    // This moves the nail 1.85 pixels per hit, keeping it visible but realistic.
+                                    // At depth 100, visual depth is 18.5, making the nail perfectly flush!
+                                    const visualDepth = this.nailDepth * 0.185;
                                     this.nail.setY(this.nailStart + visualDepth);
 
                                     // Splinters/Particles
