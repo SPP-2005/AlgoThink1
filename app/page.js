@@ -40,17 +40,15 @@ export default function Home() {
             )}
         <main className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
             <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-                <div className="logo-pop-container" style={{ position: 'relative', margin: '0 auto 20px auto', display: 'flex', justifyContent: 'center' }}>
-                    <div className="logo-icon" style={{ position: 'relative' }}>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '80px', height: '80px' }}>
-                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                            <polyline points="2 17 12 22 22 17"></polyline>
-                            <polyline points="2 12 12 17 22 12"></polyline>
-                        </svg>
-                    </div>
+                <div style={{ margin: '0 auto 20px auto', display: 'flex', justifyContent: 'center', color: '#c084fc', filter: 'drop-shadow(0 0 15px rgba(192, 132, 252, 0.6))' }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '80px', height: '80px' }}>
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
                 </div>
                 <h1 style={{ fontSize: '48px', fontWeight: '900', color: 'white', marginBottom: '16px' }}>
-                    Welcome to Algo<span style={{ color: '#6366f1' }}>Think</span>
+                    Welcome to Algo<span style={{ background: 'linear-gradient(135deg, #ec4899, #8b5cf6)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Think</span>
                 </h1>
                 <p style={{ color: 'var(--text-muted)', fontSize: '20px', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6' }}>
                     Before we begin, please select your learning track so we can tailor the experience to your current knowledge level.
