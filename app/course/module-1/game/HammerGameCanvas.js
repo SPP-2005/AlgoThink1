@@ -111,7 +111,7 @@ const HammerGameCanvas = forwardRef(function HammerGameCanvas({ onStatusChange, 
                 ref={containerRef}
                 style={{
                     width: '100%',
-                    aspectRatio: '2 / 1',
+                    aspectRatio: '3 / 1',
                     borderRadius: '12px',
                     overflow: 'hidden',
                     border: '2px solid #334155',

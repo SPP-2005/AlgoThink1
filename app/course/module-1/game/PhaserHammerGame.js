@@ -1,7 +1,7 @@
 export function createHammerGame(Phaser, container, callbacks) {
     const W = 960;
-    const H = 480;
-    const FLOOR_Y = 380;
+    const H = 320;
+    const FLOOR_Y = 230;
     const CHAR_GROUND = FLOOR_Y - 8;
 
     const state = {
