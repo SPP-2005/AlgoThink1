@@ -103,7 +103,7 @@ export default function Module2() {
                 }
             `}} />
             <header>
-                <div className="logo-text">AlgoThink <span>Module 2</span></div>
+                <div className="logo-text">Algo<span className="logo-highlight">Think</span> <span className="logo-suffix">Module 2</span></div>
                 <Link href="/dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>⬅️ Dashboard</Link>
             </header>
 

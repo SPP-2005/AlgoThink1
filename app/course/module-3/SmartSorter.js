@@ -5,7 +5,7 @@ export default function SmartSorter({ onBack }) {
     return (
         <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif' }}>
             <header style={{ marginBottom: '30px' }}>
-                <div className="logo-text">AlgoThink <span>Module 3: Smart Sorter</span></div>
+                <div className="logo-text">Algo<span className="logo-highlight">Think</span> <span className="logo-suffix">Module 3: Smart Sorter</span></div>
                 <button onClick={onBack} className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Activities</button>
             </header>
 

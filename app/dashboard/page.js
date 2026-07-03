@@ -6,7 +6,7 @@ export default function Dashboard() {
         <>
             <main className="container">
                 <header>
-                    <div className="logo-text">AlgoThink <span>Academy</span></div>
+                    <div className="logo-text">Algo<span className="logo-highlight">Think</span> <span className="logo-suffix">Academy</span></div>
                 </header>
 
                 <div className="panel">

@@ -5,7 +5,7 @@ export default function AdvancedDashboard() {
     return (
         <main className="container">
             <header>
-                <div className="logo-text">AlgoThink <span>Advanced</span></div>
+                <div className="logo-text">Algo<span className="logo-highlight">Think</span> <span className="logo-suffix">Advanced</span></div>
                 <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Change Track</Link>
             </header>
 

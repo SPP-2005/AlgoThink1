@@ -195,12 +195,15 @@ header {
     font-size: 28px;
     font-weight: 800;
     letter-spacing: -0.5px;
-    background: linear-gradient(to right, #60a5fa, #c084fc, #ec4899);
+    color: #ffffff;
+}
+.logo-highlight {
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.logo-text span {
+.logo-suffix {
     color: var(--text-muted);
     font-weight: 500;
     font-size: 16px;
