@@ -1,9 +1,36 @@
 'use client';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function AdvancedDashboard() {
+    const [showSplash, setShowSplash] = useState(true);
+    const [animateOut, setAnimateOut] = useState(false);
+
+    useEffect(() => {
+        const t1 = setTimeout(() => { setAnimateOut(true); }, 2200);
+        const t2 = setTimeout(() => { setShowSplash(false); }, 2800);
+        return () => { clearTimeout(t1); clearTimeout(t2); };
+    }, []);
+
     return (
-        <main className="container">
+        <>
+            {showSplash && (
+                <div className={`splash-container-new ${animateOut ? 'fade-out' : ''}`}>
+                    <div className="logo-pop-container">
+                        <div className="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
+                            </svg>
+                        </div>
+                        <div className="logo-text-new">
+                            Algo<span>Think</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+            <main className="container">
             <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div className="logo-text" style={{ color: '#10b981' }}>AlgoThink <span style={{ color: 'white' }}>Advanced</span></div>
                 <Link href="/" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>🔙 Change Track</Link>
@@ -55,5 +82,6 @@ export default function AdvancedDashboard() {
                 </div>
             </div>
         </main>
+        </>
     );
 }

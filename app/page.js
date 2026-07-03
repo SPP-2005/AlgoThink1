@@ -1,9 +1,36 @@
 'use client';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+    const [showSplash, setShowSplash] = useState(true);
+    const [animateOut, setAnimateOut] = useState(false);
+
+    useEffect(() => {
+        const t1 = setTimeout(() => { setAnimateOut(true); }, 2200);
+        const t2 = setTimeout(() => { setShowSplash(false); }, 2800);
+        return () => { clearTimeout(t1); clearTimeout(t2); };
+    }, []);
+
     return (
-        <main className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <>
+            {showSplash && (
+                <div className={`splash-container-new ${animateOut ? 'fade-out' : ''}`}>
+                    <div className="logo-pop-container">
+                        <div className="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
+                            </svg>
+                        </div>
+                        <div className="logo-text-new">
+                            Algo<span>Think</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+            <main className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
             <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                 <div className="logo-pop-container" style={{ position: 'relative', margin: '0 auto 20px auto', display: 'flex', justifyContent: 'center' }}>
                     <div className="logo-icon" style={{ position: 'relative' }}>
@@ -24,7 +51,7 @@ export default function Home() {
 
             <div style={{ display: 'flex', gap: '30px', maxWidth: '900px', width: '100%' }}>
                 {/* 6-8 Track */}
-                <Link href="/dashboard" style={{ flex: 1, textDecoration: 'none' }}>
+                <Link href="/beginner-dashboard" style={{ flex: 1, textDecoration: 'none' }}>
                     <div style={{ 
                         background: 'rgba(59, 130, 246, 0.1)', 
                         border: '2px solid #3b82f6', 
@@ -88,5 +115,6 @@ export default function Home() {
                 </Link>
             </div>
         </main>
+        </>
     );
 }
