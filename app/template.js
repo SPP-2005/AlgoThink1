@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation';
 
 export default function Template({ children }) {
   const pathname = usePathname();
-  const isDashboard = pathname === '/beginner-dashboard';
+  const isDashboard = pathname === '/dashboard';
 
   return (
     <div key={pathname} className={isDashboard ? "page-fade-only" : "page-transition-wrapper"}>

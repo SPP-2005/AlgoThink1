@@ -856,7 +856,7 @@ export default function Module3() {
         <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px', fontFamily: 'sans-serif' }}>
             <header>
                 <div className="logo-text">AlgoThink <span>Module 3</span></div>
-                <Link href="/beginner-dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>⬅️ Dashboard</Link>
+                <Link href="/dashboard" className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--border)' }}>⬅️ Dashboard</Link>
             </header>
 
             <div style={{ display: 'flex', gap: '60px', marginTop: '40px', marginBottom: '60px', alignItems: 'center' }}>
