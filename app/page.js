@@ -1,8 +1,43 @@
 'use client';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+    const [showSplash, setShowSplash] = useState(true);
+    const [animateOut, setAnimateOut] = useState(false);
+
+    useEffect(() => {
+        // Pop-in animation triggers instantly on mount via CSS
+        const t1 = setTimeout(() => {
+            setAnimateOut(true);
+        }, 2200);
+
+        // Remove splash from DOM entirely to allow clicking dashboard
+        const t2 = setTimeout(() => {
+            setShowSplash(false);
+        }, 2800);
+
+        return () => { clearTimeout(t1); clearTimeout(t2); };
+    }, []);
+
     return (
+        <>
+            {showSplash && (
+                <div className={`splash-container-new ${animateOut ? 'fade-out' : ''}`}>
+                    <div className="logo-pop-container">
+                        <div className="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 17 22 12"></polyline>
+                            </svg>
+                        </div>
+                        <div className="logo-text-new">
+                            Algo<span>Think</span>
+                        </div>
+                    </div>
+                </div>
+            )}
         <main className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
             <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                 <div className="logo-pop-container" style={{ position: 'relative', margin: '0 auto 20px auto', display: 'flex', justifyContent: 'center' }}>
@@ -88,5 +123,6 @@ export default function Home() {
                 </Link>
             </div>
         </main>
+        </>
     );
 }
