@@ -42,7 +42,7 @@ export default function Lab() {
                 setBobState('success');
                 setBobMsg('Execution sequence completed perfectly.');
             } else if (data.status === 'minor_improvement') {
-                setBobState('thinking');
+                setBobState('warning');
                 setBobMsg('Execution halted. Minor logical gaps detected.');
             } else {
                 setBobState('error');
@@ -150,38 +150,56 @@ export default function Lab() {
                     </div>
 
                     {report && (
-                        <div className="report-container">
-                            <div className={`report-section ${report.status === 'major_error' ? 'section-error' : report.status === 'minor_improvement' ? 'section-warning' : 'section-success'}`}>
-                                <h4>🎬 Execution Outcome</h4>
-                                <p>{report.outcome_narrative}</p>
-                            </div>
-                            
-                            <div className="report-section">
-                                <h4>🔗 Algorithmic Connection</h4>
-                                <p>{report.conceptMsg}</p>
-                            </div>
-
-                            <div className="report-section">
-                                <h4>🧠 How an algorithmic thinker thinks</h4>
-                                <p>{report.approachMsg}</p>
+                        <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                            <div style={{
+                                padding: '20px', borderRadius: '12px',
+                                background: report.status === 'success' ? 'rgba(16,185,129,0.1)' : report.status === 'minor_improvement' ? 'rgba(245,158,11,0.1)' : 'rgba(225,29,72,0.1)',
+                                border: `1px solid ${report.status === 'success' ? 'rgba(16,185,129,0.3)' : report.status === 'minor_improvement' ? 'rgba(245,158,11,0.3)' : 'rgba(225,29,72,0.3)'}`
+                            }}>
+                                <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px 0', fontSize: '16px', color: '#fff' }}>
+                                    {report.status === 'success' ? '✅' : report.status === 'minor_improvement' ? '⚠️' : '💥'} Execution Outcome
+                                </h4>
+                                <p style={{ margin: 0, color: 'var(--text-muted)', lineHeight: '1.6' }}>{report.outcome_narrative}</p>
                             </div>
 
-                            {report.exampleMsg && report.status !== 'success' && (
-                                <div className="report-section section-warning">
-                                    <h4>💡 Improvement suggestion</h4>
-                                    <p>{report.exampleMsg}</p>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                <div style={{ background: 'var(--surface-light)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                                    <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px 0', fontSize: '15px', color: '#fff' }}>🔗 Algorithmic Concept</h4>
+                                    <p style={{ margin: 0, color: 'var(--text-muted)', lineHeight: '1.6', fontSize: '14px' }}>{report.conceptMsg}</p>
+                                </div>
+                                <div style={{ background: 'var(--surface-light)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                                    <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px 0', fontSize: '15px', color: '#fff' }}>🧠 Think Like a Coder</h4>
+                                    <p style={{ margin: 0, color: 'var(--text-muted)', lineHeight: '1.6', fontSize: '14px' }}>{report.approachMsg}</p>
+                                </div>
+                            </div>
+
+                            {report.exampleMsg && (
+                                <div style={{
+                                    padding: '20px', borderRadius: '12px',
+                                    background: report.status === 'success' ? 'rgba(139,92,246,0.1)' : 'rgba(56,189,248,0.1)',
+                                    border: `1px solid ${report.status === 'success' ? 'rgba(139,92,246,0.3)' : 'rgba(56,189,248,0.3)'}`
+                                }}>
+                                    <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px 0', fontSize: '16px', color: '#fff' }}>
+                                        {report.status === 'success' ? '🎉' : '💡'} {report.status === 'success' ? 'Praise' : 'Improvement Suggestion'}
+                                    </h4>
+                                    <p style={{ margin: 0, color: 'var(--text-muted)', lineHeight: '1.6' }}>{report.exampleMsg}</p>
                                 </div>
                             )}
 
                             {report.successful_concepts && report.successful_concepts.length > 0 && (
-                                <div className="report-section section-success">
-                                    <h4>✅ Concepts you successfully used</h4>
-                                    {report.successful_concepts.map((c, i) => (
-                                        <div key={i} style={{marginTop: '8px'}}>
-                                            <strong style={{fontSize: '13px', color: 'var(--text-main)'}}>{c.title}</strong>
-                                            <p style={{marginTop: '2px'}}>{c.message}</p>
-                                        </div>
-                                    ))}
+                                <div style={{ marginTop: '8px' }}>
+                                    <h4 style={{ color: '#fff', fontSize: '15px', marginBottom: '12px' }}>✅ Concepts Successfully Used:</h4>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+                                        {report.successful_concepts.map((c, i) => (
+                                            <div key={i} style={{ background: 'rgba(16,185,129,0.05)', padding: '16px', borderRadius: '10px', border: '1px solid rgba(16,185,129,0.2)' }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                                    <span style={{ fontSize: '20px' }}>{c.icon}</span>
+                                                    <strong style={{ fontSize: '14px', color: '#34d399' }}>{c.title}</strong>
+                                                </div>
+                                                <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.5' }}>{c.message}</p>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
                         </div>
