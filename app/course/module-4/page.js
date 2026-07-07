@@ -175,9 +175,10 @@ function SearchRace() {
                     <div style={{ display: 'flex', gap: '2px', alignItems: 'flex-end', height: '120px' }}>
                         {sorted.map((v, i) => renderBar(v, i, i === linearIdx, linearFound && i === linearIdx, false))}
                     </div>
-                    {linearFound && <p style={{ color: COLORS.greenLight, marginTop: '10px', fontSize: '14px', textAlign: 'center' }}>
-                        ✅ Found after checking {linearSteps} items one by one
-                    </p>}
+                    {linearFound && <div style={{ marginTop: '12px', background: 'linear-gradient(135deg, rgba(225,29,72,0.25), rgba(225,29,72,0.08))', padding: '14px', borderRadius: '10px', textAlign: 'center', border: '1px solid rgba(225,29,72,0.5)' }}>
+                        <p style={{ color: '#fff', fontSize: '18px', fontWeight: '800', margin: 0 }}>🐢 {linearSteps} steps</p>
+                        <p style={{ color: COLORS.redLight, fontSize: '13px', margin: '4px 0 0 0' }}>Checked every item one by one</p>
+                    </div>}
                 </div>
 
                 {/* Binary Search */}
@@ -193,17 +194,22 @@ function SearchRace() {
                             return renderBar(v, i, isMiddle, binaryFound && isMiddle, isEliminated && !binaryFound);
                         })}
                     </div>
-                    {binaryFound && <p style={{ color: COLORS.greenLight, marginTop: '10px', fontSize: '14px', textAlign: 'center' }}>
-                        ✅ Found in only {binarySteps} steps by halving!
-                    </p>}
+                    {binaryFound && <div style={{ marginTop: '12px', background: 'linear-gradient(135deg, rgba(16,185,129,0.25), rgba(16,185,129,0.08))', padding: '14px', borderRadius: '10px', textAlign: 'center', border: '1px solid rgba(16,185,129,0.5)' }}>
+                        <p style={{ color: '#fff', fontSize: '18px', fontWeight: '800', margin: 0 }}>🐇 {binarySteps} steps</p>
+                        <p style={{ color: COLORS.greenLight, fontSize: '13px', margin: '4px 0 0 0' }}>Halved the data each time!</p>
+                    </div>}
                 </div>
             </div>
 
             {finished && (
-                <div style={{ marginTop: '16px', background: COLORS.surface, padding: '16px', borderRadius: '12px', textAlign: 'center', border: `1px solid ${COLORS.border}` }}>
-                    <p style={{ color: '#fff', fontSize: '16px', margin: 0 }}>
-                        Binary Search was <strong style={{ color: COLORS.greenLight }}>{linearSteps - binarySteps > 0 ? `${linearSteps - binarySteps}x fewer` : 'equally fast in'}</strong> steps!
-                        {linearSteps > binarySteps * 2 && <span style={{ color: COLORS.amberLight }}> — Imagine if there were a million items! 🤯</span>}
+                <div style={{ marginTop: '20px', background: 'linear-gradient(135deg, rgba(217,119,6,0.2), rgba(16,185,129,0.15))', padding: '24px', borderRadius: '16px', textAlign: 'center', border: '2px solid rgba(217,119,6,0.5)', boxShadow: '0 0 30px rgba(217,119,6,0.15)' }}>
+                    <p style={{ fontSize: '28px', margin: '0 0 8px 0' }}>🏆</p>
+                    <p style={{ color: '#fff', fontSize: '20px', fontWeight: '900', margin: '0 0 8px 0' }}>
+                        Binary Search won by <span style={{ color: COLORS.greenLight }}>{linearSteps - binarySteps > 0 ? `${linearSteps - binarySteps}` : '0'} fewer steps</span>!
+                    </p>
+                    <p style={{ color: COLORS.amberLight, fontSize: '15px', margin: 0 }}>
+                        🐢 Linear: {linearSteps} steps  vs  🐇 Binary: {binarySteps} steps
+                        {linearSteps > binarySteps * 2 && <span> — Imagine a million items! 🤯</span>}
                     </p>
                 </div>
             )}
@@ -340,11 +346,12 @@ function BubbleSortVisualizer() {
             </div>
 
             {done && (
-                <div style={{ marginTop: '16px', background: COLORS.surface, padding: '16px', borderRadius: '12px', textAlign: 'center', border: `1px solid ${COLORS.border}` }}>
-                    <p style={{ color: '#fff', fontSize: '16px', margin: 0 }}>
-                        ✅ Sorted in <strong style={{ color: COLORS.purpleLight }}>{passes} passes</strong> and <strong style={{ color: COLORS.amberLight }}>{swaps} swaps</strong>!
-                        <span style={{ color: COLORS.muted }}> — The biggest numbers "bubbled" to the right each time.</span>
+                <div style={{ marginTop: '20px', background: 'linear-gradient(135deg, rgba(139,92,246,0.2), rgba(16,185,129,0.15))', padding: '24px', borderRadius: '16px', textAlign: 'center', border: '2px solid rgba(139,92,246,0.5)', boxShadow: '0 0 30px rgba(139,92,246,0.15)' }}>
+                    <p style={{ fontSize: '28px', margin: '0 0 8px 0' }}>🫧✅</p>
+                    <p style={{ color: '#fff', fontSize: '20px', fontWeight: '900', margin: '0 0 8px 0' }}>
+                        Sorted in <span style={{ color: COLORS.purpleLight }}>{passes} passes</span> and <span style={{ color: COLORS.amberLight }}>{swaps} swaps</span>!
                     </p>
+                    <p style={{ color: COLORS.muted, fontSize: '14px', margin: 0 }}>The biggest numbers "bubbled" to the right each pass 🫧</p>
                 </div>
             )}
         </div>
@@ -472,11 +479,15 @@ function WhySortingMatters() {
 
             {message && (
                 <div style={{
-                    marginTop: '16px', padding: '16px', borderRadius: '12px', textAlign: 'center',
-                    background: found ? COLORS.greenBg : COLORS.redBg,
-                    border: `1px solid ${found ? 'rgba(16,185,129,0.3)' : 'rgba(225,29,72,0.3)'}`,
+                    marginTop: '20px', padding: '24px', borderRadius: '16px', textAlign: 'center',
+                    background: found
+                        ? 'linear-gradient(135deg, rgba(16,185,129,0.25), rgba(16,185,129,0.08))'
+                        : 'linear-gradient(135deg, rgba(225,29,72,0.25), rgba(225,29,72,0.08))',
+                    border: `2px solid ${found ? 'rgba(16,185,129,0.5)' : 'rgba(225,29,72,0.5)'}`,
+                    boxShadow: `0 0 30px ${found ? 'rgba(16,185,129,0.15)' : 'rgba(225,29,72,0.15)'}`,
                 }}>
-                    <p style={{ color: '#fff', fontSize: '15px', margin: 0 }}>{message}</p>
+                    <p style={{ fontSize: '28px', margin: '0 0 8px 0' }}>{found ? '🎯' : '💥'}</p>
+                    <p style={{ color: '#fff', fontSize: '18px', fontWeight: '800', margin: 0 }}>{message}</p>
                 </div>
             )}
         </div>
