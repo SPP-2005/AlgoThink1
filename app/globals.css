@@ -125,6 +125,28 @@ body {
     transform: rotate(15deg);
 }
 .bob-character.error .right-eye { transform: rotate(-15deg); }
+.bob-character.error .mouth {
+    opacity: 1;
+    background: var(--bob-eye-error);
+    height: 15px;
+    border-radius: 20px 20px 0 0; /* Frown */
+    bottom: 5px;
+}
+
+.bob-character.warning { animation: shake 0.3s ease; }
+.bob-character.warning .eye {
+    background: #f59e0b;
+    box-shadow: 0 0 15px #f59e0b;
+    height: 12px;
+}
+.bob-character.warning .mouth {
+    opacity: 1;
+    background: #f59e0b;
+    height: 6px;
+    width: 25px;
+    border-radius: 10px;
+    bottom: 10px;
+}
 
 .bob-character.success { animation: bounce 1s ease infinite; }
 .bob-character.success .eye {
@@ -137,7 +159,8 @@ body {
     opacity: 1;
     background: var(--bob-eye-success);
     height: 15px;
-    border-radius: 0 0 20px 20px;
+    border-radius: 0 0 20px 20px; /* Smile */
+    box-shadow: 0 0 10px var(--bob-eye-success);
 }
 
 .bob-character.thinking .eye {
