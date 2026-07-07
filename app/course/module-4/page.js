@@ -203,9 +203,17 @@ function SearchRace() {
 
             {finished && (
                 <div style={{ marginTop: '20px', background: 'linear-gradient(135deg, rgba(217,119,6,0.2), rgba(16,185,129,0.15))', padding: '24px', borderRadius: '16px', textAlign: 'center', border: '2px solid rgba(217,119,6,0.5)', boxShadow: '0 0 30px rgba(217,119,6,0.15)' }}>
-                    <p style={{ fontSize: '28px', margin: '0 0 8px 0' }}>🏆</p>
+                    <p style={{ fontSize: '28px', margin: '0 0 8px 0' }}>
+                        {linearSteps > binarySteps ? '🏆' : (linearSteps < binarySteps ? '🐢🏆' : '🤝')}
+                    </p>
                     <p style={{ color: '#fff', fontSize: '20px', fontWeight: '900', margin: '0 0 8px 0' }}>
-                        Binary Search won by <span style={{ color: COLORS.greenLight }}>{linearSteps - binarySteps > 0 ? `${linearSteps - binarySteps}` : '0'} fewer steps</span>!
+                        {linearSteps > binarySteps ? (
+                            <>Binary Search won by <span style={{ color: COLORS.greenLight }}>{linearSteps - binarySteps} fewer steps</span>!</>
+                        ) : linearSteps < binarySteps ? (
+                            <>Linear Search won by <span style={{ color: COLORS.redLight }}>{binarySteps - linearSteps} fewer steps</span>! (Lucky find!)</>
+                        ) : (
+                            <>It's a tie! Both took <span style={{ color: COLORS.amberLight }}>{linearSteps} steps</span>.</>
+                        )}
                     </p>
                     <p style={{ color: COLORS.amberLight, fontSize: '15px', margin: 0 }}>
                         🐢 Linear: {linearSteps} steps  vs  🐇 Binary: {binarySteps} steps
