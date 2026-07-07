@@ -10,12 +10,12 @@ export default function Home() {
         // Pop-in animation triggers instantly on mount via CSS
         const t1 = setTimeout(() => {
             setAnimateOut(true);
-        }, 2200);
+        }, 3200);
 
         // Remove splash from DOM entirely to allow clicking dashboard
         const t2 = setTimeout(() => {
             setShowSplash(false);
-        }, 2800);
+        }, 3800);
 
         return () => { clearTimeout(t1); clearTimeout(t2); };
     }, []);
