@@ -12,42 +12,42 @@ export default function AdvancedDashboard() {
             <div className="panel">
                 <div>
                     <h2 className="panel-title">Advanced Curriculum (Grades 9-12)</h2>
-                    <p className="panel-subtitle">Master algorithmic complexity, data handling, and professional problem-solving techniques.</p>
+                    <p className="panel-subtitle">Explore the world of Data Structures, Algorithms, and how they power everything around you.</p>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    {/* Module 1: Advanced Algorithms */}
+                    {/* Module 1: Data Structures */}
                     <div className="challenge-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', background: 'rgba(16, 185, 129, 0.15)', borderLeftColor: '#10b981', padding: '30px' }}>
                         <div>
-                            <h3 style={{ color: '#34d399', fontSize: '22px', marginBottom: '8px' }}>Module 1: Advanced Algorithmic Patterns</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Skip the basics. Dive straight into Two Pointers, Sliding Window, and Backtracking algorithms used in competitive programming.</p>
+                            <h3 style={{ color: '#34d399', fontSize: '22px', marginBottom: '8px' }}>Module 1: What Are Data Structures?</h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Learn how computers organize data using Arrays, Stacks, Queues, and Linked Lists — with real-life analogies you already understand.</p>
                         </div>
                         <Link href="/course/adv-module-1" className="btn btn-primary" style={{ width: 'auto', background: '#10b981', padding: '12px 30px' }}>Start Module 1</Link>
                     </div>
 
-                    {/* Module 2: System Design */}
+                    {/* Module 2: Algorithms That Power Your World */}
                     <div className="challenge-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', background: 'rgba(56, 189, 248, 0.15)', borderLeftColor: '#38bdf8', padding: '30px' }}>
                         <div>
-                            <h3 style={{ color: '#7dd3fc', fontSize: '22px', marginBottom: '8px' }}>Module 2: Real-World System Architecture</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Decompose large-scale applications. Understand how tech giants architect their backends, APIs, and databases using logical flows.</p>
+                            <h3 style={{ color: '#7dd3fc', fontSize: '22px', marginBottom: '8px' }}>Module 2: Algorithms That Power Your World</h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>See how Google Search, GPS Navigation, Social Media Feeds, and Spotify Recommendations actually work behind the scenes.</p>
                         </div>
                         <Link href="/course/adv-module-2" className="btn btn-primary" style={{ width: 'auto', background: '#38bdf8', padding: '12px 30px' }}>Start Module 2</Link>
                     </div>
 
-                    {/* Module 3: Time & Space Complexity */}
+                    {/* Module 3: How Fast Is Your Code? */}
                     <div className="challenge-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', background: 'rgba(167, 139, 250, 0.15)', borderLeftColor: '#a78bfa', padding: '30px' }}>
                         <div>
-                            <h3 style={{ color: '#c4b5fd', fontSize: '22px', marginBottom: '8px' }}>Module 3: Big O Notation & Optimization</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Write code that runs fast. Learn to calculate Time (O) and Space complexity and optimize brute-force logic into elegant solutions.</p>
+                            <h3 style={{ color: '#c4b5fd', fontSize: '22px', marginBottom: '8px' }}>Module 3: How Fast Is Your Code?</h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Understand why some programs finish in milliseconds and others take hours. Learn Big O notation through interactive speed experiments.</p>
                         </div>
                         <Link href="/course/adv-module-3" className="btn btn-primary" style={{ width: 'auto', background: '#a78bfa', padding: '12px 30px' }}>Start Module 3</Link>
                     </div>
 
-                    {/* Module 4: Live Debugging */}
+                    {/* Module 4: Build Something Real */}
                     <div className="challenge-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', background: 'rgba(251, 146, 60, 0.15)', borderLeftColor: '#fb923c', padding: '30px' }}>
                         <div>
-                            <h3 style={{ color: '#fdba74', fontSize: '22px', marginBottom: '8px' }}>Module 4: The Debugging Crucible</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Given 5 complex algorithms with hidden logical flaws, can you use assumption checking and tracing to find and fix them?</p>
+                            <h3 style={{ color: '#fdba74', fontSize: '22px', marginBottom: '8px' }}>Module 4: Build Something Real</h3>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>Apply everything you've learned. Walk through real mini-projects — a To-Do app, an autocomplete search, and a pathfinder — powered by algorithms.</p>
                         </div>
                         <Link href="/course/adv-module-4" className="btn btn-primary" style={{ width: 'auto', background: '#fb923c', padding: '12px 30px' }}>Start Module 4</Link>
                     </div>
