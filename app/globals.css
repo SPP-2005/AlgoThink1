@@ -34,6 +34,7 @@
 body {
     background: #0f1117;
     background-image: radial-gradient(circle at top right, #1e2333, #0f1117);
+    background-attachment: fixed;
     color: var(--text-main);
     display: flex;
     justify-content: center;
